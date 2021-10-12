@@ -28,9 +28,9 @@ namespace ExoftOfficeManager
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IAdminService>();
-            services.AddScoped<IMeetingService>();
-            services.AddScoped<IWorkPlaceService>();
+            //services.AddScoped<IAdminService>();
+            services.AddScoped<IMeetingService, MockedMeetingService>();
+            services.AddScoped<IWorkPlaceService, MockedWorkPlaceService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

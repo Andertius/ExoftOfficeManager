@@ -15,12 +15,12 @@ namespace ExoftOfficeManager.Controllers
     public class AdminController : ControllerBase
     {
         private readonly ILogger<AdminController> _logger;
-        private readonly IAdminService _adminService;
+        //private readonly IAdminService _adminService;
 
-        public AdminController(ILogger<AdminController> logger, IAdminService admin)
+        public AdminController(ILogger<AdminController> logger/*, IAdminService admin*/)
         {
             _logger = logger;
-            _adminService = admin;
+            //_adminService = admin;
         }
     }
 }

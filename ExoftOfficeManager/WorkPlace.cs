@@ -1,4 +1,6 @@
-﻿namespace ExoftOfficeManager
+﻿using System;
+
+namespace ExoftOfficeManager
 {
     public class WorkPlace
     {
@@ -7,6 +9,10 @@
         public int FloorNumber { get; set; }
 
         public int PlaceNumber { get; set; }
+
+        public DateTime Date { get; set; }
+
+        public WorkPlaceStatus Status { get; set; }
 
 
         public long DeveloperId { get; set; }

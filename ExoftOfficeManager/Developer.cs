@@ -1,4 +1,6 @@
-﻿namespace ExoftOfficeManager
+﻿using System.Collections.Generic;
+
+namespace ExoftOfficeManager
 {
     public class Developer
     {
@@ -6,6 +8,9 @@
 
         public string FullName { get; set; }
 
-        public WorkPlace WorkPlace { get; set; }
+        public string Avatar { get; set; }
+
+
+        public ICollection<WorkPlace> WorkPlaces { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Services;
+using ExoftOfficeManager.Services.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,17 +31,14 @@ namespace ExoftOfficeManager.Controllers
         public async Task<IActionResult> Find(long meetingId)
             => await Task.Run(() => Ok(_meetingService.Find(meetingId)));
 
-        [HttpGet("remove")]
-        public async Task<IActionResult> Remove(long meetingId)
+        [HttpGet("reserveMeeting")]
+        public async Task<IActionResult> ReserveMeeting(Meeting meet)
         {
-            if (await Task.Run(() => _meetingService.Remove(meetingId)))
-            {
-                return Ok();
-            }
-            else
-            {
-                return NotFound();
-            }
+            await Task.Run(() => _meetingService.Add(meet));
+            _logger.LogInformation($"Reserved a meeting in the room #{meet.RoomNumber} at {meet.Date.Date}" +
+                $"from {meet.StartTime} to {meet.EndTime}.");
+
+            return Ok();
         }
     }
 }

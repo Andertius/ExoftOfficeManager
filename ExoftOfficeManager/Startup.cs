@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 using ExoftOfficeManager.Services;
+using ExoftOfficeManager.Services.Interfaces;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace ExoftOfficeManager
@@ -29,8 +22,9 @@ namespace ExoftOfficeManager
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddScoped<IAdminService>();
-            services.AddScoped<IMeetingService, MockedMeetingService>();
-            services.AddScoped<IWorkPlaceService, MockedWorkPlaceService>();
+            services.AddSingleton<IMeetingService, MockedMeetingService>();
+            services.AddSingleton<IWorkPlaceService, MockedWorkPlaceService>();
+            services.AddSingleton<IDeveloperService, MockedDeveloperService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

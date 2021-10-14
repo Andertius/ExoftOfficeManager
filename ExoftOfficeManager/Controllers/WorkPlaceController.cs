@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Services;
+using ExoftOfficeManager.Services.Interfaces;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -16,40 +15,51 @@ namespace ExoftOfficeManager.Controllers
     {
         private readonly ILogger<WorkPlaceController> _logger;
         private readonly IWorkPlaceService _placeService;
+        private readonly IDeveloperService _developerService;
 
-        public WorkPlaceController(ILogger<WorkPlaceController> logger, IWorkPlaceService work)
+        public WorkPlaceController(ILogger<WorkPlaceController> logger, IWorkPlaceService work, IDeveloperService developerService)
         {
             _logger = logger;
             _placeService = work;
+            _developerService = developerService;
         }
 
-        [HttpGet("getall")]
-        public async Task<IActionResult> GetAll()
-            => await Task.Run(() => Ok(_placeService.GetAll()));
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAll([FromQuery] DateTime date)
+            => await Task.Run(() => Ok(_placeService.GetAll(date.Date)));
 
-        [HttpGet("getalloccupied")]
-        public async Task<IActionResult> GetAllOccupied()
-            => await Task.Run(() => Ok(_placeService.GetAllOccupied()));
+        [HttpGet("get-all-booked")]
+        public async Task<IActionResult> GetBooked([FromQuery] DateTime date)
+            => await Task.Run(() => Ok(_placeService.GetAllBooked(date.Date)));
 
-        [HttpGet("getallunoccupied")]
-        public async Task<IActionResult> GetAllUnoccupied()
-            => await Task.Run(() => Ok(_placeService.GetAllUnoccupied()));
+        [HttpGet("get-all-available")]
+        public async Task<IActionResult> GetAllAvailable([FromQuery] DateTime date)
+            => await Task.Run(() => Ok(_placeService.GetAllAvailable(date.Date)));
 
-        [HttpGet("find")]
-        public async Task<IActionResult> Find(long placeId)
+        [HttpGet("find-workplace")]
+        public async Task<IActionResult> FindWorkPlace([FromQuery] long placeId)
             => await Task.Run(() => Ok(_placeService.Find(placeId)));
 
-        [HttpGet("changeoccupation")]
-        public async Task<IActionResult> ChangeOccupation(long placeId, long devId)
+        //[Authorize]
+        [HttpGet("book")]
+        public async Task<IActionResult> Book([FromQuery] long placeId, [FromQuery] long devId, [FromQuery] WorkPlaceStatus status)
         {
-            if (await Task.Run(() => _placeService.ChangeOccupation(placeId, devId)))
-            {
-                return Ok();
-            }
-            else
-            {
-                return NotFound();
-            }
+            await Task.Run(() => _placeService.Book(placeId, devId, status));
+            return Ok();
+        }
+
+        //[Authorize]
+        [HttpGet("cancel-reservation")]
+        public async Task<IActionResult> CancelReservation([FromQuery] long placeId)
+        {
+            await Task.Run(() => _placeService.MakeAvailable(placeId));
+            return Ok();
+        }
+
+        [HttpGet("find-developer")]
+        public async Task<IActionResult> FindDeveloper(long id)
+        {
+            return await Task.Run(() => Ok(_developerService.Find(id)));
         }
     }
 }

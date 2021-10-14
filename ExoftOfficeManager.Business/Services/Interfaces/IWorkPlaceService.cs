@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using ExoftOfficeManager.DataAccess;
 
@@ -15,10 +16,10 @@ namespace ExoftOfficeManager.Business.Services.Interfaces
 
         WorkPlace Find(long id);
 
-        void Book(long id, long developerId, WorkPlaceStatus status);
+        Task Book(long id, long developerId, WorkPlaceStatus status);
 
-        void MakeAvailable(long id);
+        Task MakeAvailable(long id);
 
-        bool Update(WorkPlace place);
+        Task<WorkPlace> Update(WorkPlace place);
     }
 }

@@ -44,14 +44,14 @@ namespace ExoftOfficeManager.Controllers
         [HttpGet("book")]
         public async Task<IActionResult> Book([FromQuery] long placeId, [FromQuery] long devId, [FromQuery] WorkPlaceStatus status)
         {
-            await Task.Run(() => _placeService.Book(placeId, devId, status));
+            await _placeService.Book(placeId, devId, status);
             return Ok();
         }
 
         [HttpGet("cancel-reservation")]
         public async Task<IActionResult> CancelReservation([FromQuery] long placeId)
         {
-            await Task.Run(() => _placeService.MakeAvailable(placeId));
+            await _placeService.MakeAvailable(placeId);
             return Ok();
         }
 

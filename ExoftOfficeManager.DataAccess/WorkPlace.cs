@@ -2,7 +2,7 @@
 
 namespace ExoftOfficeManager.DataAccess
 {
-    public class WorkPlace
+    public class WorkPlace : IEntity
     {
         public long Id { get; set; }
 

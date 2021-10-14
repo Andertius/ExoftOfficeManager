@@ -1,5 +1,7 @@
 using ExoftOfficeManager.Business.Services;
 using ExoftOfficeManager.Business.Services.Interfaces;
+using ExoftOfficeManager.DataAccess;
+using ExoftOfficeManager.DataAccess.Repositories;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,10 +23,14 @@ namespace ExoftOfficeManager
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IAdminService, MockedAdminService>();
-            services.AddSingleton<IMeetingService, MockedMeetingService>();
-            services.AddSingleton<IWorkPlaceService, MockedWorkPlaceService>();
-            services.AddSingleton<IUserService, MockedUserService>();
+            services.AddSingleton<IMeetingService, MeetingService>()
+                .AddSingleton<IRepository<Meeting>, MockedMeetingRepository>();
+
+            services.AddSingleton<IWorkPlaceService, WorkPlaceService>()
+                .AddSingleton<IRepository<WorkPlace>, MockedWorkPlaceRepository>();
+
+            services.AddSingleton<IUserService, UserService>()
+                .AddSingleton<IRepository<User>, MockedUserRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

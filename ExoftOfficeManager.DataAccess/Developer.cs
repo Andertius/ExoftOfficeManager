@@ -1,6 +1,6 @@
 ﻿namespace ExoftOfficeManager.DataAccess
 {
-    public class Developer : User
+    public class Developer : User, IEntity
     {
     }
 }

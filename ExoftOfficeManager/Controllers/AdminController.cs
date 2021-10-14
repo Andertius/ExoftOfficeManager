@@ -15,25 +15,27 @@ namespace ExoftOfficeManager.Controllers
     public class AdminController : ControllerBase
     {
         private readonly ILogger<AdminController> _logger;
-        private readonly IAdminService _adminService;
+        private readonly IWorkPlaceService _workPlaceService;
+        private readonly IUserService _userService;
+        private readonly IMeetingService _meetingService;
 
-        public AdminController(ILogger<AdminController> logger, IAdminService admin)
+        public AdminController(
+            ILogger<AdminController> logger,
+            IWorkPlaceService workPlace,
+            IUserService user,
+            IMeetingService meeting)
         {
             _logger = logger;
-            _adminService = admin;
+            _workPlaceService = workPlace;
+            _userService = user;
+            _meetingService = meeting;
         }
 
-        [HttpGet("removeMeeting")]
-        public async Task<IActionResult> Remove(long meetingId)
+        [HttpGet("cancel-meeting")]
+        public async Task<IActionResult> CancelMeeting(long meetingId)
         {
-            if (await Task.Run(() => _adminService.CancelMeeting(meetingId)))
-            {
-                return Ok();
-            }
-            else
-            {
-                return NotFound();
-            }
+            await _meetingService.Remove(meetingId);
+            return Ok();
         }
     }
 }

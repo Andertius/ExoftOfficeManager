@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ExoftOfficeManager.DataAccess
 {
-    public class Meeting
+    public class Meeting : IEntity
     {
         public long Id { get; set; }
 

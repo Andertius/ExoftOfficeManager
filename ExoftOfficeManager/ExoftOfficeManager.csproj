@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExoftOfficeManager.Business\ExoftOfficeManager.Business.csproj" />
-    <ProjectReference Include="..\ExoftOfficeManager.DataAccess\ExoftOfficeManager.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

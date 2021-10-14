@@ -28,9 +28,7 @@ namespace ExoftOfficeManager.Controllers
 
         [HttpGet("get-all-available-hours")]
         public async Task<IActionResult> GetAllAvailableHours(DateTime date, int room)
-        {
-            return await Task.Run(() => Ok(_meetingService.GetAllAvailableHours(date, room)));
-        }
+            => await Task.Run(() => Ok(_meetingService.GetAllAvailableHours(date, room)));
 
         [HttpGet("find")]
         public async Task<IActionResult> Find(long meetingId)
@@ -41,7 +39,7 @@ namespace ExoftOfficeManager.Controllers
         {
             var meet = new Meeting { DateAndTime = dateAndTime, Duration = new TimeSpan(0, durationMins, 0), RoomNumber = room };
 
-            if (await Task.Run(() => _meetingService.Add(meet)))
+            if (await _meetingService.Add(meet))
             {
                 _logger.LogInformation($"Reserved a meeting in the room #{meet.RoomNumber} at {meet.DateAndTime.Date}" +
                     $"at {meet.DateAndTime.TimeOfDay} spanned {meet.Duration.TotalMinutes} mins.");
@@ -57,14 +55,8 @@ namespace ExoftOfficeManager.Controllers
         [HttpGet("cancel-meeting")]
         public async Task<IActionResult> CancelMeeting(long id)
         {
-            if (await Task.Run(() => _meetingService.Remove(id)))
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
+            await _meetingService.Remove(id);
+            return Ok();
         }
     }
 }

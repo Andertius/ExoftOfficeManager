@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using ExoftOfficeManager.DataAccess;
 
@@ -13,10 +14,10 @@ namespace ExoftOfficeManager.Business.Services.Interfaces
 
         Meeting Find(long id);
 
-        bool Add(Meeting meet);
+        Task<bool> Add(Meeting meet);
 
-        bool Update(long id, Meeting meet);
+        Task<Meeting> Update(Meeting meet);
 
-        bool Remove(long id);
+        Task Remove(long id);
     }
 }

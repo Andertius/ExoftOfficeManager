@@ -1,5 +1,5 @@
-using ExoftOfficeManager.Services;
-using ExoftOfficeManager.Services.Interfaces;
+using ExoftOfficeManager.Business.Services;
+using ExoftOfficeManager.Business.Services.Interfaces;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,10 +21,10 @@ namespace ExoftOfficeManager
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddScoped<IAdminService>();
+            services.AddScoped<IAdminService, MockedAdminService>();
             services.AddSingleton<IMeetingService, MockedMeetingService>();
             services.AddSingleton<IWorkPlaceService, MockedWorkPlaceService>();
-            services.AddSingleton<IDeveloperService, MockedDeveloperService>();
+            services.AddSingleton<IUserService, MockedUserService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

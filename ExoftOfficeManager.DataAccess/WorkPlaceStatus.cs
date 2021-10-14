@@ -1,4 +1,4 @@
-﻿namespace ExoftOfficeManager
+﻿namespace ExoftOfficeManager.DataAccess
 {
     public enum WorkPlaceStatus
     {

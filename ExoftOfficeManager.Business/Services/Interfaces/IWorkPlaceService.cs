@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ExoftOfficeManager.Services.Interfaces
+using ExoftOfficeManager.DataAccess;
+
+namespace ExoftOfficeManager.Business.Services.Interfaces
 {
     public interface IWorkPlaceService
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ExoftOfficeManager
+namespace ExoftOfficeManager.DataAccess
 {
     public class WorkPlace
     {
@@ -17,6 +17,6 @@ namespace ExoftOfficeManager
 
         public long DeveloperId { get; set; }
 
-        public Developer Developer { get; set; }
+        public User Developer { get; set; }
     }
 }

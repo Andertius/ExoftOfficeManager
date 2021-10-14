@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Services.Interfaces;
+using ExoftOfficeManager.Business.Services.Interfaces;
+using ExoftOfficeManager.DataAccess;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,9 +16,9 @@ namespace ExoftOfficeManager.Controllers
     {
         private readonly ILogger<WorkPlaceController> _logger;
         private readonly IWorkPlaceService _placeService;
-        private readonly IDeveloperService _developerService;
+        private readonly IUserService _developerService;
 
-        public WorkPlaceController(ILogger<WorkPlaceController> logger, IWorkPlaceService work, IDeveloperService developerService)
+        public WorkPlaceController(ILogger<WorkPlaceController> logger, IWorkPlaceService work, IUserService developerService)
         {
             _logger = logger;
             _placeService = work;
@@ -40,7 +41,6 @@ namespace ExoftOfficeManager.Controllers
         public async Task<IActionResult> FindWorkPlace([FromQuery] long placeId)
             => await Task.Run(() => Ok(_placeService.Find(placeId)));
 
-        //[Authorize]
         [HttpGet("book")]
         public async Task<IActionResult> Book([FromQuery] long placeId, [FromQuery] long devId, [FromQuery] WorkPlaceStatus status)
         {
@@ -48,7 +48,6 @@ namespace ExoftOfficeManager.Controllers
             return Ok();
         }
 
-        //[Authorize]
         [HttpGet("cancel-reservation")]
         public async Task<IActionResult> CancelReservation([FromQuery] long placeId)
         {

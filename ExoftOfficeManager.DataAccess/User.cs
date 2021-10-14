@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace ExoftOfficeManager
+namespace ExoftOfficeManager.DataAccess
 {
-    public class Developer
+    public class User
     {
         public long Id { get; set; }
 
@@ -12,5 +12,7 @@ namespace ExoftOfficeManager
 
 
         public ICollection<WorkPlace> WorkPlaces { get; set; }
+
+        public ICollection<Meeting> Meetings { get; set; }
     }
 }

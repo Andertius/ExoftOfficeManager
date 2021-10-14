@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 
-using ExoftOfficeManager.Services.Interfaces;
+using ExoftOfficeManager.Business.Services.Interfaces;
+using ExoftOfficeManager.DataAccess;
 
-namespace ExoftOfficeManager.Services
+namespace ExoftOfficeManager.Business.Services
 {
-    public class MockedDeveloperService : IDeveloperService
+    public class MockedUserService : IUserService
     {
-        private readonly List<Developer> _developers = new()
+        private readonly List<User> _developers = new()
         {
-            new Developer { Id = 1, FullName = "Norbert Moses", Avatar = "avatar_path" },
+            new Admin { Id = 1, FullName = "Norbert Moses", Avatar = "avatar_path" },
             new Developer { Id = 2, FullName = "John Doe", Avatar = "avatar_path" },
-            new Developer { Id = 3, FullName = "Painis Dickens" , Avatar = "avatar_path" },
+            new Admin { Id = 3, FullName = "Painis Dickens" , Avatar = "avatar_path" },
             new Developer { Id = 4, FullName = "Pootis Pencer" , Avatar = "avatar_path" },
             new Developer { Id = 5, FullName = "Bob" , Avatar = "avatar_path" },
             new Developer { Id = 6, FullName = "James Hetfield" , Avatar = "avatar_path" },
@@ -18,7 +19,7 @@ namespace ExoftOfficeManager.Services
             new Developer { Id = 8, FullName = "John Petrucci" , Avatar = "avatar_path" },
         };
 
-        public Developer Find(long id)
+        public User Find(long id)
             => _developers.Find(x => x.Id == id);
     }
 }

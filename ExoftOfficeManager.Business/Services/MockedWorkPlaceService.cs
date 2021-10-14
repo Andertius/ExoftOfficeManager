@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using ExoftOfficeManager.Services.Interfaces;
+using ExoftOfficeManager.Business.Services.Interfaces;
+using ExoftOfficeManager.DataAccess;
 
-namespace ExoftOfficeManager.Services
+namespace ExoftOfficeManager.Business.Services
 {
     public class MockedWorkPlaceService : IWorkPlaceService
     {

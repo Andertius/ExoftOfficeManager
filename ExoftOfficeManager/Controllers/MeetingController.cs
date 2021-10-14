@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Services.Interfaces;
+using ExoftOfficeManager.Business.Services.Interfaces;
+using ExoftOfficeManager.DataAccess;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -23,22 +22,49 @@ namespace ExoftOfficeManager.Controllers
             _meetingService = meeting;
         }
 
-        [HttpGet("getall")]
-        public async Task<IActionResult> GetAll()
-            => await Task.Run(() => Ok(_meetingService.GetAll()));
+        [HttpGet("get-all-meetings")]
+        public async Task<IActionResult> GetAllMeetings(DateTime date)
+            => await Task.Run(() => Ok(_meetingService.GetAll(date)));
+
+        [HttpGet("get-all-available-hours")]
+        public async Task<IActionResult> GetAllAvailableHours(DateTime date, int room)
+        {
+            return await Task.Run(() => Ok(_meetingService.GetAllAvailableHours(date, room)));
+        }
 
         [HttpGet("find")]
         public async Task<IActionResult> Find(long meetingId)
             => await Task.Run(() => Ok(_meetingService.Find(meetingId)));
 
-        [HttpGet("reserveMeeting")]
-        public async Task<IActionResult> ReserveMeeting(Meeting meet)
+        [HttpGet("reserve-meeting")]
+        public async Task<IActionResult> ReserveMeeting(DateTime dateAndTime, int durationMins, int room)
         {
-            await Task.Run(() => _meetingService.Add(meet));
-            _logger.LogInformation($"Reserved a meeting in the room #{meet.RoomNumber} at {meet.Date.Date}" +
-                $"from {meet.StartTime} to {meet.EndTime}.");
+            var meet = new Meeting { DateAndTime = dateAndTime, Duration = new TimeSpan(0, durationMins, 0), RoomNumber = room };
 
-            return Ok();
+            if (await Task.Run(() => _meetingService.Add(meet)))
+            {
+                _logger.LogInformation($"Reserved a meeting in the room #{meet.RoomNumber} at {meet.DateAndTime.Date}" +
+                    $"at {meet.DateAndTime.TimeOfDay} spanned {meet.Duration.TotalMinutes} mins.");
+
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("cancel-meeting")]
+        public async Task<IActionResult> CancelMeeting(long id)
+        {
+            if (await Task.Run(() => _meetingService.Remove(id)))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }

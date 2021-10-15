@@ -8,7 +8,7 @@ namespace ExoftOfficeManager.Business.Services.Interfaces
 {
     public interface IWorkPlaceService
     {
-        IEnumerable<WorkPlace> GetAll(DateTime date);
+        IEnumerable<WorkPlace> GetAll();
 
         IEnumerable<WorkPlace> GetAllBooked(DateTime date);
 
@@ -16,9 +16,9 @@ namespace ExoftOfficeManager.Business.Services.Interfaces
 
         WorkPlace Find(long id);
 
-        Task Book(long id, long developerId, WorkPlaceStatus status);
+        Task Book(long id, long developerId, WorkPlaceStatus status, DateTime date, int days);
 
-        Task MakeAvailable(long id);
+        Task MakeAvailable(long id, DateTime date, long devId);
 
         Task<WorkPlace> Update(WorkPlace place);
     }

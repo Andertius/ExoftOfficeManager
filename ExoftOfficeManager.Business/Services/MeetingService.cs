@@ -51,6 +51,7 @@ namespace ExoftOfficeManager.Business.Services
             if (!GetAll(meet.DateAndTime.Date).Where(meeting => CheckIfMeetingsIntersect(meeting, meet)).Any())
             {
                 await _repository.Add(meet);
+                await _repository.Commit();
                 return true;
             }
 
@@ -58,10 +59,18 @@ namespace ExoftOfficeManager.Business.Services
         }
 
         public async Task<Meeting> Update(Meeting meet)
-            => await _repository.Update(meet);
+        {
+            var result = await _repository.Update(meet);
+            await _repository.Commit();
+
+            return result;
+        }
 
         public async Task Remove(long id)
-            => await _repository.Remove(id);
+        {
+            await _repository.Remove(id);
+            await _repository.Commit();
+        }
 
         private static bool CheckIfTimeIsInAMeeting(Meeting meeting, int room, TimeSpan time)
             => meeting.RoomNumber == room &&

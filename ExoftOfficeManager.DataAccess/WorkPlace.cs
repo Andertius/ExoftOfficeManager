@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace ExoftOfficeManager.DataAccess
 {
@@ -10,13 +10,7 @@ namespace ExoftOfficeManager.DataAccess
 
         public int PlaceNumber { get; set; }
 
-        public DateTime Date { get; set; }
 
-        public WorkPlaceStatus Status { get; set; }
-
-
-        public long DeveloperId { get; set; }
-
-        public User Developer { get; set; }
+        public ICollection<Booking> Bookings { get; set; }
     }
 }

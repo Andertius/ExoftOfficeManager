@@ -11,39 +11,57 @@ namespace ExoftOfficeManager.Business.Services
 {
     public class WorkPlaceService : IWorkPlaceService
     {
-        private readonly IRepository<WorkPlace> _repository;
+        private readonly IRepository<WorkPlace> _placeRepository;
+        private readonly IRepository<Booking> _bookingRepository;
 
-        public WorkPlaceService(IRepository<WorkPlace> repository)
-            => _repository = repository;
-
-        private bool IsBooked(long id)
+        public WorkPlaceService(IRepository<WorkPlace> placeRepository, IRepository<Booking> bookingRepository)
         {
-            var place = Find(id);
-            return place.Status == WorkPlaceStatus.Booked ||
-                place.Status == WorkPlaceStatus.BookedPermanently ||
-                place.Status == (WorkPlaceStatus.FirstHalfBooked | WorkPlaceStatus.SecondHalfBooked);
+            _placeRepository = placeRepository;
+            _bookingRepository = bookingRepository;
         }
 
-        public IEnumerable<WorkPlace> GetAll(DateTime date)
-            => _repository.GetAll().Where(x => x.Date == date).ToList();
+        private bool IsBooked(long id, DateTime date)
+        {
+            var place = Find(id);
+            var bookings = place.Bookings.Where(x => x.Date == date);
+
+            if (!bookings.Any())
+            {
+                return false;
+            }
+            else if (bookings.Count() == 1 &&
+                (bookings.First().Status == WorkPlaceStatus.Booked || bookings.First().Status == WorkPlaceStatus.BookedPermanently))
+            {
+                return true;
+            }
+            else if (bookings.Count() == 2)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public IEnumerable<WorkPlace> GetAll()
+            => _placeRepository.GetAll().ToList();
 
         public IEnumerable<WorkPlace> GetAllBooked(DateTime date)
-            => _repository.GetAll().Where(x => x.Date == date && IsBooked(x.Id)).ToList();
+            => _placeRepository.GetAll().Where(x => IsBooked(x.Id, date)).ToList();
 
         public IEnumerable<WorkPlace> GetAllAvailable(DateTime date)
-            => _repository.GetAll().Where(x => x.Date == date && !IsBooked(x.Id)).ToList();
+            => _placeRepository.GetAll().Where(x => !IsBooked(x.Id, date)).ToList();
 
         public WorkPlace Find(long id)
-            => _repository.Find(id);
+            => _placeRepository.Find(id);
 
-        public async Task Book(long id, long developerId, WorkPlaceStatus status)
+        public async Task Book(long id, long developerId, WorkPlaceStatus status, DateTime date, int days)
         {
             if (status == WorkPlaceStatus.Available)
             {
                 throw new ArgumentException($"Cannot book with status '{status}'.");
             }
 
-            if (IsBooked(id))
+            if (IsBooked(id, date))
             {
                 throw new ArgumentException($"The work place with id = {id} is already fully booked");
             }
@@ -51,37 +69,41 @@ namespace ExoftOfficeManager.Business.Services
             {
                 var place = Find(id);
 
-                if (status == place.Status)
+                if (place.Bookings.Where(x => x.Date == date && x.Status == status).Any())
                 {
                     throw new ArgumentException($"Cannot book with status '{status}', because the work place already has that status.");
                 }
 
-                if (place.Status == WorkPlaceStatus.FirstHalfBooked && status == WorkPlaceStatus.SecondHalfBooked ||
-                    place.Status == WorkPlaceStatus.SecondHalfBooked && status == WorkPlaceStatus.FirstHalfBooked)
+                for (int i = 0; i < days; i++)
                 {
-                    place.Status |= status;
-                }
-                else
-                {
-                    place.Status = status;
+                    place.Bookings.Add(new Booking { Date = new DateTime(date.Year, date.Month, date.Day + i), Status = status, UserId = developerId });
                 }
 
-                place.DeveloperId = developerId;
-                await _repository.Update(place);
+                await _placeRepository.Update(place);
+                await _placeRepository.Commit();
             }
         }
 
-        public async Task MakeAvailable(long id)
+        public async Task MakeAvailable(long id, DateTime date, long devId)
         {
             var place = Find(id);
-            place.Status = WorkPlaceStatus.Available;
-            await _repository.Update(place);
+            place.Bookings.Remove(place.Bookings.Where(x => x.Date == date && x.UserId == devId).FirstOrDefault());
+            await _placeRepository.Update(place);
+            await _placeRepository.Commit();
         }
 
         public async Task<WorkPlace> Update(WorkPlace place)
-            => await _repository.Update(place);
+        {
+            var result = await _placeRepository.Update(place);
+            await _placeRepository.Commit();
+
+            return result;
+        }
 
         public async Task Remove(long id)
-            => await _repository.Remove(id);
+        {
+            await _placeRepository.Remove(id);
+            await _placeRepository.Commit();
+        }
     }
 }

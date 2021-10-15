@@ -27,7 +27,8 @@ namespace ExoftOfficeManager
                 .AddSingleton<IRepository<Meeting>, MockedMeetingRepository>();
 
             services.AddSingleton<IWorkPlaceService, WorkPlaceService>()
-                .AddSingleton<IRepository<WorkPlace>, MockedWorkPlaceRepository>();
+                .AddSingleton<IRepository<WorkPlace>, MockedWorkPlaceRepository>()
+                .AddSingleton<IRepository<Booking>, MockedBookingRepository>();
 
             services.AddSingleton<IUserService, UserService>()
                 .AddSingleton<IRepository<User>, MockedUserRepository>();

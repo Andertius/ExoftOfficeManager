@@ -26,8 +26,8 @@ namespace ExoftOfficeManager.Controllers
         }
 
         [HttpGet("get-all")]
-        public async Task<IActionResult> GetAll([FromQuery] DateTime date)
-            => await Task.Run(() => Ok(_placeService.GetAll(date.Date)));
+        public async Task<IActionResult> GetAll()
+            => await Task.Run(() => Ok(_placeService.GetAll()));
 
         [HttpGet("get-all-booked")]
         public async Task<IActionResult> GetBooked([FromQuery] DateTime date)
@@ -42,16 +42,24 @@ namespace ExoftOfficeManager.Controllers
             => await Task.Run(() => Ok(_placeService.Find(placeId)));
 
         [HttpGet("book")]
-        public async Task<IActionResult> Book([FromQuery] long placeId, [FromQuery] long devId, [FromQuery] WorkPlaceStatus status)
+        public async Task<IActionResult> Book(
+            [FromQuery] long placeId,
+            [FromQuery] long devId,
+            [FromQuery] WorkPlaceStatus status,
+            [FromQuery] DateTime date,
+            [FromQuery] int days)
         {
-            await _placeService.Book(placeId, devId, status);
+            await _placeService.Book(placeId, devId, status, date, days);
             return Ok();
         }
 
         [HttpGet("cancel-reservation")]
-        public async Task<IActionResult> CancelReservation([FromQuery] long placeId)
+        public async Task<IActionResult> CancelReservation(
+            [FromQuery] long placeId,
+            [FromQuery] DateTime date,
+            [FromQuery] long devId)
         {
-            await _placeService.MakeAvailable(placeId);
+            await _placeService.MakeAvailable(placeId, date, devId);
             return Ok();
         }
 

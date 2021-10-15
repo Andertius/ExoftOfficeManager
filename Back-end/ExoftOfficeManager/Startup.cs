@@ -23,14 +23,14 @@ namespace ExoftOfficeManager
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IMeetingService, MeetingService>()
+            services.AddScoped<IMeetingService, MeetingService>()
                 .AddSingleton<IRepository<Meeting>, MockedMeetingRepository>();
 
-            services.AddSingleton<IWorkPlaceService, WorkPlaceService>()
+            services.AddScoped<IWorkPlaceService, WorkPlaceService>()
                 .AddSingleton<IRepository<WorkPlace>, MockedWorkPlaceRepository>()
                 .AddSingleton<IRepository<Booking>, MockedBookingRepository>();
 
-            services.AddSingleton<IUserService, UserService>()
+            services.AddScoped<IUserService, UserService>()
                 .AddSingleton<IRepository<User>, MockedUserRepository>();
 
             services.AddControllers();

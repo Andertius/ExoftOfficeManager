@@ -14,13 +14,11 @@ namespace ExoftOfficeManager.Controllers
     [Route("[controller]")]
     public class WorkPlaceController : ControllerBase
     {
-        private readonly ILogger<WorkPlaceController> _logger;
         private readonly IWorkPlaceService _placeService;
         private readonly IUserService _developerService;
 
-        public WorkPlaceController(ILogger<WorkPlaceController> logger, IWorkPlaceService work, IUserService developerService)
+        public WorkPlaceController(IWorkPlaceService work, IUserService developerService)
         {
-            _logger = logger;
             _placeService = work;
             _developerService = developerService;
         }

@@ -13,12 +13,10 @@ namespace ExoftOfficeManager.Controllers
     [Route("[controller]")]
     public class MeetingController : ControllerBase
     {
-        private readonly ILogger<MeetingController> _logger;
         private readonly IMeetingService _meetingService;
 
-        public MeetingController(ILogger<MeetingController> logger, IMeetingService meeting)
+        public MeetingController(IMeetingService meeting)
         {
-            _logger = logger;
             _meetingService = meeting;
         }
 
@@ -38,18 +36,7 @@ namespace ExoftOfficeManager.Controllers
         public async Task<IActionResult> ReserveMeeting(DateTime dateAndTime, int durationMins, int room)
         {
             var meet = new Meeting { DateAndTime = dateAndTime, Duration = new TimeSpan(0, durationMins, 0), RoomNumber = room };
-
-            if (await _meetingService.Add(meet))
-            {
-                _logger.LogInformation($"Reserved a meeting in the room #{meet.RoomNumber} at {meet.DateAndTime.Date}" +
-                    $"at {meet.DateAndTime.TimeOfDay} spanned {meet.Duration.TotalMinutes} mins.");
-
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
+            return await _meetingService.Add(meet) ? Ok() : BadRequest();
         }
 
         [HttpGet("cancel-meeting")]

@@ -2,10 +2,11 @@
 {
     public enum WorkPlaceStatus
     {
+        Available,
         Booked,
         BookedPermanently,
-        Available,
         FirstHalfBooked,
+        OnHold,
         SecondHalfBooked,
     }
 }

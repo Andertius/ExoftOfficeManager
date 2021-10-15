@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ExoftOfficeManager.DataAccess.Repositories
+namespace ExoftOfficeManager.DataAccess.Repositories.Mocked
 {
     public abstract class MockedRepository<TEntity> : IRepository<TEntity>
         where TEntity : class, IEntity

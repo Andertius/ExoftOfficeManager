@@ -51,6 +51,9 @@ namespace ExoftOfficeManager.Business.Services
         public IEnumerable<WorkPlace> GetAllAvailable(DateTime date)
             => _placeRepository.GetAll().Where(x => !IsBooked(x.Id, date)).ToList();
 
+        public IEnumerable<Booking> GetAllUserBooked(long id)
+            => _placeRepository.GetAll().SelectMany(x => x.Bookings).Where(x => x.UserId == id);
+
         public WorkPlace Find(long id)
             => _placeRepository.Find(id);
 
@@ -76,11 +79,11 @@ namespace ExoftOfficeManager.Business.Services
 
                 for (int i = 0; i < days; i++)
                 {
-                    place.Bookings.Add(new Booking { Date = new DateTime(date.Year, date.Month, date.Day + i), Status = status, UserId = developerId });
+                    await _bookingRepository.Add(new Booking
+                    { Date = new DateTime(date.Year, date.Month, date.Day + i), Status = status, UserId = developerId, WorkPlaceId = id });
                 }
 
-                await _placeRepository.Update(place);
-                await _placeRepository.Commit();
+                await _bookingRepository.Commit();
             }
         }
 

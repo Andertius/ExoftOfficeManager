@@ -2,6 +2,7 @@ using ExoftOfficeManager.Business.Services;
 using ExoftOfficeManager.Business.Services.Interfaces;
 using ExoftOfficeManager.DataAccess;
 using ExoftOfficeManager.DataAccess.Repositories;
+using ExoftOfficeManager.DataAccess.Repositories.Mocked;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,6 +24,9 @@ namespace ExoftOfficeManager
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddSingleton<IRepository<Booking>, MockedBookingRepository>()
+            //    .AddSingleton<IRepository<WorkPlace>, MockedWorkPlaceRepository>();
+
             services.AddScoped<IMeetingService, MeetingService>()
                 .AddSingleton<IRepository<Meeting>, MockedMeetingRepository>();
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ExoftOfficeManager.DataAccess.Repositories
+namespace ExoftOfficeManager.DataAccess.Repositories.Mocked
 {
     public class MockedMeetingRepository : MockedRepository<Meeting>
     {

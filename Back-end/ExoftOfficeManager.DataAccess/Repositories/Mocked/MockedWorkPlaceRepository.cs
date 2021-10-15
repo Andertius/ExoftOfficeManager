@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace ExoftOfficeManager.DataAccess.Repositories
+namespace ExoftOfficeManager.DataAccess.Repositories.Mocked
 {
     public class MockedWorkPlaceRepository : MockedRepository<WorkPlace>
     {
         private readonly List<Booking> _bookings;
-        private int highestBookingId = 1;
+        private readonly IRepository<Booking> _bookingRepository;
 
-        public MockedWorkPlaceRepository(IEnumerable<WorkPlace> list)
+        public MockedWorkPlaceRepository(IEnumerable<WorkPlace> list, IRepository<Booking> bookingRepository)
             : base(list)
         {
-            _bookings = new();
+            _bookingRepository = bookingRepository;
+               _bookings = new();
             EnsureBookingsPopulated();
             EnsureWorkPlacesPopulated();
         }
@@ -53,46 +53,26 @@ namespace ExoftOfficeManager.DataAccess.Repositories
             });
         }
 
-        public override async Task<WorkPlace> Update(WorkPlace entity)
+        public override async Task Remove(long id)
         {
-            int index = await Task.Run(() => _entities.FindIndex(x => x.Id == entity.Id));
+            var place = Find(id);
 
-            if (index == -1)
+            foreach (var item in place.Bookings)
             {
-                return null;
+                await _bookingRepository.Remove(item);
             }
 
-            var oldValue = entity.Bookings.Where(x => x.Id == 0).FirstOrDefault();
-
-            if (oldValue is not null)
-            {
-                var newValue = entity.Bookings.Where(x => x.Id == 0).First();
-                newValue.Id = highestBookingId;
-                highestBookingId++;
-                entity.Bookings.Swap(oldValue, newValue);
-            }
-
-            _entities[index] = entity;
-
-            return entity;
+            await base.Remove(id);
         }
-    }
 
-    internal static class SwapExtension
-    {
-        public static void Swap<T>(this ICollection<T> collection, T oldValue, T newValue)
+        public override async Task Remove(WorkPlace place)
         {
-            if (collection is IList<T> collectionAsList)
+            foreach (var item in place.Bookings)
             {
-                var oldIndex = collectionAsList.IndexOf(oldValue);
-                collectionAsList.RemoveAt(oldIndex);
-                collectionAsList.Insert(oldIndex, newValue);
+                await _bookingRepository.Remove(item);
             }
-            else
-            {
-                collection.Remove(oldValue);
-                collection.Add(newValue);
-            }
+
+            await base.Remove(place);
         }
     }
 }

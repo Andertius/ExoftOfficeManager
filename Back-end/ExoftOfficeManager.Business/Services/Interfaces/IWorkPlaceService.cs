@@ -14,6 +14,8 @@ namespace ExoftOfficeManager.Business.Services.Interfaces
 
         IEnumerable<WorkPlace> GetAllAvailable(DateTime date);
 
+        IEnumerable<Booking> GetAllUserBooked(long id);
+
         WorkPlace Find(long id);
 
         Task Book(long id, long developerId, WorkPlaceStatus status, DateTime date, int days);

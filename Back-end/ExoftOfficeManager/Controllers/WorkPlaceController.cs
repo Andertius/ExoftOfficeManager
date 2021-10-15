@@ -4,9 +4,7 @@ using System.Threading.Tasks;
 using ExoftOfficeManager.Business.Services.Interfaces;
 using ExoftOfficeManager.DataAccess;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace ExoftOfficeManager.Controllers
 {
@@ -15,12 +13,12 @@ namespace ExoftOfficeManager.Controllers
     public class WorkPlaceController : ControllerBase
     {
         private readonly IWorkPlaceService _placeService;
-        private readonly IUserService _developerService;
+        private readonly IUserService _userService;
 
         public WorkPlaceController(IWorkPlaceService work, IUserService developerService)
         {
             _placeService = work;
-            _developerService = developerService;
+            _userService = developerService;
         }
 
         [HttpGet("get-all")]
@@ -47,9 +45,22 @@ namespace ExoftOfficeManager.Controllers
             [FromQuery] DateTime date,
             [FromQuery] int days)
         {
-            await _placeService.Book(placeId, devId, status, date, days);
+            if (days > 1)
+            {
+                // TODO figure out what this is supposed to be
+                // ???
+            }
+            else
+            {
+                await _placeService.Book(placeId, devId, status, date, days);
+            }
+
             return Ok();
         }
+
+        [HttpGet("get-all-users-bookings")]
+        public async Task<IActionResult> GetAllUsersBookings([FromQuery] long devId)
+            => await Task.Run(() => Ok(_placeService.GetAllUserBooked(devId)));
 
         [HttpGet("cancel-reservation")]
         public async Task<IActionResult> CancelReservation(
@@ -64,7 +75,7 @@ namespace ExoftOfficeManager.Controllers
         [HttpGet("find-developer")]
         public async Task<IActionResult> FindDeveloper(long id)
         {
-            return await Task.Run(() => Ok(_developerService.Find(id)));
+            return await Task.Run(() => Ok(_userService.Find(id)));
         }
     }
 }

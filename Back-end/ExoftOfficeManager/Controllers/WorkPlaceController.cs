@@ -5,6 +5,7 @@ using ExoftOfficeManager.Business.Services.Interfaces;
 using ExoftOfficeManager.DataAccess;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExoftOfficeManager.Controllers
 {
@@ -15,10 +16,29 @@ namespace ExoftOfficeManager.Controllers
         private readonly IWorkPlaceService _placeService;
         private readonly IUserService _userService;
 
-        public WorkPlaceController(IWorkPlaceService work, IUserService developerService)
+        private readonly AppDbContext _context;
+
+        public WorkPlaceController(IWorkPlaceService work, AppDbContext context)
         {
             _placeService = work;
-            _userService = developerService;
+            _context = context;
+            //_userService = developerService;
+        }
+
+        [HttpGet("AAA")]
+        public async Task<IActionResult> Afkjsdfmz()
+        {
+            var result = await _context.Users.ToListAsync();
+            return Ok(result);
+        }
+
+        [HttpPost("ASJAKNC")]
+        public async Task<IActionResult> Akafjefmefllllllllll()
+        {
+            var user = new User { FullName = "John Doe", Role = UserRole.Developer };
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            return Ok(user);
         }
 
         [HttpGet("get-all")]
@@ -47,12 +67,15 @@ namespace ExoftOfficeManager.Controllers
         {
             if (days > 1)
             {
+
                 // TODO figure out what this is supposed to be
                 // ???
             }
             else
             {
                 await _placeService.Book(placeId, devId, status, date, days);
+                //_userService.AddRequest(new Request { PlaceId = placeId, DeveloperId = devId, Status = status, Date = date, Days = days });
+
             }
 
             return Ok();

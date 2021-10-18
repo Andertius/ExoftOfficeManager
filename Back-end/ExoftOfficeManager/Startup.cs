@@ -6,6 +6,7 @@ using ExoftOfficeManager.DataAccess.Repositories.Mocked;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -36,6 +37,9 @@ namespace ExoftOfficeManager
 
             services.AddScoped<IUserService, UserService>()
                 .AddSingleton<IRepository<User>, MockedUserRepository>();
+
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("MyConnection")));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

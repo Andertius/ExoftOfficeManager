@@ -10,9 +10,11 @@ namespace ExoftOfficeManager.DataAccess
 
         public string Avatar { get; set; }
 
+        public UserRole Role { get; set; }
 
-        public ICollection<WorkPlace> WorkPlaces { get; set; }
 
-        public ICollection<Meeting> Meetings { get; set; }
+        //public ICollection<WorkPlace> WorkPlaces { get; set; }
+
+        //public ICollection<Meeting> Meetings { get; set; }
     }
 }

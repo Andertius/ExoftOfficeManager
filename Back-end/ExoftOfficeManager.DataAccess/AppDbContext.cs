@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ExoftOfficeManager.DataAccess.Entities;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -12,11 +8,11 @@ namespace ExoftOfficeManager.DataAccess
     {
         public DbSet<User> Users { get; set; }
 
-        //public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
-        //public DbSet<Meeting> Meetings { get; set; }
+        public DbSet<Meeting> Meetings { get; set; }
 
-        //public DbSet<WorkPlace> WorkPlaces { get; set; }
+        public DbSet<WorkPlace> WorkPlaces { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> opts)
             : base(opts)
@@ -25,8 +21,32 @@ namespace ExoftOfficeManager.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .HasKey(a => a.Id);  
+            modelBuilder.Entity<Meeting>()
+                .HasOne(x => x.Owner)
+                .WithMany(x => x.OwnerMeetings)
+                .HasForeignKey(x => x.OwnerId);
+
+
+            modelBuilder.Entity<RequiredUserMeeting>()
+                .HasOne(x => x.RequiredUser)
+                .WithMany(x => x.RequiredUserMeetings)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<RequiredUserMeeting>()
+                .HasOne(x => x.Meeting)
+                .WithMany(x => x.RequiredUserMeetings)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
+            modelBuilder.Entity<NotRequiredUserMeeting>()
+                .HasOne(x => x.NotRequiredUser)
+                .WithMany(x => x.NotRequiredUserMeetings)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<NotRequiredUserMeeting>()
+                .HasOne(x => x.Meeting)
+                .WithMany(x => x.NotRequiredUserMeetings)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

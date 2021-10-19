@@ -1,11 +1,9 @@
 ﻿using System;
 
-namespace ExoftOfficeManager.DataAccess
+namespace ExoftOfficeManager.DataAccess.Entities
 {
-    public class Booking : IEntity
+    public class Booking : EntityBase
     {
-        public long Id { get; set; }
-
         public DateTime Date { get; set; }
 
         public WorkPlaceStatus Status { get; set; }

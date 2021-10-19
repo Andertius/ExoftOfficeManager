@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using ExoftOfficeManager.Business.Services.Interfaces;
-using ExoftOfficeManager.DataAccess;
+using ExoftOfficeManager.DataAccess.Entities;
 using ExoftOfficeManager.DataAccess.Repositories;
 
 namespace ExoftOfficeManager.Business.Services
@@ -16,12 +16,12 @@ namespace ExoftOfficeManager.Business.Services
         public MeetingService(IRepository<Meeting> repository)
             => _repository = repository;
 
-        public IEnumerable<Meeting> GetAll(DateTime date)
-            => _repository.GetAll().Where(meeting => meeting.DateAndTime.Date == date).ToList();
+        public IEnumerable<Meeting> GetAll(DateTime date, IEnumerable<string> inclusion)
+            => _repository.GetAll(inclusion).Where(meeting => meeting.DateAndTime.Date == date).ToList();
 
         public IEnumerable<TimeSpan> GetAllAvailableHours(DateTime date, int room)
         {
-            var meetings = GetAll(date);
+            var meetings = GetAll(date, Array.Empty<string>());
             var result = new List<TimeSpan>();
 
             for (int i = 0; i < 16; i++)
@@ -37,8 +37,8 @@ namespace ExoftOfficeManager.Business.Services
             return result;
         }
 
-        public Meeting Find(long id)
-            => _repository.Find(id);
+        public async Task<Meeting> Find(long id, IEnumerable<string> inclusion)
+            => await _repository.Find(id, inclusion);
 
         public async Task<bool> Add(Meeting meet)
         {
@@ -48,7 +48,9 @@ namespace ExoftOfficeManager.Business.Services
                 return false;
             }
 
-            if (!GetAll(meet.DateAndTime.Date).Where(meeting => CheckIfMeetingsIntersect(meeting, meet)).Any())
+            if (!GetAll(meet.DateAndTime.Date, Array.Empty<string>())
+                    .Where(meeting => CheckIfMeetingsIntersect(meeting, meet))
+                    .Any())
             {
                 await _repository.Add(meet);
                 await _repository.Commit();
@@ -60,7 +62,7 @@ namespace ExoftOfficeManager.Business.Services
 
         public async Task<Meeting> Update(Meeting meet)
         {
-            var result = await _repository.Update(meet);
+            var result = _repository.Update(meet);
             await _repository.Commit();
 
             return result;

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using ExoftOfficeManager.Business.Services.Interfaces;
 using ExoftOfficeManager.DataAccess;
+using ExoftOfficeManager.DataAccess.Entities;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -22,7 +23,12 @@ namespace ExoftOfficeManager.Controllers
 
         [HttpGet("get-all-meetings")]
         public async Task<IActionResult> GetAllMeetings(DateTime date)
-            => await Task.Run(() => Ok(_meetingService.GetAll(date)));
+            => await Task.Run(() => Ok(_meetingService.GetAll(date, new[]
+            {
+                nameof(Meeting.Owner),
+                nameof(Meeting.NotRequiredUserMeetings),
+                nameof(Meeting.RequiredUserMeetings),
+            })));
 
         [HttpGet("get-all-available-hours")]
         public async Task<IActionResult> GetAllAvailableHours(DateTime date, int room)
@@ -30,7 +36,12 @@ namespace ExoftOfficeManager.Controllers
 
         [HttpGet("find")]
         public async Task<IActionResult> Find(long meetingId)
-            => await Task.Run(() => Ok(_meetingService.Find(meetingId)));
+            => Ok(await _meetingService.Find(meetingId, new[]
+            {
+                nameof(Meeting.Owner),
+                nameof(Meeting.NotRequiredUserMeetings),
+                nameof(Meeting.RequiredUserMeetings),
+            }));
 
         [HttpGet("reserve-meeting")]
         public async Task<IActionResult> ReserveMeeting(DateTime dateAndTime, int durationMins, int room)

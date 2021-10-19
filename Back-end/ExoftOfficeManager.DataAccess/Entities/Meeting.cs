@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 
-namespace ExoftOfficeManager.DataAccess
+namespace ExoftOfficeManager.DataAccess.Entities
 {
-    public class Meeting : IEntity
+    public class Meeting : EntityBase
     {
-        public long Id { get; set; }
-
         public DateTime DateAndTime { get; set; }
 
         public TimeSpan Duration { get; set; }
@@ -15,13 +13,13 @@ namespace ExoftOfficeManager.DataAccess
 
         public string MeetingPurpose { get; set; }
 
-        public long OwnerId { get; set; }
 
+        public long OwnerId { get; set; }
 
         public User Owner { get; set; }
 
-        public ICollection<User> UsersRequired { get; set; }
+        public ICollection<RequiredUserMeeting> RequiredUserMeetings { get; set; }
 
-        public ICollection<User> UsersNotRequired { get; set; }
+        public ICollection<NotRequiredUserMeeting> NotRequiredUserMeetings { get; set; }
     }
 }

@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.DataAccess;
+using ExoftOfficeManager.DataAccess.Entities;
 
 namespace ExoftOfficeManager.Business.Services.Interfaces
 {
     public interface IMeetingService
     {
-        IEnumerable<Meeting> GetAll(DateTime date);
+        IEnumerable<Meeting> GetAll(DateTime date, IEnumerable<string> inclusion);
 
         IEnumerable<TimeSpan> GetAllAvailableHours(DateTime date, int room);
 
-        Meeting Find(long id);
+        Task<Meeting> Find(long id, IEnumerable<string> inclusion);
 
         Task<bool> Add(Meeting meet);
 

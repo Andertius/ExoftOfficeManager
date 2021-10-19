@@ -1,19 +1,23 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+
+using ExoftOfficeManager.DataAccess.Entities;
 
 namespace ExoftOfficeManager.DataAccess.Repositories
 {
-    public interface IRepository<T> where T : class, IEntity
+    public interface IRepository<T> where T : EntityBase
     {
-        IQueryable<T> GetAll();
+        IQueryable<T> GetAll(IEnumerable<string> include);
 
-        T Find(long id);
+        Task<T> Find(long id, IEnumerable<string> include);
 
         Task<T> Add(T entity);
 
-        Task<T> Update(T entity);
+        T Update(T entity);
 
-        Task Remove(T entity);
+        void Remove(T entity);
 
         Task Remove(long id);
 

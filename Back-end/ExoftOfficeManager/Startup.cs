@@ -1,8 +1,9 @@
 using ExoftOfficeManager.Business.Services;
 using ExoftOfficeManager.Business.Services.Interfaces;
 using ExoftOfficeManager.DataAccess;
+using ExoftOfficeManager.DataAccess.Entities;
 using ExoftOfficeManager.DataAccess.Repositories;
-using ExoftOfficeManager.DataAccess.Repositories.Mocked;
+using ExoftOfficeManager.DataAccess.Repositories.EfCore;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,18 +26,14 @@ namespace ExoftOfficeManager
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddSingleton<IRepository<Booking>, MockedBookingRepository>()
-            //    .AddSingleton<IRepository<WorkPlace>, MockedWorkPlaceRepository>();
+            services.AddScoped<IMeetingService, MeetingService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IWorkPlaceService, WorkPlaceService>();
 
-            services.AddScoped<IMeetingService, MeetingService>()
-                .AddSingleton<IRepository<Meeting>, MockedMeetingRepository>();
-
-            services.AddScoped<IWorkPlaceService, WorkPlaceService>()
-                .AddSingleton<IRepository<WorkPlace>, MockedWorkPlaceRepository>()
-                .AddSingleton<IRepository<Booking>, MockedBookingRepository>();
-
-            services.AddScoped<IUserService, UserService>()
-                .AddSingleton<IRepository<User>, MockedUserRepository>();
+            services.AddScoped<IRepository<Meeting>, EfCoreMeetingRepository>();
+            services.AddScoped<IRepository<WorkPlace>, EfCoreWorkPlaceRepository>();
+            services.AddScoped<IRepository<Booking>, EfCoreBookingRepository>();
+            services.AddScoped<IRepository<User>, EfCoreUserRepository>();
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyConnection")));

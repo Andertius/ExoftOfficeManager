@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using ExoftOfficeManager.Business.Services.Interfaces;
 using ExoftOfficeManager.DataAccess;
+using ExoftOfficeManager.DataAccess.Entities;
 using ExoftOfficeManager.DataAccess.Repositories;
 
 namespace ExoftOfficeManager.Business.Services
@@ -22,8 +23,10 @@ namespace ExoftOfficeManager.Business.Services
 
         private bool IsBooked(long id, DateTime date)
         {
-            var place = Find(id);
-            var bookings = place.Bookings.Where(x => x.Date == date);
+            var bookings = _placeRepository
+                .GetAll(new[] { nameof(WorkPlace.Bookings) })
+                .FirstOrDefault(x => x.Id == id)
+                .Bookings.Where(x => x.Date == date);
 
             if (!bookings.Any())
             {
@@ -42,20 +45,20 @@ namespace ExoftOfficeManager.Business.Services
             return false;
         }
 
-        public IEnumerable<WorkPlace> GetAll()
-            => _placeRepository.GetAll().ToList();
+        public IEnumerable<WorkPlace> GetAll(IEnumerable<string> inclusion)
+            => _placeRepository.GetAll(inclusion).ToList();
 
-        public IEnumerable<WorkPlace> GetAllBooked(DateTime date)
-            => _placeRepository.GetAll().Where(x => IsBooked(x.Id, date)).ToList();
+        public IEnumerable<WorkPlace> GetAllBooked(DateTime date, IEnumerable<string> inclusion)
+            =>_placeRepository.GetAll(inclusion).Where(x => IsBooked(x.Id, date)).ToList();
 
-        public IEnumerable<WorkPlace> GetAllAvailable(DateTime date)
-            => _placeRepository.GetAll().Where(x => !IsBooked(x.Id, date)).ToList();
+        public IEnumerable<WorkPlace> GetAllAvailable(DateTime date, IEnumerable<string> inclusion)
+            => _placeRepository.GetAll(inclusion).Where(x => !IsBooked(x.Id, date)).ToList();
 
-        public IEnumerable<Booking> GetAllUserBooked(long id)
-            => _placeRepository.GetAll().SelectMany(x => x.Bookings).Where(x => x.UserId == id);
+        public IEnumerable<Booking> GetAllUserBooked(long id, IEnumerable<string> inclusion)
+            => _placeRepository.GetAll(inclusion).SelectMany(x => x.Bookings).Where(x => x.UserId == id);
 
-        public WorkPlace Find(long id)
-            => _placeRepository.Find(id);
+        public async Task<WorkPlace> Find(long id, IEnumerable<string> inclusion)
+            => await _placeRepository.Find(id, inclusion);
 
         public async Task Book(long id, long developerId, WorkPlaceStatus status, DateTime date, int days)
         {
@@ -70,7 +73,7 @@ namespace ExoftOfficeManager.Business.Services
             }
             else
             {
-                var place = Find(id);
+                var place = await Find(id, new[] { nameof(WorkPlace.Bookings) });
 
                 if (place.Bookings.Where(x => x.Date == date && x.Status == status).Any())
                 {
@@ -79,25 +82,31 @@ namespace ExoftOfficeManager.Business.Services
 
                 for (int i = 0; i < days; i++)
                 {
-                    await _bookingRepository.Add(new Booking
-                    { Date = new DateTime(date.Year, date.Month, date.Day + i), Status = status, UserId = developerId, WorkPlaceId = id });
+                    place.Bookings.Add(new Booking
+                    {
+                        Date = new DateTime(date.Year, date.Month, date.Day + i),
+                        Status = status,
+                        UserId = developerId,
+                        WorkPlaceId = id,
+                    });
                 }
 
-                await _bookingRepository.Commit();
+                _placeRepository.Update(place);
+                await _placeRepository.Commit();
             }
         }
 
         public async Task MakeAvailable(long id, DateTime date, long devId)
         {
-            var place = Find(id);
-            place.Bookings.Remove(place.Bookings.Where(x => x.Date == date && x.UserId == devId).FirstOrDefault());
-            await _placeRepository.Update(place);
+            var place = await Find(id, new[] { nameof(WorkPlace.Bookings) });
+            place.Bookings.Remove(place.Bookings.FirstOrDefault(x => x.Date == date && x.UserId == devId));
+            _placeRepository.Update(place);
             await _placeRepository.Commit();
         }
 
         public async Task<WorkPlace> Update(WorkPlace place)
         {
-            var result = await _placeRepository.Update(place);
+            var result = _placeRepository.Update(place);
             await _placeRepository.Commit();
 
             return result;

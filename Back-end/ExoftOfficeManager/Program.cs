@@ -15,6 +15,7 @@ namespace ExoftOfficeManager
         {
             var host = CreateHostBuilder(args).Build();
             Migrate(host.Services);
+            SeedData.EnsurePopulated(host.Services);
             host.Run();
         }
 

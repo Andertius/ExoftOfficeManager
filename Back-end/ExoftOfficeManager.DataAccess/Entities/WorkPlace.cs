@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace ExoftOfficeManager.DataAccess
+namespace ExoftOfficeManager.DataAccess.Entities
 {
-    public class WorkPlace : IEntity
+    public class WorkPlace : EntityBase
     {
-        public long Id { get; set; }
-
         public int FloorNumber { get; set; }
 
         public int PlaceNumber { get; set; }

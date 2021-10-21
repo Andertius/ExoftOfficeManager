@@ -1,6 +1,6 @@
 using System;
 
-using ExoftOfficeManager.DataAccess;
+using ExoftOfficeManager.Infrastructure;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +15,6 @@ namespace ExoftOfficeManager
         {
             var host = CreateHostBuilder(args).Build();
             Migrate(host.Services);
-            SeedData.EnsurePopulated(host.Services);
             host.Run();
         }
 
@@ -23,6 +22,7 @@ namespace ExoftOfficeManager
         {
             using var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            SeedData.EnsurePopulated(dbContext);
             dbContext.Database.Migrate();
         }
 

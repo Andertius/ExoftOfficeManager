@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Business.Services.Interfaces;
-using ExoftOfficeManager.DataAccess;
+using ExoftOfficeManager.Application.Services.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

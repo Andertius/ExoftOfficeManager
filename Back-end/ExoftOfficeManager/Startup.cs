@@ -1,9 +1,9 @@
-using ExoftOfficeManager.Business.Services;
-using ExoftOfficeManager.Business.Services.Interfaces;
-using ExoftOfficeManager.DataAccess;
-using ExoftOfficeManager.DataAccess.Entities;
-using ExoftOfficeManager.DataAccess.Repositories;
-using ExoftOfficeManager.DataAccess.Repositories.EfCore;
+using ExoftOfficeManager.Application;
+using ExoftOfficeManager.Application.Services;
+using ExoftOfficeManager.Application.Services.Interfaces;
+using ExoftOfficeManager.Domain.Entities;
+using ExoftOfficeManager.Infrastructure;
+using ExoftOfficeManager.Infrastructure.Repositories.EfCore;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

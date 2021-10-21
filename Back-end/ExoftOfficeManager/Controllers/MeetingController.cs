@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Business.Services.Interfaces;
-using ExoftOfficeManager.DataAccess;
-using ExoftOfficeManager.DataAccess.Entities;
+using ExoftOfficeManager.Application.Services.Interfaces;
+using ExoftOfficeManager.Domain.Entities;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

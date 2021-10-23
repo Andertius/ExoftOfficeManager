@@ -15,12 +15,12 @@ namespace ExoftOfficeManager.Application.Services
         public MeetingService(IRepository<Meeting> repository)
             => _repository = repository;
 
-        public IEnumerable<Meeting> GetAll(DateTime date, IEnumerable<string> inclusion)
-            => _repository.GetAll(inclusion).Where(meeting => meeting.DateAndTime.Date == date).ToList();
+        public IEnumerable<Meeting> GetAll(DateTime date)
+            => _repository.GetAll().Where(meeting => meeting.DateAndTime.Date == date).ToList();
 
         public IEnumerable<TimeSpan> GetAllAvailableHours(DateTime date, int room)
         {
-            var meetings = GetAll(date, Array.Empty<string>());
+            var meetings = GetAll(date);
             var result = new List<TimeSpan>();
 
             for (int i = 0; i < 16; i++)
@@ -36,8 +36,8 @@ namespace ExoftOfficeManager.Application.Services
             return result;
         }
 
-        public async Task<Meeting> Find(long id, IEnumerable<string> inclusion)
-            => await _repository.Find(id, inclusion);
+        public async Task<Meeting> Find(long meetingId)
+            => await _repository.Find(meetingId);
 
         public async Task<bool> Add(Meeting meet)
         {
@@ -47,7 +47,7 @@ namespace ExoftOfficeManager.Application.Services
                 return false;
             }
 
-            if (!GetAll(meet.DateAndTime.Date, Array.Empty<string>())
+            if (!GetAll(meet.DateAndTime.Date)
                     .Where(meeting => CheckIfMeetingsIntersect(meeting, meet))
                     .Any())
             {
@@ -67,9 +67,9 @@ namespace ExoftOfficeManager.Application.Services
             return result;
         }
 
-        public async Task Remove(long id)
+        public async Task Remove(long meetingId)
         {
-            await _repository.Remove(id);
+            _repository.Remove(meetingId);
             await _repository.Commit();
         }
 

@@ -13,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
+using Newtonsoft.Json;
+
 namespace ExoftOfficeManager
 {
     public class Startup
@@ -29,6 +31,7 @@ namespace ExoftOfficeManager
             services.AddScoped<IMeetingService, MeetingService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IWorkPlaceService, WorkPlaceService>();
+            services.AddScoped<IBookingService, BookingService>();
 
             services.AddScoped<IRepository<Meeting>, EfCoreMeetingRepository>();
             services.AddScoped<IRepository<WorkPlace>, EfCoreWorkPlaceRepository>();
@@ -38,7 +41,11 @@ namespace ExoftOfficeManager
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyConnection")));
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            );
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ExoftOfficeManager", Version = "v1" });

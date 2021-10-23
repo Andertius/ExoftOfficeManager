@@ -8,9 +8,9 @@ namespace ExoftOfficeManager.Application
 {
     public interface IRepository<T> where T : EntityBase
     {
-        IQueryable<T> GetAll(IEnumerable<string> include);
+        IQueryable<T> GetAll();
 
-        Task<T> Find(long id, IEnumerable<string> include);
+        Task<T> Find(long id);
 
         Task<T> Add(T entity);
 
@@ -18,7 +18,7 @@ namespace ExoftOfficeManager.Application
 
         void Remove(T entity);
 
-        Task Remove(long id);
+        void Remove(long id);
 
         Task Commit();
     }

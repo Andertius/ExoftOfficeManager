@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.31727.386
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExoftOfficeManager", "ExoftOfficeManager\ExoftOfficeManager.csproj", "{CBEFF66E-1D00-4266-816A-39FE92D3FC41}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExoftOfficeManager.Domian", "ExoftOfficeManager.Domain\ExoftOfficeManager.Domian.csproj", "{9FCEFBF3-2331-4DE8-B1BD-FDD2BCAE5D03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExoftOfficeManager.Domain", "ExoftOfficeManager.Domain\ExoftOfficeManager.Domain.csproj", "{9FCEFBF3-2331-4DE8-B1BD-FDD2BCAE5D03}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExoftOfficeManager.Infrastructure", "ExoftOfficeManager.Infrastructure\ExoftOfficeManager.Infrastructure.csproj", "{22871775-10E1-4672-8EA8-3A98CD88272A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExoftOfficeManager.Application", "ExoftOfficeManager.Application\ExoftOfficeManager.Application.csproj", "{52EC517D-B1FA-4FF7-8A10-6E79173B5118}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExoftOfficeManager.Application", "ExoftOfficeManager.Application\ExoftOfficeManager.Application.csproj", "{52EC517D-B1FA-4FF7-8A10-6E79173B5118}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,14 +4,16 @@ using ExoftOfficeManager.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ExoftOfficeManager.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211022095224_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,19 +37,13 @@ namespace ExoftOfficeManager.Infrastructure.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DayNumber")
-                        .HasColumnType("int");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.Property<long?>("UserId")
+                    b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("WorkPlaceId")
+                    b.Property<long>("WorkPlaceId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -81,7 +77,7 @@ namespace ExoftOfficeManager.Infrastructure.Migrations
                     b.Property<string>("MeetingPurpose")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("OwnerId")
+                    b.Property<long>("OwnerId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("RoomNumber")
@@ -204,12 +200,16 @@ namespace ExoftOfficeManager.Infrastructure.Migrations
             modelBuilder.Entity("ExoftOfficeManager.Domain.Entities.Booking", b =>
                 {
                     b.HasOne("ExoftOfficeManager.Domain.Entities.User", "User")
-                        .WithMany("Bookings")
-                        .HasForeignKey("UserId");
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ExoftOfficeManager.Domain.Entities.WorkPlace", "WorkPlace")
                         .WithMany("Bookings")
-                        .HasForeignKey("WorkPlaceId");
+                        .HasForeignKey("WorkPlaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
 
@@ -220,7 +220,9 @@ namespace ExoftOfficeManager.Infrastructure.Migrations
                 {
                     b.HasOne("ExoftOfficeManager.Domain.Entities.User", "Owner")
                         .WithMany("OwnerMeetings")
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Owner");
                 });
@@ -272,8 +274,6 @@ namespace ExoftOfficeManager.Infrastructure.Migrations
 
             modelBuilder.Entity("ExoftOfficeManager.Domain.Entities.User", b =>
                 {
-                    b.Navigation("Bookings");
-
                     b.Navigation("NotRequiredUserMeetings");
 
                     b.Navigation("OwnerMeetings");

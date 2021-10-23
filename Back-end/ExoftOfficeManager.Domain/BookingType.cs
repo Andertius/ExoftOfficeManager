@@ -1,12 +1,11 @@
 ﻿namespace ExoftOfficeManager.Domain
 {
-    public enum WorkPlaceStatus
+    public enum BookingType
     {
         Available,
         Booked,
         BookedPermanently,
         FirstHalfBooked,
-        OnHold,
         SecondHalfBooked,
     }
 }

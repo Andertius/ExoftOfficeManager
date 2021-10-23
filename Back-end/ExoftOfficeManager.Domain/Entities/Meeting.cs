@@ -14,8 +14,6 @@ namespace ExoftOfficeManager.Domain.Entities
         public string MeetingPurpose { get; set; }
 
 
-        public long OwnerId { get; set; }
-
         public User Owner { get; set; }
 
         public ICollection<RequiredUserMeeting> RequiredUserMeetings { get; set; }

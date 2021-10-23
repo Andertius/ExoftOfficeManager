@@ -14,11 +14,11 @@ namespace ExoftOfficeManager.Application.Services
         public UserService(IRepository<User> repository)
             => _repository = repository;
 
-        public async Task<User> Find(long id, IEnumerable<string> inclusion)
-            => await _repository.Find(id, inclusion);
+        public async Task<User> Find(long id)
+            => await _repository.Find(id);
 
-        public IEnumerable<User> GetAll(IEnumerable<string> inclusion)
-            => _repository.GetAll(inclusion).ToList();
+        public IEnumerable<User> GetAll()
+            => _repository.GetAll().ToList();
         
         public async Task Add(User user)
         {

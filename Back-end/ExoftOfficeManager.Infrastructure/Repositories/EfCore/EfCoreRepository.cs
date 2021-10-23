@@ -19,7 +19,7 @@ namespace ExoftOfficeManager.Infrastructure.Repositories.EfCore
             _context = context;
         }
 
-        public virtual IQueryable<TEntity> GetAll(IEnumerable<string> include)
+        public virtual IQueryable<TEntity> GetAll()
         {
             return _context.Set<TEntity>();
         }
@@ -35,7 +35,7 @@ namespace ExoftOfficeManager.Infrastructure.Repositories.EfCore
             await _context.SaveChangesAsync();
         }
 
-        public virtual async Task<TEntity> Find(long id, IEnumerable<string> include)
+        public virtual async Task<TEntity> Find(long id)
         {
             return await _context.Set<TEntity>().FindAsync(id);
         }
@@ -48,9 +48,9 @@ namespace ExoftOfficeManager.Infrastructure.Repositories.EfCore
             }
         }
 
-        public virtual async Task Remove(long id)
+        public virtual void Remove(long id)
         {
-            var entity = await _context.Set<TEntity>().FindAsync(id);
+            var entity = _context.Set<TEntity>().Find(id);
 
             if (entity is not null)
             {

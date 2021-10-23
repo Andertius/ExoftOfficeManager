@@ -6,15 +6,14 @@ namespace ExoftOfficeManager.Domain.Entities
     {
         public DateTime Date { get; set; }
 
-        public WorkPlaceStatus Status { get; set; }
+        public BookingType Type { get; set; }
 
+        public BookingStatus Status { get; set; }
 
-        public long UserId { get; set; }
+        public int? DayNumber { get; set; }
+
 
         public User User { get; set; }
-
-
-        public long WorkPlaceId { get; set; }
 
         public WorkPlace WorkPlace { get; set; }
     }

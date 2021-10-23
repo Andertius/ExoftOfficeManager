@@ -47,26 +47,68 @@ namespace ExoftOfficeManager.Infrastructure
             if (!context.Meetings.Any())
             {
                 context.Meetings.AddRange(
-                    new Meeting { DateAndTime = new DateTime(2021, 10, 15, 10, 0, 0), Duration = new TimeSpan(0, 30, 0), RoomNumber = 1,
-                        MeetingPurpose = "Talk about the future", Owner = context.Users.FirstOrDefault(user => user.FullName == "Norbert Moses") },
+                    new Meeting
+                    {
+                        DateAndTime = new DateTime(2021, 10, 15, 10, 0, 0),
+                        Duration = new TimeSpan(0, 30, 0),
+                        RoomNumber = 1,
+                        MeetingPurpose = "Talk about the future",
+                        Owner = context.Users.FirstOrDefault(user => user.FullName == "Norbert Moses")
+                    },
 
-                    new Meeting { DateAndTime = new DateTime(2021, 10, 15, 10, 30, 0), Duration = new TimeSpan(0, 30, 0), RoomNumber = 1,
-                        MeetingPurpose = "Meeting with client", Owner = context.Users.FirstOrDefault(user => user.FullName == "John Doe") },
+                    new Meeting
+                    {
+                        DateAndTime = new DateTime(2021, 10, 15, 10, 30, 0),
+                        Duration = new TimeSpan(0, 30, 0),
+                        RoomNumber = 1,
+                        MeetingPurpose = "Meeting with client",
+                        Owner = context.Users.FirstOrDefault(user => user.FullName == "John Doe")
+                    },
 
-                    new Meeting { DateAndTime = new DateTime(2021, 10, 16, 11, 30, 0), Duration = new TimeSpan(0, 30, 0), RoomNumber = 1,
-                        MeetingPurpose = "Play call of duty", Owner = context.Users.FirstOrDefault(user => user.FullName == "Painis Dickens") },
+                    new Meeting
+                    {
+                        DateAndTime = new DateTime(2021, 10, 16, 11, 30, 0),
+                        Duration = new TimeSpan(0, 30, 0),
+                        RoomNumber = 1,
+                        MeetingPurpose = "Play call of duty",
+                        Owner = context.Users.FirstOrDefault(user => user.FullName == "Painis Dickens")
+                    },
 
-                    new Meeting { DateAndTime = new DateTime(2021, 10, 15, 12, 0, 0), Duration = new TimeSpan(2, 0, 0), RoomNumber = 1,
-                        MeetingPurpose = "Have some tea", Owner = context.Users.FirstOrDefault(user => user.FullName == "Pootis Pencer") },
+                    new Meeting
+                    {
+                        DateAndTime = new DateTime(2021, 10, 15, 12, 0, 0),
+                        Duration = new TimeSpan(2, 0, 0),
+                        RoomNumber = 1,
+                        MeetingPurpose = "Have some tea",
+                        Owner = context.Users.FirstOrDefault(user => user.FullName == "Pootis Pencer")
+                    },
 
-                    new Meeting { DateAndTime = new DateTime(2021, 10, 15, 10, 0, 0), Duration = new TimeSpan(0, 30, 0), RoomNumber = 2,
-                        MeetingPurpose = "To poop", Owner = context.Users.FirstOrDefault(user => user.FullName == "Bob") },
+                    new Meeting
+                    {
+                        DateAndTime = new DateTime(2021, 10, 15, 10, 0, 0),
+                        Duration = new TimeSpan(0, 30, 0),
+                        RoomNumber = 2,
+                        MeetingPurpose = "To poop",
+                        Owner = context.Users.FirstOrDefault(user => user.FullName == "Bob")
+                    },
 
-                    new Meeting { DateAndTime = new DateTime(2021, 10, 15, 11, 0, 0), Duration = new TimeSpan(1, 0, 0), RoomNumber = 2,
-                        MeetingPurpose = "Stand up comedy", Owner = context.Users.FirstOrDefault(user => user.FullName == "James Hetfield") },
+                    new Meeting
+                    {
+                        DateAndTime = new DateTime(2021, 10, 15, 11, 0, 0),
+                        Duration = new TimeSpan(1, 0, 0),
+                        RoomNumber = 2,
+                        MeetingPurpose = "Stand up comedy",
+                        Owner = context.Users.FirstOrDefault(user => user.FullName == "James Hetfield")
+                    },
 
-                    new Meeting { DateAndTime = new DateTime(2021, 10, 15, 13, 0, 0), Duration = new TimeSpan(1, 30, 0), RoomNumber = 2,
-                        MeetingPurpose = "Look at memes", Owner = context.Users.FirstOrDefault(user => user.FullName == "John Petrucci") }
+                    new Meeting
+                    {
+                        DateAndTime = new DateTime(2021, 10, 15, 13, 0, 0),
+                        Duration = new TimeSpan(1, 30, 0),
+                        RoomNumber = 2,
+                        MeetingPurpose = "Look at memes",
+                        Owner = context.Users.FirstOrDefault(user => user.FullName == "John Petrucci")
+                    }
                 );
 
                 context.SaveChanges();
@@ -75,38 +117,104 @@ namespace ExoftOfficeManager.Infrastructure
             if (!context.Bookings.Any())
             {
                 context.Bookings.AddRange(
-                    new Booking { Date = new DateTime(2021, 10, 10), User = context.Users.FirstOrDefault(user => user.FullName == "Norbert Moses"),
-                        Status = WorkPlaceStatus.BookedPermanently, WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 2) },
+                    new Booking
+                    {
+                        Date = new DateTime(2021, 10, 10),
+                        User = context.Users.FirstOrDefault(user => user.FullName == "Norbert Moses"),
+                        Type = BookingType.BookedPermanently,
+                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 2),
+                        Status = BookingStatus.Approved
+                    },
 
-                    new Booking { Date = new DateTime(2021, 10, 10), User = context.Users.FirstOrDefault(user => user.FullName == "John Doe"),
-                        Status = WorkPlaceStatus.BookedPermanently, WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 3) },
+                    new Booking
+                    {
+                        Date = new DateTime(2021, 10, 10),
+                        User = context.Users.FirstOrDefault(user => user.FullName == "John Doe"),
+                        Type = BookingType.BookedPermanently,
+                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 3),
+                        Status = BookingStatus.Approved
+                    },
 
-                    new Booking { Date = new DateTime(2021, 10, 10), User = context.Users.FirstOrDefault(user => user.FullName == "Bob"),
-                        Status = WorkPlaceStatus.FirstHalfBooked, WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 5) },
+                    new Booking
+                    {
+                        Date = new DateTime(2021, 10, 10),
+                        User = context.Users.FirstOrDefault(user => user.FullName == "Bob"),
+                        Type = BookingType.FirstHalfBooked,
+                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 5),
+                        Status = BookingStatus.Approved
+                    },
 
-                    new Booking { Date = new DateTime(2021, 10, 10), User = context.Users.FirstOrDefault(user => user.FullName == "James Hetfield"),
-                        Status = WorkPlaceStatus.Booked, WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 4 && x.PlaceNumber == 1) },
+                    new Booking
+                    {
+                        Date = new DateTime(2021, 10, 10),
+                        User = context.Users.FirstOrDefault(user => user.FullName == "James Hetfield"),
+                        Type = BookingType.Booked,
+                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 4 && x.PlaceNumber == 1),
+                        Status = BookingStatus.Approved
+                    },
 
-                    new Booking { Date = new DateTime(2021, 10, 10), User = context.Users.FirstOrDefault(user => user.FullName == "Painis Dickens"),
-                        Status = WorkPlaceStatus.Booked, WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 4 && x.PlaceNumber == 5) },
+                    new Booking
+                    {
+                        Date = new DateTime(2021, 10, 10),
+                        User = context.Users.FirstOrDefault(user => user.FullName == "Painis Dickens"),
+                        Type = BookingType.Booked,
+                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 4 && x.PlaceNumber == 5),
+                        Status = BookingStatus.Approved
+                    },
 
-                    new Booking { Date = new DateTime(2021, 10, 11), User = context.Users.FirstOrDefault(user => user.FullName == "Pootis Pencer"),
-                        Status = WorkPlaceStatus.FirstHalfBooked, WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 1) },
+                    new Booking
+                    {
+                        Date = new DateTime(2021, 10, 11),
+                        User = context.Users.FirstOrDefault(user => user.FullName == "Pootis Pencer"),
+                        Type = BookingType.FirstHalfBooked,
+                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 1),
+                        Status = BookingStatus.Approved
+                    },
 
-                    new Booking { Date = new DateTime(2021, 10, 11), User = context.Users.FirstOrDefault(user => user.FullName == "Bob"),
-                        Status = WorkPlaceStatus.SecondHalfBooked, WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 1) },
+                    new Booking
+                    {
+                        Date = new DateTime(2021, 10, 11),
+                        User = context.Users.FirstOrDefault(user => user.FullName == "Bob"),
+                        Type = BookingType.SecondHalfBooked,
+                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 1),
+                        Status = BookingStatus.Approved
+                    },
 
-                    new Booking { Date = new DateTime(2021, 10, 11), User = context.Users.FirstOrDefault(user => user.FullName == "Norbert Moses"),
-                        Status = WorkPlaceStatus.BookedPermanently, WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 2) },
+                    new Booking
+                    {
+                        Date = new DateTime(2021, 10, 11),
+                        User = context.Users.FirstOrDefault(user => user.FullName == "Norbert Moses"),
+                        Type = BookingType.BookedPermanently,
+                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 2),
+                        Status = BookingStatus.Approved
+                    },
 
-                    new Booking { Date = new DateTime(2021, 10, 11), User = context.Users.FirstOrDefault(user => user.FullName == "John Doe"),
-                        Status = WorkPlaceStatus.BookedPermanently, WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 3)  },
+                    new Booking
+                    {
+                        Date = new DateTime(2021, 10, 11),
+                        User = context.Users.FirstOrDefault(user => user.FullName == "John Doe"),
+                        Type = BookingType.BookedPermanently,
+                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 3),
+                        Status = BookingStatus.Approved
+                    },
 
-                    new Booking { Date = new DateTime(2021, 10, 11), User = context.Users.FirstOrDefault(user => user.FullName == "John Petrucci"),
-                        Status = WorkPlaceStatus.Booked, WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 4) },
+                    new Booking
+                    {
+                        Date = new DateTime(2021, 10, 11),
+                        User = context.Users.FirstOrDefault(user => user.FullName == "John Petrucci"),
+                        Type = BookingType.Booked,
+                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 4),
+                        Status = BookingStatus.Approved
+                    },
 
-                    new Booking { Date = new DateTime(2021, 10, 11), User = context.Users.FirstOrDefault(user => user.FullName == "Painis Dickens"),
-                        Status = WorkPlaceStatus.Booked, WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 4 && x.PlaceNumber == 5)  }
+                    new Booking
+                    {
+                        Date = new DateTime(2021, 10, 11),
+                        User = context.Users.FirstOrDefault(user => user.FullName == "Painis Dickens"),
+                        Type = BookingType.Booked,
+                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 4 && x.PlaceNumber == 5),
+                        Status = BookingStatus.Approved
+                    }
                 );
 
                 context.SaveChanges();

@@ -11,6 +11,8 @@ namespace ExoftOfficeManager.Domain.Entities
         public UserRole Role { get; set; }
 
 
+        public ICollection<Booking> Bookings { get; set; }
+
         public ICollection<Meeting> OwnerMeetings { get; set; }
 
         public ICollection<RequiredUserMeeting> RequiredUserMeetings { get; set; }

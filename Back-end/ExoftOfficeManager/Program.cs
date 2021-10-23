@@ -22,8 +22,8 @@ namespace ExoftOfficeManager
         {
             using var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            SeedData.EnsurePopulated(dbContext);
             dbContext.Database.Migrate();
+            SeedData.EnsurePopulated(dbContext);
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

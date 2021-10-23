@@ -8,9 +8,9 @@ namespace ExoftOfficeManager.Application.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<User> Find(long id, IEnumerable<string> inclusion);
+        Task<User> Find(long id);
 
-        IEnumerable<User> GetAll(IEnumerable<string> inclusion);
+        IEnumerable<User> GetAll();
 
         Task Add(User user);
     }

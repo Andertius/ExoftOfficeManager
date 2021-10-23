@@ -23,8 +23,7 @@ namespace ExoftOfficeManager.Infrastructure
         {
             modelBuilder.Entity<Meeting>()
                 .HasOne(x => x.Owner)
-                .WithMany(x => x.OwnerMeetings)
-                .HasForeignKey(x => x.OwnerId);
+                .WithMany(x => x.OwnerMeetings);
 
 
             modelBuilder.Entity<RequiredUserMeeting>()

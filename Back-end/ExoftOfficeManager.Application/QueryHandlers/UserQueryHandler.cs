@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.QueryHandlers.Interfaces;
@@ -11,14 +9,17 @@ namespace ExoftOfficeManager.Application.QueryHandlers
 {
     public class UserQueryHandler : IUserQueryHandler
     {
-        public Task<User> FindQuery(long id)
+        private readonly IRepository<User> _repository;
+
+        public UserQueryHandler(IRepository<User> repo)
         {
-            throw new NotImplementedException();
+            _repository = repo;
         }
 
+        public async Task<User> FindQuery(long id)
+            => await _repository.Find(id);
+
         public IEnumerable<User> GetAllQuery()
-        {
-            throw new NotImplementedException();
-        }
+            => _repository.GetAll().ToList();
     }
 }

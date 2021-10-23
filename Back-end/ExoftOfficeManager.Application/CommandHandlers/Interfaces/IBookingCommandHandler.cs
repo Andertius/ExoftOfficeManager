@@ -9,8 +9,8 @@ namespace ExoftOfficeManager.Application.CommandHandlers.Interfaces
     {
         Task RemoveCommand(long bookingId);
 
-        Task<Booking> UpdateCommand(Booking booking);
+        Task UpdateCommand(Booking booking);
 
-        Task<Booking> UpdateCommand(long id, BookingStatus status);
+        Task UpdateCommand(long id, BookingStatus status);
     }
 }

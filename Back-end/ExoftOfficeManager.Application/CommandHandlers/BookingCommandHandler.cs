@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.CommandHandlers.Interfaces;
 using ExoftOfficeManager.Domain;
@@ -12,19 +8,32 @@ namespace ExoftOfficeManager.Application.CommandHandlers
 {
     public class BookingCommandHandler : IBookingCommandHandler
     {
-        public Task RemoveCommand(long bookingId)
+        private readonly IRepository<Booking> _repository;
+
+        public BookingCommandHandler(IRepository<Booking> repo)
         {
-            throw new NotImplementedException();
+            _repository = repo;
         }
 
-        public Task<Booking> UpdateCommand(Booking booking)
+        public async Task RemoveCommand(long bookingId)
         {
-            throw new NotImplementedException();
+            _repository.Remove(bookingId);
+            await _repository.Commit();
         }
 
-        public Task<Booking> UpdateCommand(long id, BookingStatus status)
+        public async Task UpdateCommand(Booking booking)
         {
-            throw new NotImplementedException();
+            _repository.Update(booking);
+            await _repository.Commit();
+        }
+
+        public async Task UpdateCommand(long id, BookingStatus status)
+        {
+            var result = await _repository.Find(id);
+            result.Status = status;
+
+            _repository.Update(result);
+            await _repository.Commit();
         }
     }
 }

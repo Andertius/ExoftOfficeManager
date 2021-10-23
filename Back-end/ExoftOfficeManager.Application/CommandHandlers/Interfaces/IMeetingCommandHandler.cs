@@ -6,9 +6,9 @@ namespace ExoftOfficeManager.Application.CommandHandlers.Interfaces
 {
     public interface IMeetingCommandHandler
     {
-        Task<bool> AddCommand(Meeting meet);
+        Task AddCommand(Meeting meet);
 
-        Task<Meeting> UpdateCommand(Meeting meet);
+        Task UpdateCommand(Meeting meet);
 
         Task RemoveCommand(long meetingId);
     }

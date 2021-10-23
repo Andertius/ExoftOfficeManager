@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.CommandHandlers.Interfaces;
@@ -11,19 +10,44 @@ namespace ExoftOfficeManager.Application.CommandHandlers
 {
     public class MeetingCommandHandler : IMeetingCommandHandler
     {
-        public Task<bool> AddCommand(Meeting meet)
+        private readonly IRepository<Meeting> _repository;
+
+        public async Task AddCommand(Meeting meet)
         {
-            throw new NotImplementedException();
+            if (meet.DateAndTime.TimeOfDay < new TimeSpan(10, 0, 0) ||
+                meet.DateAndTime.TimeOfDay >= new TimeSpan(18, 0, 0))
+            {
+                throw new ArgumentOutOfRangeException(nameof(meet), $"{meet.DateAndTime.TimeOfDay} is out of available time range (10 - 18)");
+            }
+
+            var meetings = _repository.GetAll().Where(meeting => meeting.DateAndTime.Date == meet.DateAndTime.Date).ToList();
+
+            if (!meetings.Where(meeting => CheckIfMeetingsIntersect(meeting, meet)).Any())
+            {
+                await _repository.Add(meet);
+                await _repository.Commit();
+            }
+
+            throw new ArgumentOutOfRangeException(nameof(meet), $"There is already a meeting at {meet.DateAndTime.TimeOfDay}");
         }
 
-        public Task RemoveCommand(long meetingId)
+        public async Task UpdateCommand(Meeting meet)
         {
-            throw new NotImplementedException();
+            _repository.Update(meet);
+            await _repository.Commit();
         }
 
-        public Task<Meeting> UpdateCommand(Meeting meet)
+        public async Task RemoveCommand(long meetingId)
         {
-            throw new NotImplementedException();
+            _repository.Remove(meetingId);
+            await _repository.Commit();
         }
+
+        private static bool CheckIfMeetingsIntersect(Meeting left, Meeting right)
+            => left.RoomNumber == right.RoomNumber &&
+               (left.DateAndTime.TimeOfDay <= right.DateAndTime.TimeOfDay &&
+               right.DateAndTime.TimeOfDay < left.DateAndTime.TimeOfDay + left.Duration ||
+               right.DateAndTime.TimeOfDay <= left.DateAndTime.TimeOfDay &&
+               left.DateAndTime.TimeOfDay < right.DateAndTime.TimeOfDay + right.Duration);
     }
 }

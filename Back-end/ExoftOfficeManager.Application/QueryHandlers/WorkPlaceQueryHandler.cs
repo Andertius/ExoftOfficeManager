@@ -1,34 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.QueryHandlers.Interfaces;
+using ExoftOfficeManager.Application.Utilities;
 using ExoftOfficeManager.Domain.Entities;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace ExoftOfficeManager.Application.QueryHandlers
 {
     public class WorkPlaceQueryHandler : IWorkPlaceQueryHandler
     {
-        public Task<WorkPlace> FindQuery(long id)
-        {
-            throw new NotImplementedException();
-        }
+        private readonly IRepository<WorkPlace> _repository;
 
-        public IEnumerable<WorkPlace> GetAllAvailableQuery(DateTime date)
+        public WorkPlaceQueryHandler(IRepository<WorkPlace> repo)
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<WorkPlace> GetAllBookedQuery(DateTime date)
-        {
-            throw new NotImplementedException();
+            _repository = repo;
         }
 
         public IEnumerable<WorkPlace> GetAllQuery()
-        {
-            throw new NotImplementedException();
-        }
+           => _repository.GetAll().ToList();
+
+        public IEnumerable<WorkPlace> GetAllBookedQuery(DateTime date)
+            => _repository.GetAll().Include(x => x.Bookings).ToList().Where(x => IsBookedHelper.IsBooked(x, date));
+
+        public IEnumerable<WorkPlace> GetAllAvailableQuery(DateTime date)
+            => _repository.GetAll().Include(x => x.Bookings).ToList().Where(x => !IsBookedHelper.IsBooked(x, date));
+
+        public async Task<WorkPlace> FindQuery(long id)
+            => await _repository.Find(id);
     }
 }

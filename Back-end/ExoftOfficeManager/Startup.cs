@@ -1,9 +1,5 @@
-using ExoftOfficeManager.Application;
-using ExoftOfficeManager.Application.Services;
-using ExoftOfficeManager.Application.Services.Interfaces;
-using ExoftOfficeManager.Domain.Entities;
+using ExoftOfficeManager.Extensions;
 using ExoftOfficeManager.Infrastructure;
-using ExoftOfficeManager.Infrastructure.Repositories.EfCore;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,22 +24,17 @@ namespace ExoftOfficeManager
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IMeetingService, MeetingService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IWorkPlaceService, WorkPlaceService>();
-            services.AddScoped<IBookingService, BookingService>();
-
-            services.AddScoped<IRepository<Meeting>, EfCoreMeetingRepository>();
-            services.AddScoped<IRepository<WorkPlace>, EfCoreWorkPlaceRepository>();
-            services.AddScoped<IRepository<Booking>, EfCoreBookingRepository>();
-            services.AddScoped<IRepository<User>, EfCoreUserRepository>();
+            services.AddServices();
+            services.AddRepositories();
+            services.AddCommandHandlers();
+            services.AddQueryHandlers();
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyConnection")));
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             );
 
             services.AddSwaggerGen(c =>

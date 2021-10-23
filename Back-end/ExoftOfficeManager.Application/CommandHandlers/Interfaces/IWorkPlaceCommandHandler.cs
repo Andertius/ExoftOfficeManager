@@ -10,6 +10,8 @@ namespace ExoftOfficeManager.Application.CommandHandlers.Interfaces
     {
         Task BookCommand(long id, long developerId, BookingType status, DateTime date, int days);
 
-        Task<WorkPlace> UpdateCommand(WorkPlace place);
+        Task UpdateCommand(WorkPlace place);
+
+        Task RemoveCommand(long id);
     }
 }

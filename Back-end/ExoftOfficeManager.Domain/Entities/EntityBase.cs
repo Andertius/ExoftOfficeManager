@@ -4,7 +4,7 @@ namespace ExoftOfficeManager.Domain.Entities
 {
     public abstract class EntityBase
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
         public DateTime DateCreated { get; set; }
 

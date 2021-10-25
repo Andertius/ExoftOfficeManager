@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,6 +17,11 @@ namespace ExoftOfficeManager.Application.CommandHandlers
                 meet.DateAndTime.TimeOfDay >= new TimeSpan(18, 0, 0))
             {
                 throw new ArgumentOutOfRangeException(nameof(meet), $"{meet.DateAndTime.TimeOfDay} is out of available time range (10 - 18)");
+            }
+
+            if (meet.DateAndTime.TimeOfDay.TotalMinutes % 30 != 0)
+            {
+                throw new ArgumentException($"Duration of the meeting '{meet.DateAndTime.TimeOfDay}' is not divisible by 30");
             }
 
             var meetings = _repository.GetAll().Where(meeting => meeting.DateAndTime.Date == meet.DateAndTime.Date).ToList();

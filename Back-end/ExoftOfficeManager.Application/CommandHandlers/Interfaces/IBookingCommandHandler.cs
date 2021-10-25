@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-using ExoftOfficeManager.Domain;
+using ExoftOfficeManager.Domain.Enums;
 using ExoftOfficeManager.Domain.Entities;
 
 namespace ExoftOfficeManager.Application.CommandHandlers.Interfaces

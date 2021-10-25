@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 
-using ExoftOfficeManager.Domain;
 using ExoftOfficeManager.Domain.Entities;
+using ExoftOfficeManager.Domain.Enums;
 
 namespace ExoftOfficeManager.Application.Utilities
 {

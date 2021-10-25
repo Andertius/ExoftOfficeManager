@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.CommandHandlers.Interfaces;
 using ExoftOfficeManager.Application.Utilities;
-using ExoftOfficeManager.Domain;
 using ExoftOfficeManager.Domain.Entities;
+using ExoftOfficeManager.Domain.Enums;
 
 namespace ExoftOfficeManager.Application.CommandHandlers
 {

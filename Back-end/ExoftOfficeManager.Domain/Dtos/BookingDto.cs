@@ -2,10 +2,12 @@
 
 using ExoftOfficeManager.Domain.Enums;
 
-namespace ExoftOfficeManager.Domain.Entities
+namespace ExoftOfficeManager.Domain.Dtos
 {
-    public class Booking : EntityBase
+    public class BookingDto
     {
+        public Guid Id { get; set; }
+
         public DateTime Date { get; set; }
 
         public BookingType Type { get; set; }
@@ -14,9 +16,8 @@ namespace ExoftOfficeManager.Domain.Entities
 
         public int? DayNumber { get; set; }
 
+        public UserDto User { get; set; }
 
-        public User User { get; set; }
-
-        public WorkPlace WorkPlace { get; set; }
+        public WorkPlaceDto WorkPlace { get; set; }
     }
 }

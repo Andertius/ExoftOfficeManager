@@ -7,6 +7,7 @@ using ExoftOfficeManager.Application.CommandHandlers.Interfaces;
 using ExoftOfficeManager.Application.QueryHandlers.Interfaces;
 using ExoftOfficeManager.Application.Services.Interfaces;
 using ExoftOfficeManager.Domain.Entities;
+using ExoftOfficeManager.Domain.Enums;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,14 +53,14 @@ namespace ExoftOfficeManager.Controllers
         [HttpGet("approve-booking")]
         public async Task<IActionResult> ApproveBooking(long id)
         {
-            await _bookingCommands.UpdateCommand(id, Domain.BookingStatus.Approved);
+            await _bookingCommands.UpdateCommand(id, BookingStatus.Approved);
             return Ok();
         }
 
         [HttpGet("decline-booking")]
         public async Task<IActionResult> DeclineBooking(long id)
         {
-            await _bookingCommands.UpdateCommand(id, Domain.BookingStatus.Declined);
+            await _bookingCommands.UpdateCommand(id, BookingStatus.Declined);
             return Ok();
         }
     }

@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.QueryHandlers.Interfaces;
-using ExoftOfficeManager.Domain;
 using ExoftOfficeManager.Domain.Entities;
+using ExoftOfficeManager.Domain.Enums;
 
 namespace ExoftOfficeManager.Application.QueryHandlers
 {

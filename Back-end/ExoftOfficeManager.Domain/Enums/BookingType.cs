@@ -1,4 +1,4 @@
-﻿namespace ExoftOfficeManager.Domain
+﻿namespace ExoftOfficeManager.Domain.Enums
 {
     public enum BookingType
     {

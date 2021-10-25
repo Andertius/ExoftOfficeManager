@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.CommandHandlers.Interfaces;
 using ExoftOfficeManager.Application.QueryHandlers.Interfaces;
-using ExoftOfficeManager.Domain;
+using ExoftOfficeManager.Domain.Enums;
 
 using Microsoft.AspNetCore.Mvc;
 

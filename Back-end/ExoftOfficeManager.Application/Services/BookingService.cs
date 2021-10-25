@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.Services.Interfaces;
-using ExoftOfficeManager.Domain;
 using ExoftOfficeManager.Domain.Entities;
+using ExoftOfficeManager.Domain.Enums;
 
 namespace ExoftOfficeManager.Application.Services
 {

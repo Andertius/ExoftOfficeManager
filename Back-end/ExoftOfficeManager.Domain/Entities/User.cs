@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using ExoftOfficeManager.Domain.Enums;
+
 namespace ExoftOfficeManager.Domain.Entities
 {
     public class User : EntityBase

@@ -19,8 +19,8 @@ namespace ExoftOfficeManager.Domain.Dtos
 
         public User Owner { get; set; }
 
-        public ICollection<User> RequiredUsers { get; set; }
+        public ICollection<UserDto> RequiredUsers { get; set; }
         
-        public ICollection<User> NonRequiredUsers { get; set; }
+        public ICollection<UserDto> NonRequiredUsers { get; set; }
     }
 }

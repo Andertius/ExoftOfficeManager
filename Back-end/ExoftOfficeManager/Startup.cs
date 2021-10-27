@@ -1,5 +1,9 @@
+using System.Reflection;
+
 using ExoftOfficeManager.Extensions;
 using ExoftOfficeManager.Infrastructure;
+
+using MediatR;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +32,8 @@ namespace ExoftOfficeManager
             services.AddRepositories();
             services.AddCommandHandlers();
             services.AddQueryHandlers();
+
+            services.AddMediatR(Assembly.LoadFrom("ExoftOfficeManager.Application"));
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyConnection")));

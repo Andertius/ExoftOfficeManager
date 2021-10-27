@@ -10,7 +10,7 @@ namespace ExoftOfficeManager.Domain.Dtos
 
         public string FullName { get; set; }
 
-        public string Avatar { get; set; }
+        public string AvatarUrl { get; set; }
 
         public UserRole Role { get; set; }
     }

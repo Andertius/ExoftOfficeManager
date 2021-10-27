@@ -2,7 +2,10 @@
 using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.CommandHandlers.Interfaces;
+using ExoftOfficeManager.Application.QueryHandlers;
 using ExoftOfficeManager.Application.QueryHandlers.Interfaces;
+
+using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,16 +19,26 @@ namespace ExoftOfficeManager.Controllers
 
         private readonly IBookingCommandHandler _bookingCommands;
         private readonly IBookingQueryHandler _bookingQueries;
+        private readonly IMediator _mediator;
 
-        public BookingController(IBookingCommandHandler commands, IBookingQueryHandler queries)
+        public BookingController(IBookingCommandHandler commands, IBookingQueryHandler queries, IMediator mediator)
         {
             _bookingCommands = commands;
             _bookingQueries = queries;
+            _mediator = mediator;
         }
 
-        [HttpGet("get-all-users-bookings")]
-        public async Task<IActionResult> GetAllUsersBookings(long devId)
-            => await Task.Run(() => Ok(_bookingQueries.GetAllUserBookedQuery(devId)));
+        [HttpGet("bookings")]
+        public async Task<IActionResult> GetBookings([FromQuery] DateTime bookingDate)
+        {
+            var bookings = await _mediator.Send(new GetBookingsQuery(bookingDate));
+
+            return Ok(bookings);
+        }
+
+        [HttpGet("users/{userId}/bookings")]
+        public async Task<IActionResult> GetAllUsersBookings(long userId)
+            => await Task.Run(() => Ok(_bookingQueries.GetAllUserBookedQuery(userId)));
 
         [HttpGet("cancel-booking")]
         public async Task<IActionResult> RemoveBooking(long placeId, DateTime date, long devId)

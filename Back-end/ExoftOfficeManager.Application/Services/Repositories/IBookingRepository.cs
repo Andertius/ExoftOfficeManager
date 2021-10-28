@@ -15,9 +15,11 @@ namespace ExoftOfficeManager.Application.Services.Repositories
 
         Task<BookingDto> FindById(Guid id);
 
-        void Remove(Guid id);
+        Task AddBooking(BookingDto bookingDto);
 
-        void Update(BookingDto bookingDto);
+        void RemoveBooking(Guid id);
+
+        void UpdateBooking(BookingDto bookingDto);
 
         Task Commit();
     }

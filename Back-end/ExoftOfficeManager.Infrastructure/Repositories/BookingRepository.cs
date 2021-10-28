@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ExoftOfficeManager.Application.Mappers;
 using ExoftOfficeManager.Application.Services.Repositories;
 using ExoftOfficeManager.Domain.Dtos;
+using ExoftOfficeManager.Domain.Entities;
 using ExoftOfficeManager.Domain.Enums;
 
 using Microsoft.EntityFrameworkCore;
@@ -55,12 +56,18 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
             return BookingMapper.MapIntoDto(result);
         }
 
-        public void Remove(Guid id)
+        public void RemoveBooking(Guid id)
         {
             _context.Remove(id);
         }
 
-        public void Update(BookingDto bookingDto)
+        //TODO ask why this code throws an exception
+        public async Task AddBooking(BookingDto bookingDto)
+        {
+            await _context.Bookings.AddAsync(BookingMapper.MapFromDto(bookingDto));
+        }
+
+        public void UpdateBooking(BookingDto bookingDto)
         {
             var bookingModel = BookingMapper.MapFromDto(bookingDto);
             _context.Bookings.Update(bookingModel);

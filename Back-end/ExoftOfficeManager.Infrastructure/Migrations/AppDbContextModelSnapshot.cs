@@ -21,10 +21,9 @@ namespace ExoftOfficeManager.Infrastructure.Migrations
 
             modelBuilder.Entity("ExoftOfficeManager.Domain.Entities.Booking", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -44,11 +43,11 @@ namespace ExoftOfficeManager.Infrastructure.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<long?>("UserId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<long?>("WorkPlaceId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("WorkPlaceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -61,10 +60,9 @@ namespace ExoftOfficeManager.Infrastructure.Migrations
 
             modelBuilder.Entity("ExoftOfficeManager.Domain.Entities.Meeting", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateAndTime")
                         .HasColumnType("datetime2");
@@ -81,8 +79,8 @@ namespace ExoftOfficeManager.Infrastructure.Migrations
                     b.Property<string>("MeetingPurpose")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("OwnerId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("RoomNumber")
                         .HasColumnType("int");
@@ -96,10 +94,9 @@ namespace ExoftOfficeManager.Infrastructure.Migrations
 
             modelBuilder.Entity("ExoftOfficeManager.Domain.Entities.NotRequiredUserMeeting", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -110,24 +107,29 @@ namespace ExoftOfficeManager.Infrastructure.Migrations
                     b.Property<long>("MeetingId")
                         .HasColumnType("bigint");
 
+                    b.Property<Guid?>("MeetingId1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("NotRequiredUserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MeetingId");
+                    b.HasIndex("MeetingId1");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("NotRequiredUserId");
 
                     b.ToTable("NotRequiredUserMeeting");
                 });
 
             modelBuilder.Entity("ExoftOfficeManager.Domain.Entities.RequiredUserMeeting", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -138,24 +140,29 @@ namespace ExoftOfficeManager.Infrastructure.Migrations
                     b.Property<long>("MeetingId")
                         .HasColumnType("bigint");
 
+                    b.Property<Guid?>("MeetingId1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("RequiredUserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MeetingId");
+                    b.HasIndex("MeetingId1");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("RequiredUserId");
 
                     b.ToTable("RequiredUserMeeting");
                 });
 
             modelBuilder.Entity("ExoftOfficeManager.Domain.Entities.User", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Avatar")
                         .HasColumnType("nvarchar(max)");
@@ -179,10 +186,9 @@ namespace ExoftOfficeManager.Infrastructure.Migrations
 
             modelBuilder.Entity("ExoftOfficeManager.Domain.Entities.WorkPlace", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -229,15 +235,13 @@ namespace ExoftOfficeManager.Infrastructure.Migrations
                 {
                     b.HasOne("ExoftOfficeManager.Domain.Entities.Meeting", "Meeting")
                         .WithMany("NotRequiredUserMeetings")
-                        .HasForeignKey("MeetingId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("MeetingId1")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("ExoftOfficeManager.Domain.Entities.User", "NotRequiredUser")
                         .WithMany("NotRequiredUserMeetings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("NotRequiredUserId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Meeting");
 
@@ -248,15 +252,13 @@ namespace ExoftOfficeManager.Infrastructure.Migrations
                 {
                     b.HasOne("ExoftOfficeManager.Domain.Entities.Meeting", "Meeting")
                         .WithMany("RequiredUserMeetings")
-                        .HasForeignKey("MeetingId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("MeetingId1")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("ExoftOfficeManager.Domain.Entities.User", "RequiredUser")
                         .WithMany("RequiredUserMeetings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("RequiredUserId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Meeting");
 

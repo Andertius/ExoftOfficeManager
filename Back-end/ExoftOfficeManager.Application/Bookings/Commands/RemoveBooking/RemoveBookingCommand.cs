@@ -8,9 +8,22 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.RemoveBooking
     {
         public RemoveBookingCommand(Guid id)
         {
-            Id = id;
+            BookingId = id;
         }
 
-        public Guid Id { get; set; }
+        public RemoveBookingCommand(Guid placeId, DateTime date, Guid userId)
+        {
+            PlaceId = placeId;
+            Date = date;
+            UserId = userId;
+        }
+
+        public Guid BookingId { get; set; }
+
+        public Guid PlaceId { get; set; }
+
+        public DateTime Date { get; set; }
+
+        public Guid UserId { get; set; }
     }
 }

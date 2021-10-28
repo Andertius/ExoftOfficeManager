@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 
-using ExoftOfficeManager.Domain.Entities;
+using ExoftOfficeManager.Domain.Dtos;
 using ExoftOfficeManager.Domain.Enums;
 
 namespace ExoftOfficeManager.Application.Utilities
 {
     internal static class IsBookedHelper
     {
-        public static bool IsBooked(WorkPlace place, DateTime date)
+        public static bool IsBooked(WorkPlaceDto place, DateTime date)
         {
             var bookings = place.Bookings.Where(x => x.Date == date);
 

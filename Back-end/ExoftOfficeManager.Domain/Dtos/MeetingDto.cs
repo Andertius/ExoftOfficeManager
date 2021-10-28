@@ -17,7 +17,7 @@ namespace ExoftOfficeManager.Domain.Dtos
 
         public string MeetingPurpose { get; set; }
 
-        public User Owner { get; set; }
+        public UserDto Owner { get; set; }
 
         public ICollection<UserDto> RequiredUsers { get; set; }
         

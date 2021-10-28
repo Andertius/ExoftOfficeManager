@@ -20,9 +20,4 @@
     <ProjectReference Include="..\ExoftOfficeManager.Domain\ExoftOfficeManager.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Meetings\Commands\" />
-    <Folder Include="Meetings\Queries\" />
-  </ItemGroup>
-
 </Project>

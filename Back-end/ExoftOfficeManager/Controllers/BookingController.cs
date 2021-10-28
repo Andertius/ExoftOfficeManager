@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Application.CommandHandlers.Interfaces;
-using ExoftOfficeManager.Application.QueryHandlers;
-using ExoftOfficeManager.Application.QueryHandlers.Interfaces;
+using ExoftOfficeManager.Application.Bookings.Commands.RemoveBooking;
+using ExoftOfficeManager.Application.Bookings.Queries.FindBooking;
+using ExoftOfficeManager.Application.Bookings.Queries.GetBookings;
+using ExoftOfficeManager.Application.Bookings.Queries.GetBookingsByUser;
 
 using MediatR;
 
@@ -15,16 +16,10 @@ namespace ExoftOfficeManager.Controllers
     [ApiController]
     public class BookingController : ControllerBase
     {
-        //private readonly IBookingService _bookingService;
-
-        private readonly IBookingCommandHandler _bookingCommands;
-        private readonly IBookingQueryHandler _bookingQueries;
         private readonly IMediator _mediator;
 
-        public BookingController(IBookingCommandHandler commands, IBookingQueryHandler queries, IMediator mediator)
+        public BookingController(IMediator mediator)
         {
-            _bookingCommands = commands;
-            _bookingQueries = queries;
             _mediator = mediator;
         }
 
@@ -32,28 +27,35 @@ namespace ExoftOfficeManager.Controllers
         public async Task<IActionResult> GetBookings([FromQuery] DateTime bookingDate)
         {
             var bookings = await _mediator.Send(new GetBookingsQuery(bookingDate));
-
             return Ok(bookings);
         }
 
         [HttpGet("users/{userId}/bookings")]
-        public async Task<IActionResult> GetAllUsersBookings(long userId)
-            => await Task.Run(() => Ok(_bookingQueries.GetAllUserBookedQuery(userId)));
-
-        [HttpGet("cancel-booking")]
-        public async Task<IActionResult> RemoveBooking(long placeId, DateTime date, long devId)
+        public async Task<IActionResult> GetBookingsByUser([FromRoute] Guid userId)
         {
-            var booking = await _bookingQueries.FindQuery(placeId, date, devId);
-            await _bookingCommands.RemoveCommand(booking.Id);
+            var bookings = await _mediator.Send(new GetBookingsByUserQuery(userId));
+            return Ok(bookings);
+        }
+
+        [HttpGet("bookings/cancel-booking")]
+        public async Task<IActionResult> RemoveBooking(Guid placeId, DateTime date, Guid userId)
+        {
+            await _mediator.Send(new RemoveBookingCommand(placeId, date, userId));
             return Ok();
         }
 
-        [HttpGet("find-booking-by-id")]
-        public async Task<IActionResult> FindBooking(long bookingId)
-            => Ok(await _bookingQueries.FindQuery(bookingId));
+        [HttpGet("bookings/find-booking-by-id")]
+        public async Task<IActionResult> FindBooking(Guid bookingId)
+        {
+            var booking = await _mediator.Send(new FindBookingQuery(bookingId));
+            return Ok(booking);
+        }
 
-        [HttpGet("find-booking")]
-        public async Task<IActionResult> FindBooking(long placeId, DateTime date, long userId)
-            => Ok(await _bookingQueries.FindQuery(placeId, date, userId));
+        [HttpGet("bookings/find-booking")]
+        public async Task<IActionResult> FindBooking(Guid placeId, DateTime date, Guid userId)
+        {
+            var booking = await _mediator.Send(new FindBookingQuery(placeId, date, userId));
+            return Ok(booking);
+        }
     }
 }

@@ -14,6 +14,15 @@ namespace ExoftOfficeManager.Application.Mappers
             var config = new MapperConfiguration(cfg =>
                 cfg.CreateMap<Meeting, MeetingDto>()
 
+                .ForMember(nameof(MeetingDto.Owner),
+                    src => src.MapFrom(x => new UserDto
+                    {
+                        AvatarUrl = x.Owner.Avatar,
+                        FullName = x.Owner.FullName,
+                        Id = x.Owner.Id,
+                        Role = x.Owner.Role,
+                    }))
+
                 .ForMember(nameof(MeetingDto.RequiredUsers), x =>
                     x.MapFrom(src =>
                         src.RequiredUserMeetings
@@ -22,7 +31,13 @@ namespace ExoftOfficeManager.Application.Mappers
                 .ForMember(nameof(MeetingDto.NonRequiredUsers), x =>
                     x.MapFrom(src =>
                         src.NotRequiredUserMeetings
-                        .Select(x => x.NotRequiredUser))));
+                        .Select(x => new UserDto
+                        {
+                            AvatarUrl = x.NotRequiredUser.Avatar,
+                            FullName = x.NotRequiredUser.FullName,
+                            Id = x.NotRequiredUser.Id,
+                            Role = x.NotRequiredUser.Role,
+                        }))));
 
             IMapper mapper = config.CreateMapper();
             return mapper.Map<Meeting, MeetingDto>(source);
@@ -31,7 +46,16 @@ namespace ExoftOfficeManager.Application.Mappers
         public static Meeting MapFromDto(MeetingDto source)
         {
             var config = new MapperConfiguration(cfg =>
-                cfg.CreateMap<MeetingDto, Meeting>());
+                cfg.CreateMap<MeetingDto, Meeting>()
+
+                .ForMember(nameof(Meeting.Owner),
+                    src => src.MapFrom(x => new User
+                    {
+                        Avatar = x.Owner.AvatarUrl,
+                        FullName = x.Owner.FullName,
+                        Id = x.Owner.Id,
+                        Role = x.Owner.Role,
+                    })));
 
             IMapper mapper = config.CreateMapper();
             return mapper.Map<MeetingDto, Meeting>(source);

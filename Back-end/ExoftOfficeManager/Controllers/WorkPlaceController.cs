@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Application.CommandHandlers.Interfaces;
-using ExoftOfficeManager.Application.QueryHandlers.Interfaces;
+using ExoftOfficeManager.Application.Bookings.Commands.AddBooking;
+using ExoftOfficeManager.Application.WorkPlaces.Queries.FindWorkPlaceById;
+using ExoftOfficeManager.Application.WorkPlaces.Queries.GetAvailableWorkPlaces;
+using ExoftOfficeManager.Application.WorkPlaces.Queries.GetBookedWorkPlaces;
+using ExoftOfficeManager.Application.WorkPlaces.Queries.GetWorkPlaces;
 using ExoftOfficeManager.Domain.Enums;
+
+using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,45 +18,45 @@ namespace ExoftOfficeManager.Controllers
     [Route("[controller]")]
     public class WorkPlaceController : ControllerBase
     {
-        //private readonly IWorkPlaceService _placeService;
+        private readonly IMediator _mediator;
 
-        private readonly IWorkPlaceCommandHandler _placeCommands;
-        private readonly IWorkPlaceQueryHandler _placeQueries;
-
-        public WorkPlaceController(IWorkPlaceCommandHandler commands, IWorkPlaceQueryHandler queries)
+        public WorkPlaceController(IMediator mediator)
         {
-            _placeCommands = commands;
-            _placeQueries = queries;
+            _mediator = mediator;
         }
 
-        [HttpGet("get-all")]
+        [HttpGet("work-places/get-all")]
         public async Task<IActionResult> GetAll()
-            => await Task.Run(() => Ok(_placeQueries.GetAllQuery()));
-
-        [HttpGet("get-all-booked")]
-        public async Task<IActionResult> GetBooked(DateTime date)
-            => await Task.Run(() => Ok(_placeQueries.GetAllBookedQuery(date.Date)));
-
-        [HttpGet("get-all-available")]
-        public async Task<IActionResult> GetAllAvailable(DateTime date)
-            => await Task.Run(() => Ok(_placeQueries.GetAllAvailableQuery(date.Date)));
-
-        [HttpGet("find-workplace")]
-        public async Task<IActionResult> FindWorkPlace(long placeId)
-            => Ok(await _placeQueries.FindQuery(placeId));
-
-        [HttpGet("book")]
-        public async Task<IActionResult> Book(long placeId, long devId, BookingType bookingType, DateTime date, int days)
         {
-            if (days > 1)
-            {
-                await _placeCommands.BookCommand(placeId, devId, bookingType, date, days);
-            }
-            else
-            {
-                await _placeCommands.BookCommand(placeId, devId, bookingType, date, days);
-            }
+            var places = await _mediator.Send(new GetWorkPlacesQuery());
+            return Ok(places);
+        }
 
+        [HttpGet("work-places/get-all-booked")]
+        public async Task<IActionResult> GetBooked(DateTime date)
+        {
+            var places = await _mediator.Send(new GetBookedWorkPlacesQuery(date.Date));
+            return Ok(places);
+        }
+
+        [HttpGet("work-places/get-all-available")]
+        public async Task<IActionResult> GetAllAvailable(DateTime date)
+        {
+            var places = await _mediator.Send(new GetAvailableWorkPlacesQuery(date.Date));
+            return Ok(places);
+        }
+
+        [HttpGet("work-places/{placeId}/find-workplace")]
+        public async Task<IActionResult> FindWorkPlace(Guid placeId)
+        {
+            var workPlace = await _mediator.Send(new FindWorkPlaceByIdQuery(placeId));
+            return Ok(workPlace);
+        }
+
+        [HttpGet("work-places/book")]
+        public async Task<IActionResult> Book(Guid placeId, Guid devId, BookingType bookingType, DateTime date, int days)
+        {
+            await _mediator.Send(new AddBookingCommand(placeId, devId, bookingType, date, days));
             return Ok();
         }
     }

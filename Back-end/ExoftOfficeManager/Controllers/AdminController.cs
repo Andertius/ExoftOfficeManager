@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Application.CommandHandlers.Interfaces;
-using ExoftOfficeManager.Application.QueryHandlers.Interfaces;
-using ExoftOfficeManager.Application.Services.Interfaces;
-using ExoftOfficeManager.Domain.Entities;
+using ExoftOfficeManager.Application.Bookings.Commands.UpdateBooking;
+using ExoftOfficeManager.Application.Bookings.Queries.FindBooking;
+using ExoftOfficeManager.Application.Bookings.Queries.GetPendingBookings;
+using ExoftOfficeManager.Application.Meetings.Commands.RemoveMeeting;
 using ExoftOfficeManager.Domain.Enums;
+
+using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,50 +17,42 @@ namespace ExoftOfficeManager.Controllers
     [Route("[controller]")]
     public class AdminController : ControllerBase
     {
-        //private readonly IMeetingService _meetingService;
-        //private readonly IBookingService _bookingService;
+        private readonly IMediator _mediator;
 
-        private readonly IMeetingCommandHandler _meetingCommands;
-        private readonly IMeetingQueryHandler _meetingQueries;
-
-        private readonly IBookingCommandHandler _bookingCommands;
-        private readonly IBookingQueryHandler _bookingQueries;
-
-        public AdminController(
-            IMeetingCommandHandler meetingCommands,
-            IMeetingQueryHandler meetingQueries,
-            IBookingCommandHandler bookingCommands,
-            IBookingQueryHandler bookingQueries)
+        public AdminController(IMediator mediator)
         {
-            _meetingCommands = meetingCommands;
-            _meetingQueries = meetingQueries;
-            
-            _bookingCommands = bookingCommands;
-            _bookingQueries = bookingQueries;
+            _mediator = mediator;
         }
 
-        [HttpGet("cancel-meeting")]
-        public async Task<IActionResult> CancelMeeting(long meetingId)
+        [HttpGet("meetings/{meetingId}/cancel-meeting")]
+        public async Task<IActionResult> CancelMeeting([FromRoute] Guid meetingId)
         {
-            await _meetingCommands.RemoveCommand(meetingId);
+            await _mediator.Send(new RemoveMeetingCommand(meetingId));
             return Ok();
         }
 
-        [HttpGet("get-all-pending-bookings")]
+        [HttpGet("bookings/get-all-pending-bookings")]
         public async Task<IActionResult> GetAllPendingBooking()
-            => await Task.Run(() => Ok(_bookingQueries.GetAllPendingBookingsQuery()));
-
-        [HttpGet("approve-booking")]
-        public async Task<IActionResult> ApproveBooking(long id)
         {
-            await _bookingCommands.UpdateCommand(id, BookingStatus.Approved);
+            await _mediator.Send(new GetPendingBookingsQuery());
             return Ok();
         }
 
-        [HttpGet("decline-booking")]
-        public async Task<IActionResult> DeclineBooking(long id)
+        [HttpGet("bookings/{bookingId}/approve-booking")]
+        public async Task<IActionResult> ApproveBooking([FromRoute] Guid bookingId)
         {
-            await _bookingCommands.UpdateCommand(id, BookingStatus.Declined);
+            var booking = await _mediator.Send(new FindBookingQuery(bookingId));
+            booking.Booking.Status = BookingStatus.Approved;
+            await _mediator.Send(new UpdateBookingCommand(booking.Booking));
+            return Ok();
+        }
+
+        [HttpGet("bookings/{bookingId}/decline-booking")]
+        public async Task<IActionResult> DeclineBooking([FromRoute] Guid bookingId)
+        {
+            var booking = await _mediator.Send(new FindBookingQuery(bookingId));
+            booking.Booking.Status = BookingStatus.Declined;
+            await _mediator.Send(new UpdateBookingCommand(booking.Booking));
             return Ok();
         }
     }

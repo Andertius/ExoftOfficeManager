@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Application.Services;
+using ExoftOfficeManager.Application.Services.Repositories;
 
 using MediatR;
 
@@ -20,9 +20,9 @@ namespace ExoftOfficeManager.Application.Bookings.Queries.GetBookingsByUser
             _repository = repo;
         }
 
-        public Task<BookingsQueryResponse[]> Handle(GetBookingsByUserQuery request, CancellationToken cancellationToken)
+        public async Task<BookingsQueryResponse[]> Handle(GetBookingsByUserQuery request, CancellationToken cancellationToken)
         {
-            var getPendingBookingsDtos = await _repository.GetBookingsByUser();
+            var getPendingBookingsDtos = await _repository.GetBookingsByUser(request.UserId);
             return getPendingBookingsDtos.Select(b => new BookingsQueryResponse(b)).ToArray();
         }
     }

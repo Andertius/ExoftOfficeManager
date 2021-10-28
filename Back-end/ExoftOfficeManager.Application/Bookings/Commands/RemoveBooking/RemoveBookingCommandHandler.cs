@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.Services.Repositories;
@@ -10,18 +12,28 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.RemoveBooking
     public class RemoveBookingCommandHandler : IRequestHandler<RemoveBookingCommand>
     {
         private readonly IBookingRepository _repository;
+        private readonly IWorkPlaceRepository _placeRepository;
 
-        public RemoveBookingCommandHandler(IBookingRepository repo)
+        public RemoveBookingCommandHandler(IBookingRepository repo, IWorkPlaceRepository placeRepo)
         {
             _repository = repo;
+            _placeRepository = placeRepo;
         }
 
-        public Task<Unit> Handle(RemoveBookingCommand request, CancellationToken cancellationToken)
+        //TODO ask why User is not getting included
+        public async Task<Unit> Handle(RemoveBookingCommand request, CancellationToken cancellationToken)
         {
-            _repository.Remove(request.Id);
-            _repository.Commit();
+            if (request.BookingId == Guid.Empty)
+            {
+                var placeDto = await _placeRepository.FindWorkPlaceById(request.PlaceId);
+                var booking = placeDto.Bookings.FirstOrDefault(x => x.Date == request.Date && x.User.Id == request.UserId);
+                request.BookingId = booking.Id;
+            }
 
-            return Unit.Task;
+            _repository.RemoveBooking(request.BookingId);
+            await _repository.Commit();
+
+            return Unit.Value;
         }
     }
 }

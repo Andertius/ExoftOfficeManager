@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Application.Services;
+using ExoftOfficeManager.Application.Services.Repositories;
 
 using MediatR;
 

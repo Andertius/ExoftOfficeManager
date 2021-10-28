@@ -6,11 +6,11 @@ namespace ExoftOfficeManager.Application.Bookings.Queries.GetBookings
 {
     public class GetBookingsQuery : IRequest<BookingsQueryResponse[]>
     {
-        public GetBookingsQuery(DateTime date)
+        public GetBookingsQuery(DateTime meetingDate)
         {
-            Date = date;
+            BookingDate = meetingDate;
         }
 
-        public DateTime Date { get; private set; }
+        public DateTime BookingDate { get; private set; }
     }
 }

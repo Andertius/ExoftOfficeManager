@@ -18,7 +18,7 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.UpdateBooking
 
         public Task<Unit> Handle(UpdateBookingCommand request, CancellationToken cancellationToken)
         {
-            _repository.Update(request.Booking);
+            _repository.UpdateBooking(request.Booking);
             _repository.Commit();
 
             return Unit.Task;

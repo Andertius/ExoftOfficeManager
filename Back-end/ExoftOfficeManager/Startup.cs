@@ -17,11 +17,6 @@ using Newtonsoft.Json;
 
 namespace ExoftOfficeManager
 {
-    //TODO ask what Issuer Audiuence Lifetime and SecretKey are
-    //TODO ask whether we REALLY need to create a custom identity server
-    //TODO ask about how to correctly deal with my User model and IdentityUser
-    //TODO ask about Unit Of Work
-    //TODO ask if i properly implemented the CQRS pattern
     public class Startup
     {
         public Startup(IConfiguration configuration)

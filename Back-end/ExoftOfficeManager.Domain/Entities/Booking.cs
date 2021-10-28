@@ -15,7 +15,11 @@ namespace ExoftOfficeManager.Domain.Entities
         public int? DayNumber { get; set; }
 
 
+        public Guid UserId { get; set; }
+
         public User User { get; set; }
+
+        public Guid WorkPlaceId { get; set; }
 
         public WorkPlace WorkPlace { get; set; }
     }

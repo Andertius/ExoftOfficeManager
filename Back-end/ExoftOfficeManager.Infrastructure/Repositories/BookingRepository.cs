@@ -61,7 +61,6 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
             _context.Remove(id);
         }
 
-        //TODO ask why this code throws an exception
         public async Task AddBooking(BookingDto bookingDto)
         {
             await _context.Bookings.AddAsync(BookingMapper.MapFromDto(bookingDto));

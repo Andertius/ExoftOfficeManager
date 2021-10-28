@@ -18,7 +18,7 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.RemoveBooking
             UserId = userId;
         }
 
-        public Guid BookingId { get; set; }
+        public Guid? BookingId { get; set; }
 
         public Guid PlaceId { get; set; }
 

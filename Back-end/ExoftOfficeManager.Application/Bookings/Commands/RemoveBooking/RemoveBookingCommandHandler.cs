@@ -20,17 +20,16 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.RemoveBooking
             _placeRepository = placeRepo;
         }
 
-        //TODO ask why User is not getting included
         public async Task<Unit> Handle(RemoveBookingCommand request, CancellationToken cancellationToken)
         {
-            if (request.BookingId == Guid.Empty)
+            if (request.BookingId is null)
             {
                 var placeDto = await _placeRepository.FindWorkPlaceById(request.PlaceId);
                 var booking = placeDto.Bookings.FirstOrDefault(x => x.Date == request.Date && x.User.Id == request.UserId);
                 request.BookingId = booking.Id;
             }
 
-            _repository.RemoveBooking(request.BookingId);
+            _repository.RemoveBooking(request.BookingId.Value);
             await _repository.Commit();
 
             return Unit.Value;

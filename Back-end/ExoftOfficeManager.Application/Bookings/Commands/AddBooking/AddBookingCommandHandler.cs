@@ -30,14 +30,9 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
 
         public async Task<Unit> Handle(AddBookingCommand request, CancellationToken cancellationToken)
         {
-            if (request.BookingType == BookingType.Available)
-            {
-                throw new ArgumentException($"Cannot book with status '{request.BookingType}'.");
-            }
-
             var place = await _placeRepository.FindWorkPlaceById(request.PlaceId);
 
-            if (IsBookedHelper.IsBooked(place, request.BookingDate))
+            if (BookingHelper.IsBooked(place, request.BookingDate))
             {
                 throw new ArgumentException($"The work place with id = {request.PlaceId} is already fully booked");
             }
@@ -48,30 +43,13 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
                     throw new ArgumentException($"Cannot book with status '{request.BookingType}', because the work place already has that status.");
                 }
 
-                if (request.DayNumber > 1)
-                {
-                    for (int i = 0; i < request.DayNumber; i++)
-                    {
-                        var booking = new BookingDto
-                        {
-                            Date = new DateTime(request.BookingDate.Year, request.BookingDate.Month, request.BookingDate.Day + i),
-                            Type = request.BookingType,
-                            Status = BookingStatus.Pending,
-                            User = await _userRepository.FindUserById(request.UserId),
-                            WorkPlace = await _placeRepository.FindWorkPlaceById(request.PlaceId),
-                            DayNumber = request.DayNumber,
-                        };
-
-                        await _repository.AddBooking(booking);
-                    }
-                }
-                else
+                for (int i = 0; i < request.DayNumber; i++)
                 {
                     var booking = new BookingDto
                     {
-                        Date = new DateTime(request.BookingDate.Year, request.BookingDate.Month, request.BookingDate.Day),
+                        Date = new DateTime(request.BookingDate.Year, request.BookingDate.Month, request.BookingDate.Day + i),
                         Type = request.BookingType,
-                        Status = BookingStatus.Approved,
+                        Status = request.DayNumber > 1 ? BookingStatus.Pending : BookingStatus.Approved,
                         User = await _userRepository.FindUserById(request.UserId),
                         WorkPlace = await _placeRepository.FindWorkPlaceById(request.PlaceId),
                         DayNumber = request.DayNumber,
@@ -81,7 +59,6 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
                 }
 
                 await _repository.Commit();
-
                 return Unit.Value;
             }
         }

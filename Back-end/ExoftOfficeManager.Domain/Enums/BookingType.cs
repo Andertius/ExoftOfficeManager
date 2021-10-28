@@ -2,10 +2,9 @@
 {
     public enum BookingType
     {
-        Available,
-        Booked,
-        BookedPermanently,
-        FirstHalfBooked,
-        SecondHalfBooked,
+        Booked = 1,
+        BookedPermanently = 2,
+        FirstHalfBooked = 3,
+        SecondHalfBooked = 4,
     }
 }

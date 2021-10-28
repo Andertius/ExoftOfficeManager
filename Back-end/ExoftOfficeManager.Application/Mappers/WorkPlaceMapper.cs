@@ -22,6 +22,7 @@ namespace ExoftOfficeManager.Application.Mappers
                         Id = booking.Id,
                         Status = booking.Status,
                         Type = booking.Type,
+                        //User = new booking.User,
                     }))));
 
             IMapper mapper = config.CreateMapper();

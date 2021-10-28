@@ -10,6 +10,12 @@ namespace ExoftOfficeManager.Application.Validators
         {
             RuleFor(x => x.Date)
                 .NotEmpty();
+
+            RuleFor(x => x.Type)
+                .IsInEnum();
+
+            RuleFor(x => x.Status)
+                .IsInEnum();
         }
     }
 }

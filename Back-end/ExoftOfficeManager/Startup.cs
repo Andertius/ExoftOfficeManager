@@ -1,7 +1,11 @@
 using System.Reflection;
 
+using ExoftOfficeManager.Application.Services;
+using ExoftOfficeManager.Application.Validators.Commands.Bookings;
 using ExoftOfficeManager.Extensions;
 using ExoftOfficeManager.Infrastructure;
+
+using FluentValidation;
 
 using MediatR;
 
@@ -29,11 +33,16 @@ namespace ExoftOfficeManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRepositories();
-            //services.AddRepositories();
-            //services.AddCommands();
-            //services.AddQueries();
 
+            #region MediatR
             services.AddMediatR(Assembly.Load("ExoftOfficeManager.Application"));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+            AssemblyScanner.FindValidatorsInAssemblyContaining<AddBookingCommandValidator>()
+                .ForEach(result => {
+                    services.AddTransient(result.InterfaceType, result.ValidatorType);
+                });
+            #endregion
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyConnection")));

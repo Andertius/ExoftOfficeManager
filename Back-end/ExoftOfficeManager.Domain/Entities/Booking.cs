@@ -4,9 +4,10 @@ using ExoftOfficeManager.Domain.Enums;
 
 namespace ExoftOfficeManager.Domain.Entities
 {
+    //TODO rework dates (start date - end date)
     public class Booking : EntityBase
     {
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         public BookingType Type { get; set; }
 

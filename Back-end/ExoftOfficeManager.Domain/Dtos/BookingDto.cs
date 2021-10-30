@@ -8,7 +8,7 @@ namespace ExoftOfficeManager.Domain.Dtos
     {
         public Guid Id { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         public BookingType Type { get; set; }
 
@@ -16,7 +16,11 @@ namespace ExoftOfficeManager.Domain.Dtos
 
         public int? DayNumber { get; set; }
 
+        public Guid UserId { get; set; }
+
         public UserDto User { get; set; }
+
+        public Guid WorkPlaceId { get; set; }
 
         public WorkPlaceDto WorkPlace { get; set; }
     }

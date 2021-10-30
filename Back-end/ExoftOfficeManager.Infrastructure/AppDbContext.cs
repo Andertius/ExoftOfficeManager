@@ -21,6 +21,17 @@ namespace ExoftOfficeManager.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Booking>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.Bookings)
+                .HasForeignKey(x => x.UserId);
+
+            modelBuilder.Entity<Booking>()
+                .HasOne(x => x.WorkPlace)
+                .WithMany(x => x.Bookings)
+                .HasForeignKey(x => x.WorkPlaceId);
+
+
             modelBuilder.Entity<Meeting>()
                 .HasOne(x => x.Owner)
                 .WithMany(x => x.OwnerMeetings);

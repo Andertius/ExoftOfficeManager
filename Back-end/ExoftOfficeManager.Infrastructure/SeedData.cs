@@ -119,7 +119,7 @@ namespace ExoftOfficeManager.Infrastructure
                 context.Bookings.AddRange(
                     new Booking
                     {
-                        Date = new DateTime(2021, 10, 10),
+                        Date = null,
                         User = context.Users.FirstOrDefault(user => user.FullName == "Norbert Moses"),
                         Type = BookingType.BookedPermanently,
                         WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 2),
@@ -128,7 +128,7 @@ namespace ExoftOfficeManager.Infrastructure
 
                     new Booking
                     {
-                        Date = new DateTime(2021, 10, 10),
+                        Date = null,
                         User = context.Users.FirstOrDefault(user => user.FullName == "John Doe"),
                         Type = BookingType.BookedPermanently,
                         WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 3),
@@ -177,24 +177,6 @@ namespace ExoftOfficeManager.Infrastructure
                         User = context.Users.FirstOrDefault(user => user.FullName == "Bob"),
                         Type = BookingType.SecondHalfBooked,
                         WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 1),
-                        Status = BookingStatus.Approved
-                    },
-
-                    new Booking
-                    {
-                        Date = new DateTime(2021, 10, 11),
-                        User = context.Users.FirstOrDefault(user => user.FullName == "Norbert Moses"),
-                        Type = BookingType.BookedPermanently,
-                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 2),
-                        Status = BookingStatus.Approved
-                    },
-
-                    new Booking
-                    {
-                        Date = new DateTime(2021, 10, 11),
-                        User = context.Users.FirstOrDefault(user => user.FullName == "John Doe"),
-                        Type = BookingType.BookedPermanently,
-                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 3),
                         Status = BookingStatus.Approved
                     },
 

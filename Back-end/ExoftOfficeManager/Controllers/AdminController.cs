@@ -24,36 +24,36 @@ namespace ExoftOfficeManager.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("meetings/{meetingId}/cancel-meeting")]
+        [HttpDelete("meetings/{meetingId}/cancel-meeting")]
         public async Task<IActionResult> CancelMeeting([FromRoute] Guid meetingId)
         {
             await _mediator.Send(new RemoveMeetingCommand(meetingId));
-            return Ok();
+            return NoContent();
         }
 
-        [HttpGet("bookings/get-all-pending-bookings")]
+        [HttpGet("bookings/pending-bookings")]
         public async Task<IActionResult> GetAllPendingBooking()
         {
             await _mediator.Send(new GetPendingBookingsQuery());
-            return Ok();
+            return NoContent();
         }
 
-        [HttpGet("bookings/{bookingId}/approve-booking")]
+        [HttpPut("bookings/{bookingId}/approve-booking")]
         public async Task<IActionResult> ApproveBooking([FromRoute] Guid bookingId)
         {
             var booking = await _mediator.Send(new FindBookingQuery(bookingId));
             booking.Booking.Status = BookingStatus.Approved;
             await _mediator.Send(new UpdateBookingCommand(booking.Booking));
-            return Ok();
+            return NoContent();
         }
 
-        [HttpGet("bookings/{bookingId}/decline-booking")]
+        [HttpPut("bookings/{bookingId}/decline-booking")]
         public async Task<IActionResult> DeclineBooking([FromRoute] Guid bookingId)
         {
             var booking = await _mediator.Send(new FindBookingQuery(bookingId));
             booking.Booking.Status = BookingStatus.Declined;
             await _mediator.Send(new UpdateBookingCommand(booking.Booking));
-            return Ok();
+            return NoContent();
         }
     }
 }

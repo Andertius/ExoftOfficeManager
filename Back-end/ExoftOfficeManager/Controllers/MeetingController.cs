@@ -7,6 +7,7 @@ using ExoftOfficeManager.Application.Meetings.Queries.FindMeetingById;
 using ExoftOfficeManager.Application.Meetings.Queries.GetAvailableHours;
 using ExoftOfficeManager.Application.Meetings.Queries.GetMeetings;
 using ExoftOfficeManager.Domain.Dtos;
+using ExoftOfficeManager.Requests;
 
 using MediatR;
 
@@ -25,47 +26,47 @@ namespace ExoftOfficeManager.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("meetings/get-all-meetings")]
-        public async Task<IActionResult> GetAllMeetings(DateTime date)
+        [HttpGet("meetings")]
+        public async Task<IActionResult> GetAllMeetings([FromQuery] DateTime date)
         {
             var meetings = await _mediator.Send(new GetMeetingsQuery(date.Date));
             return Ok(meetings);
         }
 
-        [HttpGet("meetings/get-all-available-hours")]
-        public async Task<IActionResult> GetAllAvailableHours(DateTime date, int room)
+        [HttpGet("meetings/available-hours")]
+        public async Task<IActionResult> GetAllAvailableHours([FromQuery] DateTime date, [FromQuery] int room)
         {
             var hours = await _mediator.Send(new GetAvailableHoursQuery(date.Date, room));
             return Ok(hours);
         }
 
-        [HttpGet("meetings/{meetingId}/find")]
-        public async Task<IActionResult> Find(Guid meetingId)
+        [HttpGet("meetings/{meetingId}/meeting")]
+        public async Task<IActionResult> Find([FromRoute] Guid meetingId)
         {
             var meeting = await _mediator.Send(new FindMeetingByIdQuery(meetingId));
             return Ok(meeting);
         }
 
-        [HttpGet("meetings/reserve-meeting")]
-        public async Task<IActionResult> ReserveMeeting(DateTime dateAndTime, int durationMins, int room, string purpose)
+        [HttpPost("meetings/{room}/reserve-meeting")]
+        public async Task<IActionResult> ReserveMeeting([FromBody] ReserveMeetingRequest request)
         {
             var meet = new MeetingDto
             {
-                DateAndTime = dateAndTime,
-                Duration = new TimeSpan(0, durationMins, 0),
-                RoomNumber = room,
-                MeetingPurpose = purpose,
+                DateAndTime = request.DateAndTime,
+                Duration = new TimeSpan(0, request.DurationMinutes, 0),
+                RoomNumber = request.RoomNumber,
+                MeetingPurpose = request.MeetingPurpose,
             };
 
             await _mediator.Send(new AddMeetingCommand(meet));
-            return Ok();
+            return NoContent();
         }
 
-        [HttpGet("meetings/{meetingId}/cancel-meeting")]
-        public async Task<IActionResult> CancelMeeting(Guid meetingId)
+        [HttpDelete("meetings/{meetingId}/cancel-meeting")]
+        public async Task<IActionResult> CancelMeeting([FromRoute] Guid meetingId)
         {
             await _mediator.Send(new RemoveMeetingCommand(meetingId));
-            return Ok();
+            return NoContent();
         }
     }
 }

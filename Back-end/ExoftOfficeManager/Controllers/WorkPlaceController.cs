@@ -7,6 +7,7 @@ using ExoftOfficeManager.Application.WorkPlaces.Queries.GetAvailableWorkPlaces;
 using ExoftOfficeManager.Application.WorkPlaces.Queries.GetBookedWorkPlaces;
 using ExoftOfficeManager.Application.WorkPlaces.Queries.GetWorkPlaces;
 using ExoftOfficeManager.Domain.Enums;
+using ExoftOfficeManager.Requests;
 
 using MediatR;
 
@@ -25,39 +26,47 @@ namespace ExoftOfficeManager.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("work-places/get-all")]
+        [HttpGet("work-places")]
         public async Task<IActionResult> GetAll()
         {
             var places = await _mediator.Send(new GetWorkPlacesQuery());
             return Ok(places);
         }
 
-        [HttpGet("work-places/get-all-booked")]
+        [HttpGet("workplaces/booked-work-places")]
         public async Task<IActionResult> GetBooked(DateTime date)
         {
             var places = await _mediator.Send(new GetBookedWorkPlacesQuery(date.Date));
             return Ok(places);
         }
 
-        [HttpGet("work-places/get-all-available")]
+        [HttpGet("workplaces/available-workplaces")]
         public async Task<IActionResult> GetAllAvailable(DateTime date)
         {
             var places = await _mediator.Send(new GetAvailableWorkPlacesQuery(date.Date));
             return Ok(places);
         }
 
-        [HttpGet("work-places/{placeId}/find-workplace")]
-        public async Task<IActionResult> FindWorkPlace(Guid placeId)
+        [HttpGet("workplaces/{placeId}/workplace")]
+        public async Task<IActionResult> FindWorkPlace([FromRoute] Guid placeId)
         {
             var workPlace = await _mediator.Send(new FindWorkPlaceByIdQuery(placeId));
             return Ok(workPlace);
         }
 
-        [HttpGet("work-places/book")]
-        public async Task<IActionResult> Book(Guid placeId, Guid devId, BookingType bookingType, DateTime date, int days)
+        [HttpPost("workplaces/{placeId}/book")]
+        public async Task<IActionResult> Book(
+            [FromRoute] Guid placeId,
+            [FromBody] BookWorkPlaceRequest request)
         {
-            await _mediator.Send(new AddBookingCommand(placeId, devId, bookingType, date, days));
-            return Ok();
+            await _mediator.Send(new AddBookingCommand(
+                placeId,
+                request.UserId,
+                request.BookingType,
+                request.BookingDate,
+                request.Days));
+
+            return NoContent();
         }
     }
 }

@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.Services.Repositories;
-using ExoftOfficeManager.Application.Utilities;
 using ExoftOfficeManager.Domain.Dtos;
 using ExoftOfficeManager.Domain.Enums;
 
@@ -30,13 +29,7 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
 
         public async Task<Unit> Handle(AddBookingCommand request, CancellationToken cancellationToken)
         {
-            var place = await _placeRepository.FindWorkPlaceById(request.PlaceId);
-
-            if (BookingHelper.IsBooked(place, request.BookingDate))
-            {
-                throw new ArgumentException($"The work place with id = {request.PlaceId} is already fully booked");
-            }
-            else
+            if (await _placeRepository.TryFindAvailableWorkPlace(request.PlaceId, request.BookingDate) is (true, var place))
             {
                 if (place.Bookings.Where(x => x.Date == request.BookingDate && x.Type == request.BookingType).Any())
                 {
@@ -47,11 +40,13 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
                 {
                     var booking = new BookingDto
                     {
-                        Date = new DateTime(request.BookingDate.Year, request.BookingDate.Month, request.BookingDate.Day + i),
+                        Date = request.BookingType == BookingType.BookedPermanently ? null
+                            : new DateTime(request.BookingDate.Year, request.BookingDate.Month, request.BookingDate.Day + i),
+
                         Type = request.BookingType,
                         Status = request.DayNumber > 1 ? BookingStatus.Pending : BookingStatus.Approved,
-                        User = await _userRepository.FindUserById(request.UserId),
-                        WorkPlace = await _placeRepository.FindWorkPlaceById(request.PlaceId),
+                        UserId = request.UserId,
+                        WorkPlaceId = request.PlaceId,
                         DayNumber = request.DayNumber,
                     };
 
@@ -61,6 +56,8 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
                 await _repository.Commit();
                 return Unit.Value;
             }
+
+            throw new ArgumentException($"The work place with id = '{request.PlaceId}' is already fully booked");
         }
     }
 }

@@ -91,28 +91,29 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
         //TODO figure out why TryFindAvailableWorkPlace doesn't work
         public async Task<(bool, WorkPlace)> TryFindAvailableWorkPlace(Guid placeId, DateTime bookingDate)
         {
-            var place = _context.WorkPlaces
+            var place = (await _context.WorkPlaces
                 .Include(x => x.Bookings.Where(x => !x.Date.HasValue || x.Date == bookingDate))
                 .ThenInclude(x => x.User)
+                .ToListAsync())
                 .Where(work =>
                     !work.Bookings.Any() ||
                     !work.Bookings.Any(x => x.Type == BookingType.BookedPermanently) &&
                     !work.Bookings.Any(x => x.Type == BookingType.Booked) &&
-                    !work.Bookings.All(x => x.Type == BookingType.FirstHalfBooked || x.Type == BookingType.SecondHalfBooked));
-                //.FirstOrDefaultAsync(x => x.Id == placeId);
+                    !work.Bookings.All(x => x.Type == BookingType.FirstHalfBooked || x.Type == BookingType.SecondHalfBooked))
+                .FirstOrDefault(x => x.Id == placeId);
 
-            var a = _context.WorkPlaces
-                .Include(x => x.Bookings.Where(x => !x.Date.HasValue || x.Date == bookingDate))
-                .ThenInclude(x => x.User)
-                .ToList()
-                .Where(work =>
-                    !work.Bookings.Any() ||
-                    !work.Bookings.Any(x => x.Type == BookingType.BookedPermanently) &&
-                    !work.Bookings.Any(x => x.Type == BookingType.Booked) &&
-                    !work.Bookings.All(x => x.Type == BookingType.FirstHalfBooked || x.Type == BookingType.SecondHalfBooked));
+            //var a = _context.WorkPlaces
+            //    .Include(x => x.Bookings.Where(x => !x.Date.HasValue || x.Date == bookingDate))
+            //    .ThenInclude(x => x.User)
+            //    .Count();
+                //.Where(work =>
+                //    !work.Bookings.Any() ||
+                //    !work.Bookings.Any(x => x.Type == BookingType.BookedPermanently) &&
+                //    !work.Bookings.Any(x => x.Type == BookingType.Booked) &&
+                //    !work.Bookings.All(x => x.Type == BookingType.FirstHalfBooked || x.Type == BookingType.SecondHalfBooked));
 
-            //return place is null ? (false, null) : (true, place);
-            throw new Exception();
+            return place is null ? (false, null) : (true, place);
+            //throw new Exception();
         }
 
         public void UpdateWorkPlace(WorkPlaceDto place)

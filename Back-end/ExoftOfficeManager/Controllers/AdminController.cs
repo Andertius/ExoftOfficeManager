@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using ExoftOfficeManager.Application.Bookings.Commands.ChangeBookingStatus;
 using ExoftOfficeManager.Application.Bookings.Commands.UpdateBooking;
 using ExoftOfficeManager.Application.Bookings.Queries.FindBooking;
 using ExoftOfficeManager.Application.Bookings.Queries.GetPendingBookings;
@@ -34,25 +35,21 @@ namespace ExoftOfficeManager.Controllers
         [HttpGet("bookings/pending-bookings")]
         public async Task<IActionResult> GetAllPendingBooking()
         {
-            await _mediator.Send(new GetPendingBookingsQuery());
-            return NoContent();
+            var pendingBookings = await _mediator.Send(new GetPendingBookingsQuery());
+            return Ok(pendingBookings);
         }
 
         [HttpPut("bookings/{bookingId}/approve-booking")]
         public async Task<IActionResult> ApproveBooking([FromRoute] Guid bookingId)
         {
-            var booking = await _mediator.Send(new FindBookingQuery(bookingId));
-            booking.Booking.Status = BookingStatus.Approved;
-            await _mediator.Send(new UpdateBookingCommand(booking.Booking));
+            await _mediator.Send(new ChangeBookingStatusCommand(bookingId, BookingStatus.Approved));
             return NoContent();
         }
 
         [HttpPut("bookings/{bookingId}/decline-booking")]
         public async Task<IActionResult> DeclineBooking([FromRoute] Guid bookingId)
         {
-            var booking = await _mediator.Send(new FindBookingQuery(bookingId));
-            booking.Booking.Status = BookingStatus.Declined;
-            await _mediator.Send(new UpdateBookingCommand(booking.Booking));
+            await _mediator.Send(new ChangeBookingStatusCommand(bookingId, BookingStatus.Declined));
             return NoContent();
         }
     }

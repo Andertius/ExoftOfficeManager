@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ExoftOfficeManager.Application.Mappers;
 using ExoftOfficeManager.Application.Services.Repositories;
 
 using MediatR;
@@ -29,8 +30,8 @@ namespace ExoftOfficeManager.Application.Bookings.Queries.FindBooking
                 request.BookingId = booking.Id;
             }
 
-            var getPendingBookingsDtos = await _repository.FindById(request.BookingId);
-            return new BookingsQueryResponse(getPendingBookingsDtos);
+            var getPendingBookings = await _repository.FindById(request.BookingId);
+            return new BookingsQueryResponse(BookingMapper.MapIntoDto(getPendingBookings));
         }
     }
 }

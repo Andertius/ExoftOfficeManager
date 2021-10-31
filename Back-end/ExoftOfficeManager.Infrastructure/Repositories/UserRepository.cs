@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ExoftOfficeManager.Application.Mappers;
 using ExoftOfficeManager.Application.Services.Repositories;
 using ExoftOfficeManager.Domain.Dtos;
+using ExoftOfficeManager.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -20,27 +21,26 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IList<UserDto>> GetAllUsers()
+        public async Task<IList<User>> GetAllUsers()
         {
             return await _context.Users
                 .Include(x => x.Bookings)
-                .Select(x => UserMapper.MapIntoDto(x))
                 .ToArrayAsync();
         }
 
-        public async Task<UserDto> FindUserById(Guid userId)
+        public async Task<User> FindUserById(Guid userId)
         {
             var user = await _context.Users
                 .Include(x => x.Bookings)
                 .ThenInclude(x => x.User)
                 .FirstOrDefaultAsync(x => x.Id == userId);
 
-            return UserMapper.MapIntoDto(user);
+            return user;
         }
 
-        public async Task AddUser(UserDto userDto)
+        public async Task AddUser(User user)
         {
-            await _context.Users.AddAsync(UserMapper.MapFromDto(userDto));
+            await _context.Users.AddAsync(user);
         }
 
         public async Task Commit()

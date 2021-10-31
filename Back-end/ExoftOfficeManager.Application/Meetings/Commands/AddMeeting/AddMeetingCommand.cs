@@ -1,4 +1,4 @@
-﻿using ExoftOfficeManager.Domain.Dtos;
+﻿using ExoftOfficeManager.Domain.Entities;
 
 using MediatR;
 
@@ -6,11 +6,11 @@ namespace ExoftOfficeManager.Application.Meetings.Commands.AddMeeting
 {
     public class AddMeetingCommand : IRequest
     {
-        public AddMeetingCommand(MeetingDto meeting)
+        public AddMeetingCommand(Meeting meeting)
         {
             Meeting = meeting;
         }
 
-        public MeetingDto Meeting { get; set; }
+        public Meeting Meeting { get; set; }
     }
 }

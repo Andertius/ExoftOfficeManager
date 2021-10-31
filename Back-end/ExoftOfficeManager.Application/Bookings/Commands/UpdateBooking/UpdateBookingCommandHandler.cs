@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
+using ExoftOfficeManager.Application.Mappers;
 using ExoftOfficeManager.Application.Services.Repositories;
 
 using MediatR;
@@ -18,7 +19,7 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.UpdateBooking
 
         public Task<Unit> Handle(UpdateBookingCommand request, CancellationToken cancellationToken)
         {
-            _repository.UpdateBooking(request.Booking);
+            _repository.UpdateBooking(BookingMapper.MapFromDto(request.Booking));
             _repository.Commit();
 
             return Unit.Task;

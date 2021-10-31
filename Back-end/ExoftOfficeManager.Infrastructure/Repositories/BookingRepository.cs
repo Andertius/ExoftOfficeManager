@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.Mappers;
 using ExoftOfficeManager.Application.Services.Repositories;
-using ExoftOfficeManager.Domain.Dtos;
 using ExoftOfficeManager.Domain.Entities;
 using ExoftOfficeManager.Domain.Enums;
 
@@ -21,39 +21,36 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
             _context = appDbContext;
         }
 
-        public async Task<BookingDto[]> GetAllBookings(DateTime bookingDate)
+        public async Task<IList<Booking>> GetAllBookings(DateTime bookingDate)
         {
             return await _context.Bookings
                 .Where(x => x.Date == bookingDate)
-                .Select(x => BookingMapper.MapIntoDto(x))
-                .ToArrayAsync();
+                .ToListAsync();
         }
 
-        public async Task<BookingDto[]> GetAllPendingBookings()
+        public async Task<IList<Booking>> GetAllPendingBookings()
         {
             return await _context.Bookings
                 .Where(x => x.Status == BookingStatus.Pending)
-                .Select(x => BookingMapper.MapIntoDto(x))
-                .ToArrayAsync();
+                .ToListAsync();
         }
 
-        public async Task<BookingDto[]> GetBookingsByUser(Guid userId)
+        public async Task<IList<Booking>> GetBookingsByUser(Guid userId)
         {
             return await _context.Bookings
                 .Include(x => x.User)
                 .Where(x => x.User.Id == userId)
-                .Select(x => BookingMapper.MapIntoDto(x))
-                .ToArrayAsync();
+                .ToListAsync();
         }
 
-        public async Task<BookingDto> FindById(Guid id)
+        public async Task<Booking> FindById(Guid id)
         {
             var result = await _context.Bookings
                 .Include(x => x.User)
                 .Include(x => x.WorkPlace)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            return BookingMapper.MapIntoDto(result);
+            return result;
         }
 
         public void RemoveBooking(Guid id)
@@ -61,15 +58,14 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
             _context.Remove(id);
         }
 
-        public async Task AddBooking(BookingDto bookingDto)
+        public async Task AddBooking(Booking booking)
         {
-            await _context.Bookings.AddAsync(BookingMapper.MapFromDto(bookingDto));
+            await _context.Bookings.AddAsync(booking);
         }
 
-        public void UpdateBooking(BookingDto bookingDto)
+        public void UpdateBooking(Booking booking)
         {
-            var bookingModel = BookingMapper.MapFromDto(bookingDto);
-            _context.Bookings.Update(bookingModel);
+            _context.Bookings.Update(booking);
         }
 
         public async Task Commit()

@@ -1,4 +1,4 @@
-﻿using ExoftOfficeManager.Domain.Dtos;
+﻿using ExoftOfficeManager.Domain.Entities;
 
 using MediatR;
 
@@ -6,11 +6,11 @@ namespace ExoftOfficeManager.Application.WorkPlaces.Commands.UpdateWorkPlace
 {
     public class UpdateWorkPlaceCommand : IRequest
     {
-        public UpdateWorkPlaceCommand(WorkPlaceDto place)
+        public UpdateWorkPlaceCommand(WorkPlace place)
         {
             WorkPlace = place;
         }
 
-        public WorkPlaceDto WorkPlace { get; set; }
+        public WorkPlace WorkPlace { get; set; }
     }
 }

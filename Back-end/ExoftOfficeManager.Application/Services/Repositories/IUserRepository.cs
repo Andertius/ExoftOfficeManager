@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Domain.Dtos;
+using ExoftOfficeManager.Domain.Entities;
 
 namespace ExoftOfficeManager.Application.Services.Repositories
 {
     public interface IUserRepository
     {
-        Task<IList<UserDto>> GetAllUsers();
+        Task<IList<User>> GetAllUsers();
 
-        Task<UserDto> FindUserById(Guid userId);
+        Task<User> FindUserById(Guid userId);
 
-        Task AddUser(UserDto userDto);
+        Task AddUser(User user);
 
         Task Commit();
     }

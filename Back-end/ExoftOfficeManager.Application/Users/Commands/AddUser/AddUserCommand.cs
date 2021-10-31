@@ -1,4 +1,4 @@
-﻿using ExoftOfficeManager.Domain.Dtos;
+﻿using ExoftOfficeManager.Domain.Entities;
 
 using MediatR;
 
@@ -6,11 +6,11 @@ namespace ExoftOfficeManager.Application.Users.Commands.AddUser
 {
     public class AddUserCommand : IRequest
     {
-        public AddUserCommand(UserDto user)
+        public AddUserCommand(User user)
         {
             User = user;
         }
 
-        public UserDto User { get; set; }
+        public User User { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.Services.Repositories;
 using ExoftOfficeManager.Domain.Dtos;
+using ExoftOfficeManager.Domain.Entities;
 
 using MediatR;
 
@@ -23,14 +24,14 @@ namespace ExoftOfficeManager.Application.Meetings.Queries.GetAvailableHours
 
         public async Task<GetAvailableHoursQueryResponse[]> Handle(GetAvailableHoursQuery request, CancellationToken cancellationToken)
         {
-            var meetingDtos = await _repository.GetAllMeetings(request.Date);
+            var meetings = await _repository.GetAllMeetings(request.Date);
             var availableHours = new List<TimeSpan>();
 
             for (int i = 0; i < 16; i++)
             {
                 var time = new TimeSpan(10 + i / 2, i % 2 == 0 ? 0 : 30, 0);
 
-                if (!meetingDtos.Where(meeting => CheckIfTimeIsInAMeeting(meeting, request.RoomNumber, time)).Any())
+                if (!meetings.Where(meeting => CheckIfTimeIsInAMeeting(meeting, request.RoomNumber, time)).Any())
                 {
                     availableHours.Add(time);
                 }
@@ -39,7 +40,7 @@ namespace ExoftOfficeManager.Application.Meetings.Queries.GetAvailableHours
             return availableHours.Select(x => new GetAvailableHoursQueryResponse(x)).ToArray();
         }
 
-        private static bool CheckIfTimeIsInAMeeting(MeetingDto meeting, int room, TimeSpan time)
+        private static bool CheckIfTimeIsInAMeeting(Meeting meeting, int room, TimeSpan time)
             => meeting.RoomNumber == room &&
                meeting.DateAndTime.TimeOfDay <= time &&
                time < meeting.DateAndTime.TimeOfDay + meeting.Duration;

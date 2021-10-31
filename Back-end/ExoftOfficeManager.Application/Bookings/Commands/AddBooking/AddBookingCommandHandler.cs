@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.Services.Repositories;
 using ExoftOfficeManager.Domain.Dtos;
+using ExoftOfficeManager.Domain.Entities;
 using ExoftOfficeManager.Domain.Enums;
 
 using MediatR;
@@ -38,7 +39,7 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
 
                 for (int i = 0; i < request.DayNumber; i++)
                 {
-                    var booking = new BookingDto
+                    var booking = new Booking
                     {
                         Date = request.BookingType == BookingType.BookedPermanently ? null
                             : new DateTime(request.BookingDate.Year, request.BookingDate.Month, request.BookingDate.Day + i),

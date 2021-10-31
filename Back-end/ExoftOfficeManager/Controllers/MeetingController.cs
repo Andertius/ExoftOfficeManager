@@ -6,7 +6,7 @@ using ExoftOfficeManager.Application.Meetings.Commands.RemoveMeeting;
 using ExoftOfficeManager.Application.Meetings.Queries.FindMeetingById;
 using ExoftOfficeManager.Application.Meetings.Queries.GetAvailableHours;
 using ExoftOfficeManager.Application.Meetings.Queries.GetMeetings;
-using ExoftOfficeManager.Domain.Dtos;
+using ExoftOfficeManager.Domain.Entities;
 using ExoftOfficeManager.Requests;
 
 using MediatR;
@@ -50,7 +50,7 @@ namespace ExoftOfficeManager.Controllers
         [HttpPost("meetings/{room}/reserve-meeting")]
         public async Task<IActionResult> ReserveMeeting([FromBody] ReserveMeetingRequest request)
         {
-            var meet = new MeetingDto
+            var meet = new Meeting
             {
                 DateAndTime = request.DateAndTime,
                 Duration = new TimeSpan(0, request.DurationMinutes, 0),

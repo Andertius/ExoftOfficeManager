@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using ExoftOfficeManager.Application.Mappers;
 using ExoftOfficeManager.Application.Services.Repositories;
 
 using MediatR;
@@ -19,8 +20,8 @@ namespace ExoftOfficeManager.Application.Users.Queries.GetUsers
 
         public async Task<UsersQueryResponse[]> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
-            var userDtos = await _repository.GetAllUsers();
-            return userDtos.Select(x => new UsersQueryResponse(x)).ToArray();
+            var users = await _repository.GetAllUsers();
+            return users.Select(x => new UsersQueryResponse(UserMapper.MapIntoDto(x))).ToArray();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ExoftOfficeManager.Application.Mappers;
 using ExoftOfficeManager.Application.Services.Repositories;
 
 using MediatR;
@@ -20,8 +21,8 @@ namespace ExoftOfficeManager.Application.WorkPlaces.Queries.GetBookedWorkPlaces
 
         public async Task<WorkPlacesQueryResponse[]> Handle(GetBookedWorkPlacesQuery request, CancellationToken cancellationToken)
         {
-            var bookedWorkPlaceDtos = await _repository.GetAllBookedWorkPlaces(request.BookingDate);
-            return bookedWorkPlaceDtos.Select(x => new WorkPlacesQueryResponse(x)).ToArray();
+            var bookedWorkPlaces = await _repository.GetAllBookedWorkPlaces(request.BookingDate);
+            return bookedWorkPlaces.Select(x => new WorkPlacesQueryResponse(WorkPlaceMapper.MapIntoDto(x))).ToArray();
         }
     }
 }

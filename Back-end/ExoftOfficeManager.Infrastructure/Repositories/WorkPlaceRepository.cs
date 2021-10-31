@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Application.Mappers;
 using ExoftOfficeManager.Application.Services.Repositories;
-using ExoftOfficeManager.Domain.Dtos;
 using ExoftOfficeManager.Domain.Entities;
 using ExoftOfficeManager.Domain.Enums;
 
@@ -13,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExoftOfficeManager.Infrastructure.Repositories
 {
+    //TODO Fix BookingStatus filtering
     public class WorkPlaceRepository : IWorkPlaceRepository
     {
         private readonly AppDbContext _context;
@@ -22,73 +21,47 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IList<WorkPlaceDto>> GetAllWorkPlaces()
+        public async Task<IList<WorkPlace>> GetAllWorkPlaces()
         {
-            return await _context.WorkPlaces
-                .Select(x => WorkPlaceMapper.MapIntoDto(x))
-                .ToListAsync();
+            return await _context.WorkPlaces.ToListAsync();
         }
 
-        public async Task<IList<WorkPlaceDto>> GetAllBookedWorkPlaces(DateTime bookingDate)
+        public async Task<IList<WorkPlace>> GetAllBookedWorkPlaces(DateTime bookingDate)
         {
             var workPlaces = await _context.WorkPlaces
                 .Include(x => x.Bookings.Where(x => x.Date == bookingDate))
-                .Where(x => (x.Bookings.Count == 1 &&
-                    (x.Bookings.First().Type == BookingType.Booked ||
-                    x.Bookings.First().Type == BookingType.BookedPermanently)) ||
-                    x.Bookings.Count == 2)
+                .Where(place => place.Bookings.All(x => x.Status == BookingStatus.Approved) &&
+                    (place.Bookings.Any(x => x.Type == BookingType.BookedPermanently) ||
+                    place.Bookings.Any(x => x.Type == BookingType.Booked) ||
+                    place.Bookings.All(x => x.Type == BookingType.FirstHalfBooked || x.Type == BookingType.SecondHalfBooked)))
                 .ToListAsync();
 
-            return workPlaces.Where(x => x.Bookings.Any())
-                .Select(x => WorkPlaceMapper.MapIntoDto(x))
-                .ToList();
+            return workPlaces.Where(x => x.Bookings.Any()).ToList();
         }
 
-        public async Task<IList<WorkPlaceDto>> GetAllAvailableWorkPlaces(DateTime bookingDate)
+        public async Task<IList<WorkPlace>> GetAllAvailableWorkPlaces(DateTime bookingDate)
         {
             return await _context.WorkPlaces
-                   .Include(x => x.Bookings.Where(x => x.Date == bookingDate))
-                   .Where(x => !((x.Bookings.Count == 1 &&
-                       (x.Bookings.First().Type == BookingType.Booked ||
-                       x.Bookings.First().Type == BookingType.BookedPermanently)) ||
-                       x.Bookings.Count == 2))
-                   .Select(x => WorkPlaceMapper.MapIntoDto(x))
+                   .Include(x => x.Bookings.Where(x => !x.Date.HasValue || x.Date == bookingDate))
+                   .Where(place => !place.Bookings.Any() ||
+                    place.Bookings.Any(x => x.Status != BookingStatus.Approved) ||
+                    !place.Bookings.Any(x => x.Type == BookingType.BookedPermanently) &&
+                    !place.Bookings.Any(x => x.Type == BookingType.Booked) &&
+                    !place.Bookings.All(x => x.Type == BookingType.FirstHalfBooked || x.Type == BookingType.SecondHalfBooked))
                    .ToListAsync();
         }
-
-        public async Task<WorkPlaceDto> FindWorkPlaceById(Guid placeId)
+                    
+        public async Task<WorkPlace> FindWorkPlaceById(Guid placeId)
         {
             var place = await _context.WorkPlaces
                 .Include(x => x.Bookings)
                 .ThenInclude(x => x.User)
                 .FirstOrDefaultAsync(x => x.Id == placeId);
 
-            return WorkPlaceMapper.MapIntoDto(place);
+            return place;
         }
 
-        //if (place.Bookings.Any(x => x.Type == BookingType.BookedPermanently))
-        //{
-        //    return true;
-        //}
-
-        //var bookings = place.Bookings.Where(x => x.Date == date);
-
-        //if (!bookings.Any())
-        //{
-        //    return false;
-        //}
-        //else if (bookings.Any(x => x.Type == BookingType.Booked))
-        //{
-        //    return true;
-        //}
-        //else if (bookings.All(x => x.Type == BookingType.FirstHalfBooked || x.Type == BookingType.SecondHalfBooked))
-        //{
-        //    return true;
-        //}
-
-        //return false;
-
-        //TODO figure out why TryFindAvailableWorkPlace doesn't work
+        //TODO figure out why TryFindAvailableWorkPlace doesn't work (temporarily fixed)
         public async Task<(bool, WorkPlace)> TryFindAvailableWorkPlace(Guid placeId, DateTime bookingDate)
         {
             var place = (await _context.WorkPlaces
@@ -116,9 +89,9 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
             //throw new Exception();
         }
 
-        public void UpdateWorkPlace(WorkPlaceDto place)
+        public void UpdateWorkPlace(WorkPlace place)
         {
-            _context.WorkPlaces.Update(WorkPlaceMapper.MapFromDto(place));
+            _context.WorkPlaces.Update(place);
         }
 
         public async Task Commit()

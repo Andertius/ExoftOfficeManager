@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using ExoftOfficeManager.Application.Mappers;
 using ExoftOfficeManager.Application.Services.Repositories;
 
 using MediatR;
@@ -19,9 +20,8 @@ namespace ExoftOfficeManager.Application.WorkPlaces.Queries.GetWorkPlaces
 
         public async Task<WorkPlacesQueryResponse[]> Handle(GetWorkPlacesQuery request, CancellationToken cancellationToken)
         {
-            var aa = await _repository.GetAllWorkPlaces();
-
-            return aa.Select(x => new WorkPlacesQueryResponse(x)).ToArray();
+            var workPlaces = await _repository.GetAllWorkPlaces();
+            return workPlaces.Select(x => new WorkPlacesQueryResponse(WorkPlaceMapper.MapIntoDto(x))).ToArray();
         }
     }
 }

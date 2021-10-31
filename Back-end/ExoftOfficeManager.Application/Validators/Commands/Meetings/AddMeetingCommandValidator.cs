@@ -29,11 +29,6 @@ namespace ExoftOfficeManager.Application.Validators.Commands.Meetings
 
             RuleFor(x => x.Meeting)
                 .ChildRules(x =>
-                    x.RuleFor(x => x.RequiredUsers)
-                        .NotEmpty());
-
-            RuleFor(x => x.Meeting)
-                .ChildRules(x =>
                     x.RuleFor(x => x.Owner)
                         .NotEmpty());
         }

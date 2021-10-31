@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.Services.Repositories;
-using ExoftOfficeManager.Domain.Dtos;
+using ExoftOfficeManager.Domain.Entities;
 
 using MediatR;
 
@@ -31,7 +31,7 @@ namespace ExoftOfficeManager.Application.Meetings.Commands.AddMeeting
             return Unit.Value;
         }
 
-        private static bool CheckIfMeetingsIntersect(MeetingDto left, MeetingDto right)
+        private static bool CheckIfMeetingsIntersect(Meeting left, Meeting right)
            => left.RoomNumber == right.RoomNumber &&
               (left.DateAndTime.TimeOfDay <= right.DateAndTime.TimeOfDay &&
               right.DateAndTime.TimeOfDay < left.DateAndTime.TimeOfDay + left.Duration ||

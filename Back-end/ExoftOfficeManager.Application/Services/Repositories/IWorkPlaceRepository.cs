@@ -9,13 +9,13 @@ namespace ExoftOfficeManager.Application.Services.Repositories
 {
     public interface IWorkPlaceRepository
     {
-        Task<IList<WorkPlaceDto>> GetAllWorkPlaces();
+        Task<IList<WorkPlace>> GetAllWorkPlaces();
 
-        Task<IList<WorkPlaceDto>> GetAllBookedWorkPlaces(DateTime bookingDate);
+        Task<IList<WorkPlace>> GetAllBookedWorkPlaces(DateTime bookingDate);
 
-        Task<IList<WorkPlaceDto>> GetAllAvailableWorkPlaces(DateTime bookingDate);
+        Task<IList<WorkPlace>> GetAllAvailableWorkPlaces(DateTime bookingDate);
 
-        Task<WorkPlaceDto> FindWorkPlaceById(Guid placeId);
+        Task<WorkPlace> FindWorkPlaceById(Guid placeId);
 
         /// <summary>
         /// Attempts to get a workplace from the database by <paramref name="placeId"/>.
@@ -26,7 +26,7 @@ namespace ExoftOfficeManager.Application.Services.Repositories
         /// </returns>
         Task<(bool, WorkPlace)> TryFindAvailableWorkPlace(Guid placeId, DateTime bookingDate);
 
-        void UpdateWorkPlace(WorkPlaceDto place);
+        void UpdateWorkPlace(WorkPlace place);
 
         Task Commit();
     }

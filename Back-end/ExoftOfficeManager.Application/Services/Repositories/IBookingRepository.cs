@@ -1,25 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Domain.Dtos;
+using ExoftOfficeManager.Domain.Entities;
 
 namespace ExoftOfficeManager.Application.Services.Repositories
 {
     public interface IBookingRepository
     {
-        Task<BookingDto[]> GetAllBookings(DateTime bookingDate);
+        Task<IList<Booking>> GetAllBookings(DateTime bookingDate);
 
-        Task<BookingDto[]> GetAllPendingBookings();
+        Task<IList<Booking>> GetAllPendingBookings();
 
-        Task<BookingDto[]> GetBookingsByUser(Guid userId);
+        Task<IList<Booking>> GetBookingsByUser(Guid userId);
 
-        Task<BookingDto> FindById(Guid id);
+        Task<Booking> FindById(Guid id);
 
-        Task AddBooking(BookingDto bookingDto);
+        Task AddBooking(Booking booking);
 
         void RemoveBooking(Guid id);
 
-        void UpdateBooking(BookingDto bookingDto);
+        void UpdateBooking(Booking booking);
 
         Task Commit();
     }

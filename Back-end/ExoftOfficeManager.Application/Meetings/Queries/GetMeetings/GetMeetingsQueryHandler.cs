@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using ExoftOfficeManager.Application.Mappers;
 using ExoftOfficeManager.Application.Services.Repositories;
 
 using MediatR;
@@ -22,8 +23,8 @@ namespace ExoftOfficeManager.Application.Meetings.Queries.GetMeetings
 
         public async Task<MeetingsQueryResponse[]> Handle(GetMeetingsQuery request, CancellationToken cancellationToken)
         {
-            var getMeetingsQueryDtos = await _repository.GetAllMeetings(request.MeetingDate);
-            return getMeetingsQueryDtos.Select(x => new MeetingsQueryResponse(x)).ToArray();
+            var meetings = await _repository.GetAllMeetings(request.MeetingDate);
+            return meetings.Select(x => new MeetingsQueryResponse(MeetingMapper.MapIntoDto(x))).ToArray();
         }
     }
 }

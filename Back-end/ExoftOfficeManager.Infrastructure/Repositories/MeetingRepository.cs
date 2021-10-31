@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Application.Mappers;
 using ExoftOfficeManager.Application.Services.Repositories;
-using ExoftOfficeManager.Domain.Dtos;
+using ExoftOfficeManager.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -20,22 +19,21 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IList<MeetingDto>> GetAllMeetings(DateTime meetingDate)
+        public async Task<IList<Meeting>> GetAllMeetings(DateTime meetingDate)
         {
             return await _context.Meetings
                 .Where(x => x.DateAndTime.Date == meetingDate)
-                .Select(x => MeetingMapper.MapIntoDto(x))
                 .ToListAsync();
         }
 
-        public async Task<MeetingDto> FindMeetingById(Guid meetingId)
+        public async Task<Meeting> FindMeetingById(Guid meetingId)
         {
-            return MeetingMapper.MapIntoDto(await _context.Meetings.FindAsync(meetingId));
+            return await _context.Meetings.FindAsync(meetingId);
         }
 
-        public async Task AddMeeting(MeetingDto meetingDto)
+        public async Task AddMeeting(Meeting meeting)
         {
-            await _context.AddAsync(MeetingMapper.MapFromDto(meetingDto));
+            await _context.AddAsync(meeting);
         }
 
         public async Task RemoveMeeting(Guid meetingId)
@@ -44,9 +42,9 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
             _context.Remove(meeting);
         }
 
-        public void UpdateMeeting(MeetingDto meetingDto)
+        public void UpdateMeeting(Meeting meeting)
         {
-            _context.Update(MeetingMapper.MapFromDto(meetingDto));
+            _context.Update(meeting);
         }
 
         public async Task Commit()

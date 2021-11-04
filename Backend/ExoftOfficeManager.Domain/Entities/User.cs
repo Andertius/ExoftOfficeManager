@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using ExoftOfficeManager.Domain.Enums;
+using ExoftOfficeManager.Domain.Interfaces;
 
 namespace ExoftOfficeManager.Domain.Entities
 {
@@ -12,7 +13,10 @@ namespace ExoftOfficeManager.Domain.Entities
 
         public UserRole Role { get; set; }
 
-        //public IdentityUser 
+
+        public string IdentityUserId { get; set; }
+
+        public IIdentityUser IdentityUser { get; set; }
 
 
         public ICollection<Booking> Bookings { get; set; }

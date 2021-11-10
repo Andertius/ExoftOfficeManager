@@ -1,0 +1,26 @@
+<button>
+    Close
+</button>
+
+<div class="container">
+    <form [formGroup]="bookingForm">
+        <mat-radio-group aria-label="Select an option" formControlName="time">
+            <div>
+                <mat-radio-button value="FirstHalf">10 AM - 14 PM</mat-radio-button>
+                <mat-radio-button value="SecondHalf" class="margin-left-10px">14 PM - 18 PM</mat-radio-button>
+            </div>
+
+            <div>
+                <mat-radio-button value="FullDay">ALL DAY LONG</mat-radio-button>
+                <mat-radio-button value="Freeze" class="margin-left-10px">FREEZE</mat-radio-button>
+            </div>
+        </mat-radio-group>
+
+        <mat-form-field appearance="fill" formControlName="date">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </form>
+</div>

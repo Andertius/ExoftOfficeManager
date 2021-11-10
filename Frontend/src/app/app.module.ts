@@ -19,6 +19,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatRadioModule } from '@angular/material/radio';
+import { BookPlaceComponent } from './modules/work-places/book-place/book-place.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     LoginComponent,
     ProfileComponent,
     NewMeetingComponent,
-    LayoutComponent
+    LayoutComponent,
+    BookPlaceComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,9 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatButtonModule,
     MatChipsModule,
     MatIconModule,
-    MatTabsModule
+    MatTabsModule,
+    MatRadioModule,
+    MatDatepickerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

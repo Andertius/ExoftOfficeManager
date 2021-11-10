@@ -1,19 +1,17 @@
-<form [formGroup]="loginForm">
-    <div>
-        <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Username</mat-label>
-            <input matInput forControlName="username">
-        </mat-form-field>
-    </div>
+<form [formGroup]="loginForm" class="centered-div lightgray-background">
+    <mat-form-field class="example-full-width input-class" appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput forControlName="username">
+    </mat-form-field>
 
-    <div>
-        <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Password</mat-label>
-            <input matInput forControlName="username">
-        </mat-form-field>
-    </div>
+    <mat-form-field class="example-full-width input-class" appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput forControlName="username">
+    </mat-form-field>
 
     <button mat-flat-button color="primary" type="submit" (click)="submit()">Log in</button>
-</form>
 
-<a href="#">Forgot Password</a>
+    <br />
+
+    <a >Forgot Password</a>
+</form>

@@ -7,7 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
 
-  links: Array<string> = ['newMeeting', 'login', 'profile'];
+  links: Array<string> = [
+    'newMeeting',
+    'login',
+    'profile',
+    'greeting',
+    'status-info',
+    'book-place',
+  ];
+
   activeLink = "";
 
   constructor() { }

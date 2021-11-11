@@ -6,20 +6,22 @@ import { GreetingComponent } from './greeting/greeting.component';
 import { StatusInfoComponent } from './status-info/status-info.component';
 import { BookPlaceComponent } from './book-place/book-place.component';
 
-import { MatRadioModule } from '@angular/material/radio';
+import { MainWorkPlaceComponent } from './main-work-place/main-work-place.component';
+import { MaterialModulesModule } from '../material-modules/material-modules.module';
+import { TablesComponent } from './tables/tables.component';
 
 @NgModule({
   declarations: [
     GreetingComponent,
     StatusInfoComponent,
-    BookPlaceComponent
+    MainWorkPlaceComponent,
+    BookPlaceComponent,
+    TablesComponent,
   ],
   imports: [
     CommonModule,
-
     ReactiveFormsModule,
-
-    MatRadioModule,
-  ]
+    MaterialModulesModule,
+  ],
 })
 export class WorkPlacesModule { }

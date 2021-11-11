@@ -5,47 +5,29 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { LoginComponent } from './modules/auth/login/login.component';
-import { ProfileComponent } from './modules/auth/profile/profile.component';
-
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { NewMeetingComponent } from './modules/meetings/new-meeting/new-meeting.component';
 import { LayoutComponent } from './layout/layout.component';
 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatRadioModule } from '@angular/material/radio';
-import { BookPlaceComponent } from './modules/work-places/book-place/book-place.component';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { WorkPlacesModule } from './modules/work-places/work-places.module';
+import { MeetingsModule } from './modules/meetings/meetings.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { MaterialModulesModule } from './modules/material-modules/material-modules.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    ProfileComponent,
-    NewMeetingComponent,
     LayoutComponent,
-    BookPlaceComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatChipsModule,
-    MatIconModule,
-    MatTabsModule,
-    MatRadioModule,
-    MatDatepickerModule,
+    WorkPlacesModule,
+    MeetingsModule,
+    AuthModule,
+    MaterialModulesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

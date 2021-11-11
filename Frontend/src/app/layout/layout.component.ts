@@ -14,6 +14,7 @@ export class LayoutComponent implements OnInit {
     'greeting',
     'status-info',
     'book-place',
+    'work-place',
   ];
 
   activeLink = "";

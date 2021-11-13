@@ -9,6 +9,8 @@ import { BookPlaceComponent } from './book-place/book-place.component';
 import { MainWorkPlaceComponent } from './main-work-place/main-work-place.component';
 import { MaterialModulesModule } from '../material-modules/material-modules.module';
 import { TablesComponent } from './tables/tables.component';
+import { CurrentDayBookingsComponent } from './current-day-bookings/current-day-bookings.component';
+import { YourBookingsComponent } from './your-bookings/your-bookings.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { TablesComponent } from './tables/tables.component';
     MainWorkPlaceComponent,
     BookPlaceComponent,
     TablesComponent,
+    CurrentDayBookingsComponent,
+    YourBookingsComponent,
   ],
   imports: [
     CommonModule,

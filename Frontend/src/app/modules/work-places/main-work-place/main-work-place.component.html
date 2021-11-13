@@ -1,27 +1,15 @@
-<div class="container">
-    <div>
-        <div class="container">
-            <div>
-                <app-greeting>Here you can all see working places in the office and book any of the available ones!</app-greeting>
-            </div>
-        
-            <div class="status-info">
-                <app-status-info></app-status-info>
-            </div>
-        </div>
-    
-        <div class="tables">
-            <app-tables></app-tables>
-        </div>
+<div class="grid">
+    <div class="grid-left-item">
+        <app-greeting>Here you can all see working places in the office and book any of the available ones!</app-greeting>
+
+        <app-status-info></app-status-info>
+
+        <app-tables class="grid-left-lower-item"></app-tables>
     </div>
 
-    <div>
-        <div>
+    <div class="grid-right-item">
+        <app-your-bookings></app-your-bookings>
 
-        </div>
-
-        <div>
-
-        </div>
+        <app-current-day-bookings></app-current-day-bookings>
     </div>
 </div>

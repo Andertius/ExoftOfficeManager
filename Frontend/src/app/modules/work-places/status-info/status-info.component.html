@@ -1,9 +1,43 @@
-<div class="grid">
-    <div class="grid-item" *ngFor="let item of [0, 1, 2, 3]">
-        <div class="avatar color-{{item}}"></div>
-        <div class="info">
-            <h4>Title {{item}}</h4>
-            <h5>Subtitle {{item}}</h5>
+<div class="container">
+    <h4>STATUSES OF WORKING PLACES</h4>
+
+    <div class="grid">
+        <div class="grid-item">
+            <div class="free-place">
+                <p>+</p>
+            </div>
+    
+            <div class="info">
+                <h4>Free place</h4>
+                <h5>click on it to book</h5>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="half-booked-place"></div>
+    
+            <div class="info">
+                <h4>Place is booked for half a day</h4>
+                <h5>you can book the other half</h5>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="booked-place"></div>
+    
+            <div class="info">
+                <h4>Place is already booked</h4>
+                <h5>you can see who booked it</h5>
+            </div>
+        </div>
+    
+        <div class="grid-item">
+            <div class="unavailable-place"></div>
+    
+            <div class="info">
+                <h4>Place is not available for booking</h4>
+                <h5>it means the place belongs to someone</h5>
+            </div>
         </div>
     </div>
 </div>

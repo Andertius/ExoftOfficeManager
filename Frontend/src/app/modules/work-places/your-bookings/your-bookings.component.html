@@ -1,0 +1,31 @@
+<div class="container">
+    <h4 class="your-bookings">YOUR BOOKINGS</h4>
+
+    <div role="list" class="grid max-height">
+        <div role="listitem" *ngFor="let booking of bookings" class="list-item" style="color: white">
+            <div class="booked-place" *ngIf="booking.bookingType == 1">
+                <p>{{ booking.userFullName.split(' ')[0][0] }}{{ booking.userFullName.split(' ')[1][0] }}</p>
+            </div>
+
+            <div class="half-booked-place" *ngIf="booking.bookingType == 2">
+                <p>{{ booking.userFullName.split(' ')[0][0] }}{{ booking.userFullName.split(' ')[1][0] }}</p>
+            </div>
+
+            <div class="half-booked-place" *ngIf="booking.bookingType == 3">
+                <p>{{ booking.userFullName.split(' ')[0][0] }}{{ booking.userFullName.split(' ')[1][0] }}</p>
+            </div>
+
+            <div class="unavailable-place" *ngIf="booking.bookingType == 4">
+                <p>{{ booking.userFullName.split(' ')[0][0] }}{{ booking.userFullName.split(' ')[1][0] }}</p>
+            </div>
+
+            <div class="info">
+                <h4>{{ booking.userFullName }}</h4>
+                <h5>{{ booking.date.getDate() }} {{ parseMonth(booking.date.getMonth())  }} {{ booking.date.getFullYear() }}</h5>
+
+                <h5 *ngIf="booking.bookingType == 2">10 am - 14 pm</h5>
+                <h5 *ngIf="booking.bookingType == 3">14 pm - 18 pm</h5>
+            </div>
+        </div>
+    </div>    
+</div>

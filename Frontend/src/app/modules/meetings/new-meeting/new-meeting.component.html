@@ -1,4 +1,6 @@
-<form [formGroup]="meetingForm">
+<form [formGroup]="meetingForm" class="container">
+    <h4>CREATE A NEW MEETING</h4>
+
     <div>
         <mat-form-field class="example-chip-list" appearance="fill">
             <mat-label>Required</mat-label>
@@ -42,7 +44,7 @@
     <div>
         <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Subject</mat-label>
-            <input matInput formControlName="subject">
+            <textarea matInput formControlName="subject"></textarea>
         </mat-form-field>
     </div>
 

@@ -1,0 +1,26 @@
+* {
+    margin: 0px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    gap: 15px;
+    background: #2c2c2c;
+    padding: 20px;
+
+    .grid-left-item {
+        display: grid;
+        grid-template-rows: 1fr 4fr;
+        gap: 15px;
+        align-items: stretch;
+    }
+
+    .grid-middle-item {
+        align-items: center;
+    }
+
+    .grid-right-item {
+        align-items: center;
+    }
+}

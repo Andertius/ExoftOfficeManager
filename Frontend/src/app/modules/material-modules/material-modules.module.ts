@@ -10,6 +10,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatNativeDateModule  } from '@angular/material/core';
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { MatListModule } from '@angular/material/list';
     MatDatepickerModule,
     MatNativeDateModule,
     MatListModule,
+    MatMenuModule,
   ],
   exports: [
     MatFormFieldModule,
@@ -38,6 +40,7 @@ import { MatListModule } from '@angular/material/list';
     MatDatepickerModule,
     MatNativeDateModule,
     MatListModule,
+    MatMenuModule,
   ]
 
 })

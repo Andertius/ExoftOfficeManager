@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { GreetingComponent } from './greeting/greeting.component';
 import { StatusInfoComponent } from './status-info/status-info.component';
 import { BookPlaceComponent } from './book-place/book-place.component';
 
@@ -11,10 +10,10 @@ import { MaterialModulesModule } from '../material-modules/material-modules.modu
 import { TablesComponent } from './tables/tables.component';
 import { CurrentDayBookingsComponent } from './current-day-bookings/current-day-bookings.component';
 import { YourBookingsComponent } from './your-bookings/your-bookings.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
-    GreetingComponent,
     StatusInfoComponent,
     MainWorkPlaceComponent,
     BookPlaceComponent,
@@ -26,6 +25,7 @@ import { YourBookingsComponent } from './your-bookings/your-bookings.component';
     CommonModule,
     ReactiveFormsModule,
     MaterialModulesModule,
+    SharedModule,
   ],
 })
 export class WorkPlacesModule { }

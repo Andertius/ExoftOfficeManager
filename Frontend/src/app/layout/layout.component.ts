@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-layout',
@@ -7,14 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
 
+  @Input() userFullName!: string;
+
   links: Array<string> = [
     'newMeeting',
     'login',
-    'profile',
-    'greeting',
-    'status-info',
     'book-place',
     'work-place',
+    'meeting',
   ];
 
   activeLink = "";

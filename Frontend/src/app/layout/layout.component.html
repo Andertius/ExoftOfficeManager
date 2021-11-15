@@ -1,6 +1,15 @@
-<nav mat-tab-nav-bar class="">
+<nav mat-tab-nav-bar>
     <a mat-tab-link *ngFor="let link of links"
        [routerLink]="link"
        (click)="activeLink=link"
        [active]="activeLink == link">{{ link }}</a>
+
+    <div class="container">
+        <div class="avatar">{{ userFullName.split(' ')[0][0] }}{{ userFullName.split(' ')[1][0] }}</div>
+        <button mat-button [matMenuTriggerFor]="menu" class="profile">{{ userFullName }}</button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>Profile</button>
+            <button mat-menu-item>Logout</button>
+        </mat-menu>
+    </div>
 </nav>

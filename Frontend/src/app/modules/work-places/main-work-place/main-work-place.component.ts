@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainWorkPlaceComponent implements OnInit {
 
+  firstUserName: string = "Alissa";
+
   constructor() { }
 
   ngOnInit(): void {

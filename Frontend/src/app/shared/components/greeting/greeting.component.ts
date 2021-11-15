@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-greeting',
@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GreetingComponent implements OnInit {
 
-  firstName: string = "Greeting"
+  @Input() firstName!: string;
   greetingMessage: string = "Here you can all see working places in the office and book any of the available ones!";
 
   constructor() { }

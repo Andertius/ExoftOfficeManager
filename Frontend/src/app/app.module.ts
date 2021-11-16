@@ -13,6 +13,7 @@ import { WorkPlacesModule } from './modules/work-places/work-places.module';
 import { MeetingsModule } from './modules/meetings/meetings.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MaterialModulesModule } from './modules/material-modules/material-modules.module';
+import { HttpClientModule } from '@angular/common/http'
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { MaterialModulesModule } from './modules/material-modules/material-modul
     WorkPlacesModule,
     MeetingsModule,
     AuthModule,
-    MaterialModulesModule
+    MaterialModulesModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

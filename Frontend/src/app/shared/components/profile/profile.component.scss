@@ -6,15 +6,21 @@
     width: 50%;
 }
 
-.centered-div {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 10px;
+.background {
+    background: #42474f;
+    border-radius: 5px;
 }
 
-.lightgray-background {
-    background: #dadada;
-    border-radius: 5px;
+button {
+    display: block;
+    width: 100%;
+    border-radius: 0px 0px 5px 5px;
+    background-color: #73bf17;
+    color: white;
+    border: none;
+    height: 35px;
+}
+
+.container {
+    padding: 10px;
 }

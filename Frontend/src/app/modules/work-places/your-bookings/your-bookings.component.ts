@@ -1,12 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { BookingService } from 'src/app/core/services/booking.service';
+import { ProfileService } from 'src/app/core/services/profile.service';
 import { BookingModel } from 'src/app/models/booking.model';
+import { BookingResponse } from 'src/app/models/responses/booking.response';
 
 @Component({
   selector: 'app-your-bookings',
   templateUrl: './your-bookings.component.html',
   styleUrls: ['./your-bookings.component.scss']
 })
-export class YourBookingsComponent implements OnInit {
+export class YourBookingsComponent implements OnInit, OnDestroy {
+  
+  private unsubscribe$: Subject<void> = new Subject();
 
   bookings: Array<BookingModel> = [
     {
@@ -41,7 +48,10 @@ export class YourBookingsComponent implements OnInit {
     },
   ];
 
-  constructor() { }
+  //bookings: Array<BookingModel> = new Array<BookingModel>();
+  bookingss: BookingResponse[] = [];
+
+  constructor(private readonly bookingService: BookingService, private readonly profileService: ProfileService) { }
 
   ngOnInit(): void {
     this.bookings[0].date.setDate(17);
@@ -68,7 +78,52 @@ export class YourBookingsComponent implements OnInit {
     this.bookings[5].date.setMonth(9);
     this.bookings[5].date.setFullYear(2069);
 
-    this.bookings.sort(this.compare).reverse();
+    // let bookings: BookingResponse[] = [];
+    
+    // this.bookingService.getUserBookings().pipe(
+    //   map(bookings => bookings.map(bookingsJson => new BookingResponse(
+    //     bookingsJson.id,
+    //     bookingsJson.date,
+    //     bookingsJson.type,
+    //     bookingsJson.status,
+    //     bookingsJson.dayNumber,
+    //     bookingsJson.userID,
+    //     bookingsJson.user/*.map(userJson => new UserResponse(
+    //       userJson.id,
+    //       userJson.fullName,
+    //       userJson.avatarURL,
+    //       userJson.role,
+    //       userJson.bookings 
+    //     ))*/,
+    //     bookingsJson.workPlaceID,
+    //     null, //workPlace
+    //   )))).subscribe(x => { this.bookingss = x; console.log(this.bookingss) }); // ????????????????????????????????????????????????????????
+    //   console.log(this.bookingss);    
+
+    // for (let i = 0; i < bookings.length; i++) {
+    //   this.bookings.push({
+    //     userFullName: bookings[i].user.fullName,
+    //     date: bookings[i].date,
+    //     bookingType: bookings[i].type
+    //   });
+    // }
+
+    // if (this.bookings[0].date != null) {
+      this.bookings.sort(this.compare).reverse();
+    //}
+    
+    this.profileService.behaviourSubject
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((res: any) => {
+        this.bookings.forEach(x => x.userFullName = res.fullName);
+      });
+
+      this.bookings.forEach(x => x.userFullName = 'Alissa White-Gluz');
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   compare(a : BookingModel, b: BookingModel): number {

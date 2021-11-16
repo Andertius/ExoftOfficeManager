@@ -2,7 +2,7 @@
     <h4 class="your-bookings">YOUR BOOKINGS</h4>
 
     <div role="list" class="grid max-height">
-        <div role="listitem" *ngFor="let booking of bookings" class="list-item" style="color: white">
+        <div role="listitem" *ngFor="let booking of bookings" class="list-item">
             <div class="booked-place" *ngIf="booking.bookingType == 1">
                 <p>{{ booking.userFullName.split(' ')[0][0] }}{{ booking.userFullName.split(' ')[1][0] }}</p>
             </div>

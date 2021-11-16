@@ -20,6 +20,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     ReactiveFormsModule,
     MaterialModulesModule,
     SharedModule,
+  ],
+  exports: [    
+    MainMeetingComponent,
   ]
 })
 export class MeetingsModule { }

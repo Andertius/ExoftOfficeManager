@@ -27,5 +27,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     MaterialModulesModule,
     SharedModule,
   ],
+  exports: [
+    MainWorkPlaceComponent,
+  ]
 })
 export class WorkPlacesModule { }

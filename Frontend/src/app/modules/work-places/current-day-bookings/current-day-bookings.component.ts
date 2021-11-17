@@ -10,42 +10,42 @@ export class CurrentDayBookingsComponent implements OnInit {
 
   bookings: Array<BookingModel> = [
     {
-      date: "",
+      date: new Date(),
       userFullName: "Alissa White-Gluz",
       bookingType: 1
     },
     {
-      date: "",
+      date: new Date(),
       userFullName: "Kirk Hammet",
       bookingType: 1
     },
     {
-      date: "",
+      date: new Date(),
       userFullName: "Phil Anselmo",
       bookingType: 2
     },
     {
-      date: "",
+      date: new Date(),
       userFullName: "Johannes Eckerström",
       bookingType: 3
     },
     {
-      date: "",
+      date: new Date(),
       userFullName: "Tomas Haake",
       bookingType: 2
     },
     {
-      date: "",
+      date: new Date(),
       userFullName: "Mario Duplantier",
       bookingType: 1
     },
     {
-      date: "",
+      date: new Date(),
       userFullName: "Serj Tankian",
       bookingType: 1
     },
     {
-      date: "",
+      date: new Date(),
       userFullName: "Dave Grohl",
       bookingType: 1
     },

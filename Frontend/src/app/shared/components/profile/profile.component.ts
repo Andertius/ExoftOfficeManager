@@ -37,13 +37,6 @@ export class ProfileComponent implements OnInit {
       email: new FormControl(email, Validators.required),
       status: new FormControl(status),
     });
-
-    this.userForm.valueChanges.subscribe(({firstName, lastName}) => {
-      this.profileService.behaviourSubject = {
-        avatar: "",
-        fullName: `${firstName} ${lastName}`,
-      };
-    })
   }
 
   submit(): void {

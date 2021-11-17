@@ -16,7 +16,7 @@ export class BookingService {
     let result: BookingResponse[] = [];
 
     return this.http
-      .get<Array<BookingResponse>>('https://localhost:44377/Booking/users/3A0F30CE-B76B-496A-B7D7-08D99C4C73AC/bookings')
+      .get<Array<BookingResponse>>('https://localhost:44377/Booking/users/D5F659CB-04E2-4550-4896-08D99ACF32E4/bookings')
       ;
 
         console.log(result);

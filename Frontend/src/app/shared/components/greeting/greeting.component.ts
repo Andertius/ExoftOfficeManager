@@ -3,7 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-greeting',
   templateUrl: './greeting.component.html',
-  styleUrls: ['./greeting.component.scss']
+  styleUrls: ['./greeting.component.scss'],
+  host: { class: 'app-greeting' }
 })
 export class GreetingComponent implements OnInit {
 

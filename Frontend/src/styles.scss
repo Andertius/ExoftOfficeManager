@@ -1,6 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
 @use '@angular/material' as mat;
+@include mat.core();
+
+* {
+  margin: 0 !important;
+}
 
 html { height: 100%; }
 body {
@@ -10,7 +15,7 @@ body {
 }
 
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+//@import '~bootstrap/scss/bootstrap';
 @import 'app/shared/modules/angular-material/angular-material.style.scss';
 
 $my-primary: mat.define-palette(mat.$light-green-palette, 600);

@@ -1,8 +1,11 @@
-.container {
+.super-container {
+    height: 100%;
     background: #3a3e46;
     color: white;
     border-radius: 5px;
+}
 
+.container {
     padding: 20px;
 }
 
@@ -27,19 +30,9 @@
             border-color: #68b70c;
             background-color: #ce6a45;
             color: white;
-            -webkit-user-select: none;    
-            -moz-user-select: none;
-            -ms-user-select: none;
             user-select: none;
 
-            display: -webkit-flexbox;
-            display: -ms-flexbox;
-            display: -webkit-flex;
             display: flex;
-
-            -webkit-flex-align: center;
-            -ms-flex-align: center;
-            -webkit-align-items: center;
             align-items: center;
             justify-content: center;
         }
@@ -52,19 +45,9 @@
             border-color: #68b70c;
             background-color: #d6a93e;
             color: white;
-            -webkit-user-select: none;    
-            -moz-user-select: none;
-            -ms-user-select: none;
             user-select: none;
 
-            display: -webkit-flexbox;
-            display: -ms-flexbox;
-            display: -webkit-flex;
             display: flex;
-
-            -webkit-flex-align: center;
-            -ms-flex-align: center;
-            -webkit-align-items: center;
             align-items: center;
             justify-content: center;
         }
@@ -77,19 +60,9 @@
             border-color: #68b70c;
             background-color: #525e6d;
             color: #68b70c;
-            -webkit-user-select: none;    
-            -moz-user-select: none;
-            -ms-user-select: none;
             user-select: none;
 
-            display: -webkit-flexbox;
-            display: -ms-flexbox;
-            display: -webkit-flex;
             display: flex;
-
-            -webkit-flex-align: center;
-            -ms-flex-align: center;
-            -webkit-align-items: center;
             align-items: center;
             justify-content: center;
         }
@@ -105,7 +78,7 @@
     margin-bottom: 10px;
 }
 
-h4, h5, p {    
+p {    
     margin: 0;
     padding: 0;
 }

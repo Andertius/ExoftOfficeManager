@@ -18,8 +18,13 @@
     </a>
 
     <div class="container" >
-        <div class="avatar">{{ userFullName.split(' ')[0][0] }}{{ userFullName.split(' ')[1][0] }}</div>
-        <button mat-button [matMenuTriggerFor]="menu" class="profile">{{ userFullName }}</button>
+        <div class="avatar">
+            <p>{{ userFullName | initials }}</p>
+        </div>
+        <button mat-button [matMenuTriggerFor]="menu" class="profile">
+            {{ userFullName }}
+            <mat-icon aria-hidden="false" aria-label="Arrow">arrow_drop_down</mat-icon>
+        </button>
         <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="openDialog()">Profile</button>
             <button mat-menu-item>Logout</button>

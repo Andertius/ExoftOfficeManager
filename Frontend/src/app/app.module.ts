@@ -14,6 +14,7 @@ import { MeetingsModule } from './modules/meetings/meetings.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { MaterialModulesModule } from './modules/material-modules/material-modules.module';
 import { HttpClientModule } from '@angular/common/http'
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { HttpClientModule } from '@angular/common/http'
     MeetingsModule,
     AuthModule,
     MaterialModulesModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

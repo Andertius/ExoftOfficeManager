@@ -8,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TablesComponent implements OnInit {
 
+  date: string = "";
+
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }

@@ -5,11 +5,15 @@
 // }
 
 .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background: #3a3e46;
     color: white;
     border-radius: 5px;
+    width: 100%;
 
-    padding: 10px 30px;
+    padding: 0px 30px;
 
     height: 100%;
 }
@@ -92,4 +96,5 @@
 h4, h5, p {    
     margin: 0;
     padding: 0;
+    font-weight: normal;
 }

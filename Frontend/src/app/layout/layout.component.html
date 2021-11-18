@@ -1,33 +1,23 @@
 <nav mat-tab-nav-bar mat-align-tabs="center">
-    <a mat-tab-link
-       [routerLink]="'login'"
-       (click)="activeLink='login'"
-       [active]="activeLink == 'login'">
+    <a mat-tab-link disableRipple [routerLink]="'login'" (click)="activeLink='login'" [active]="activeLink === 'login'">
         Login
     </a>
 
-    <a mat-tab-link
-       [routerLink]="'book-place'"
-       (click)="activeLink='book-place'"
-       [active]="activeLink == 'book-place'">
+    <a mat-tab-link disableRipple [routerLink]="'book-place'" (click)="activeLink='book-place'"
+        [active]="activeLink === 'book-place'">
         Book place
     </a>
 
-    <a mat-tab-link
-       [routerLink]="'work-place'"
-       (click)="activeLink='work-place'"
-       [active]="activeLink == 'work-place'">
+    <a mat-tab-link disableRipple [routerLink]="'work-place'" (click)="activeLink='work-place'"
+        [active]="activeLink === 'work-place'">
         Work places
     </a>
 
-    <a mat-tab-link
-       [routerLink]="'meeting'"
-       (click)="activeLink='meeting'"
-       [active]="activeLink == 'meeting'">
+    <a mat-tab-link disableRipple [routerLink]="'meeting'" (click)="activeLink='meeting'" [active]="activeLink === 'meeting'">
         Meeting room
     </a>
 
-    <div class="container">
+    <div class="container" >
         <div class="avatar">{{ userFullName.split(' ')[0][0] }}{{ userFullName.split(' ')[1][0] }}</div>
         <button mat-button [matMenuTriggerFor]="menu" class="profile">{{ userFullName }}</button>
         <mat-menu #menu="matMenu">

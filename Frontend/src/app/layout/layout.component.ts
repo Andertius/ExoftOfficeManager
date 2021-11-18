@@ -59,5 +59,4 @@ export class LayoutComponent implements OnInit, OnDestroy {
       console.log('The dialog was closed');
     });
   }
-
 }

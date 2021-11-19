@@ -6,11 +6,10 @@ import { Injectable } from '@angular/core';
 export class DateService {
 
     public prettyDate(date: Date): string {
-        return `${new Date(date).getDate()}` + ' ' +
-               `${this.parseMonth(new Date(date).getMonth())}` + ' ' +
+        return `${this.parseMonth(new Date(date).getMonth())}` + ' ' +
+               `${new Date(date).getDate()}` + ', ' +
                `${new Date(date).getFullYear()}`;
     }
-    
 
     private parseMonth(month: number): string {
         let result: string = "";

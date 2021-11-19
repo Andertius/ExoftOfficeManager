@@ -1,3 +1,4 @@
+import { X } from '@angular/cdk/keycodes';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
@@ -17,7 +18,6 @@ export class YourBookingsComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void> = new Subject();
 
   bookings: Array<BookingModel> = new Array<BookingModel>();
-  bookingsResponses: BookingResponse[] = [];
 
   constructor(
     private readonly bookingService: BookingService,
@@ -27,17 +27,16 @@ export class YourBookingsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.bookingService.getUserBookings()
       .subscribe(x => {
-        this.bookingsResponses = x;
-
-        for (let i = 0; i < this.bookingsResponses.length; i++) {
+        for (let i = 0; i < x.length; i++) {
           this.bookings.push({
-            userFullName: this.bookingsResponses[i].booking.user.fullName,
-            date: this.dateService.prettyDate(this.bookingsResponses[i].booking.date),
-            bookingType: this.bookingsResponses[i].booking.type
+            userFullName: x[i].booking.user.fullName,
+            date: this.dateService.prettyDate(x[i].booking.date),
+            bookingType: x[i].booking.type,
+            tableNumber: x[i].booking.workPlace.placeNumber,
           });
         }
     
-        if (this.bookingsResponses[0].booking.date != null) {
+        if (x[0].booking.date != null) {
           this.bookings.sort(this.compare).reverse();
         } else {
           this.bookings[0].date = 'Permanent';

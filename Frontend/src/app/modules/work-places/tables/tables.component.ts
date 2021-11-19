@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DateService } from 'src/app/core/services/date.service';
 
 @Component({
   selector: 'app-tables',
@@ -10,10 +11,10 @@ export class TablesComponent implements OnInit {
 
   date: string = "";
 
-  constructor() { }
+  constructor(private readonly dateService: DateService) { }
 
   ngOnInit(): void {
-    
+    this.date = this.dateService.prettyDate(new Date()).toUpperCase();
   }
 
 }

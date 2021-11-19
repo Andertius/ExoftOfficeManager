@@ -24,6 +24,8 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
         public async Task<IList<Booking>> GetAllBookings(DateTime bookingDate)
         {
             return await _context.Bookings
+                .Include(x => x.User)
+                .Include(x => x.WorkPlace)
                 .Where(x => x.Date == bookingDate)
                 .ToListAsync();
         }
@@ -31,6 +33,8 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
         public async Task<IList<Booking>> GetAllPendingBookings()
         {
             return await _context.Bookings
+                .Include(x => x.User)
+                .Include(x => x.WorkPlace)
                 .Where(x => x.Status == BookingStatus.Pending)
                 .ToListAsync();
         }
@@ -39,6 +43,7 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
         {
             return await _context.Bookings
                 .Include(x => x.User)
+                .Include(x => x.WorkPlace)
                 .Where(x => x.User.Id == userId)
                 .ToListAsync();
         }

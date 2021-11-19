@@ -27,15 +27,11 @@
         margin: 0;
         padding: 0;
 
-        .free-place {
+        .status {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             border: 2px solid;
-            border-color: #68b70c;
-            background-color: #ebebec;
-            color: #68b70c;
-            font-size: large;
             user-select: none;
 
             display: flex;
@@ -43,29 +39,24 @@
             justify-content: center;
         }
 
+        .free-place {
+            border-color: #68b70c;
+            background-color: #ebebec;
+            color: #68b70c;
+            font-size: large;
+        }
+
         .booked-place {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid;
             border-color: #68b70c;
             background-color: #ce6a45;
         }
 
         .half-booked-place {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid;
             border-color: #68b70c;
             background-color: #d6a93e;
         }
 
         .unavailable-place {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid;
             border-color: #68b70c;
             background-color: #525e6d;
         }

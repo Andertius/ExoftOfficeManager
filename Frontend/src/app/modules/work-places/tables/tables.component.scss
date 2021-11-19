@@ -1,5 +1,98 @@
-.container {
+.super-container {
+    height: 100%;
     background-color: #3a3e46;
     border-radius: 5px;
     color: white;
+}
+
+.container {
+    padding: 10px 20px;
+}
+
+.date {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}   
+
+.date-text {
+    margin-right: 10px !important;
+}
+
+.date-icon {
+    color: #68b70c;
+}
+
+.tables {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 50px;
+    flex-wrap: wrap;
+    margin: 50px 0 0 0;
+    border: 1px solid rgb(114, 114, 114);
+    height: 475px;
+}
+
+.table-cluster {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.triangle-up {
+	width: 0;
+	height: 0;
+	border-left: 85px solid transparent;
+	border-right: 85px solid transparent;
+	border-bottom: 150px solid #c4c4c4;
+}
+
+.table-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid;
+    user-select: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.free-place {
+    border-color: #68b70c;
+    background-color: #ebebec;
+    color: #68b70c;
+    font-size: large;
+}
+
+.booked-place {
+    border-color: #68b70c;
+    background-color: #ce6a45;
+    color: white;
+}
+
+.half-booked-place {
+    border-color: #68b70c;
+    background-color: #d6a93e;
+    color: white;
+}
+
+.unavailable-place {
+    border-color: #68b70c;
+    background-color: #525e6d;
+    color: #68b70c;
+}
+
+hr {
+    margin: 10px -20px !important;
+    border: none;
+    height: 1px;
+    background-color: rgb(114, 114, 114);
+}
+
+h4 {
+    color: #68b70c;
+    font-weight: bold;
+    margin: 30px 0 0 0;
 }

@@ -23,49 +23,34 @@
         margin: 0;
         padding: 0;
 
-        .booked-place {
+        .avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             border: 2px solid;
+            user-select: none;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .booked-place {
             border-color: #68b70c;
             background-color: #ce6a45;
             color: white;
-            user-select: none;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .half-booked-place {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid;
             border-color: #68b70c;
             background-color: #d6a93e;
             color: white;
-            user-select: none;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .unavailable-place {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid;
             border-color: #68b70c;
             background-color: #525e6d;
             color: #68b70c;
-            user-select: none;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .info {

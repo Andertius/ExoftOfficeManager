@@ -17,11 +17,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void> = new Subject();
 
   links: Array<string> = [
-    'newMeeting',
-    'login',
     'book-place',
     'work-place',
-    'meeting',
   ];
 
   activeLink = "";
@@ -51,7 +48,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
         lastName: "White-Gluz",
         email: "alissa@archenemy.info",
         status: "Status",
-        avatar: "" // ?
+        avatar: ""
       }
     });
 

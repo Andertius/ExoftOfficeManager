@@ -4,19 +4,19 @@
     
         <div role="list" class="grid max-height">
             <div role="listitem" *ngFor="let booking of bookings" class="list-item max-height">
-                <div class="booked-place" *ngIf="booking.bookingType == 1">
+                <div class="avatar booked-place" *ngIf="booking.bookingType == 1">
                     <p>{{ booking.userFullName | initials }}</p>
                 </div>
         
-                <div class="half-booked-place" *ngIf="booking.bookingType == 2">
+                <div class="avatar half-booked-place" *ngIf="booking.bookingType == 2">
                     <p>{{ booking.userFullName | initials }}</p>
                 </div>
         
-                <div class="half-booked-place" *ngIf="booking.bookingType == 3">
+                <div class="avatar half-booked-place" *ngIf="booking.bookingType == 3">
                     <p>{{ booking.userFullName | initials }}</p>
                 </div>
         
-                <div class="unavailable-place" *ngIf="booking.bookingType == 4">
+                <div class="avatar unavailable-place" *ngIf="booking.bookingType == 4">
                     <p>{{ booking.userFullName | initials }}</p>
                 </div>
         

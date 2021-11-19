@@ -1,3 +1,4 @@
+import { WorkPlaceModel } from "../work-place.model";
 import { UserResponse } from "./user.response";
 
 export interface BookingResponse {
@@ -10,6 +11,6 @@ export interface BookingResponse {
         userID:      string;
         user:        UserResponse;
         workPlaceID: string;
-        workPlace:   null; //temporary
+        workPlace:   WorkPlaceModel;
     }
 }

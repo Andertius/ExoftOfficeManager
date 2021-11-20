@@ -21,27 +21,10 @@ export class YourBookingsComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly bookingService: BookingService,
-    private readonly profileService: ProfileService,
-    private readonly dateService: DateService) { }
+    private readonly profileService: ProfileService) { }
 
   ngOnInit(): void {
-    this.bookingService.getUserBookings()
-      .subscribe(x => {
-        for (let i = 0; i < x.length; i++) {
-          this.bookings.push({
-            userFullName: x[i].booking.user.fullName,
-            date: this.dateService.prettyDate(x[i].booking.date),
-            bookingType: x[i].booking.type,
-            tableNumber: x[i].booking.workPlace.placeNumber,
-          });
-        }
-    
-        if (x[0].booking.date != null) {
-          this.bookings.sort(this.compare).reverse();
-        } else {
-          this.bookings[0].date = 'Permanent';
-        }
-    });
+    this.bookings = this.bookingService.getUserBookings();
     
     this.profileService.behaviourSubject
       .pipe(takeUntil(this.unsubscribe$))
@@ -53,16 +36,6 @@ export class YourBookingsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
-  }
-
-  compare(a : BookingModel, b: BookingModel): number {
-    if (a.date < b.date) {
-      return -1;
-    } else if (a.date > b.date) {
-      return 1;
-    }
-    
-    return 0;
   }
 
 }

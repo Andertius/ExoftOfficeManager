@@ -3,6 +3,11 @@
     box-sizing: border-box;
 }
 
+.container {
+    display: flex;
+    height: 94.95%;
+}
+
 .grid {
     margin: 15px;
     display: grid;

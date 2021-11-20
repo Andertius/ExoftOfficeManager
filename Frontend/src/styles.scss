@@ -19,7 +19,7 @@ html { height: 100%; }
 body {
     height: 100%;
     margin: 0;
-    font-family: Roboto, "Segoe UI", sans-serif;
+    font-family: Roboto, "Segoe UI", sans-serif !important;
 }
 
 /* Importing Bootstrap SCSS file. */
@@ -37,6 +37,3 @@ $my-theme: mat.define-dark-theme((
 ));
 
 @include mat.all-component-themes($my-theme);
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

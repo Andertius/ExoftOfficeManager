@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -30,9 +30,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res: any) => {
         this.userFullName = res.fullName;
-      });
+      }
+    );
 
-      this.userFullName = 'Alissa White-Gluz';
+    this.userFullName = 'Alissa White-Gluz';
   }
 
   ngOnDestroy(): void {

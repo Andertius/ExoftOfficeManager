@@ -34,11 +34,11 @@ namespace ExoftOfficeManager.Infrastructure
                     new WorkPlace { FloorNumber = 5, PlaceNumber = 3 },
                     new WorkPlace { FloorNumber = 5, PlaceNumber = 4 },
                     new WorkPlace { FloorNumber = 5, PlaceNumber = 5 },
-                    new WorkPlace { FloorNumber = 4, PlaceNumber = 1 },
-                    new WorkPlace { FloorNumber = 4, PlaceNumber = 2 },
-                    new WorkPlace { FloorNumber = 4, PlaceNumber = 3 },
-                    new WorkPlace { FloorNumber = 4, PlaceNumber = 4 },
-                    new WorkPlace { FloorNumber = 4, PlaceNumber = 5 }
+                    new WorkPlace { FloorNumber = 5, PlaceNumber = 6 },
+                    new WorkPlace { FloorNumber = 5, PlaceNumber = 7 },
+                    new WorkPlace { FloorNumber = 5, PlaceNumber = 8 },
+                    new WorkPlace { FloorNumber = 5, PlaceNumber = 9 },
+                    new WorkPlace { FloorNumber = 5, PlaceNumber = 10 }
                 );
 
                 context.SaveChanges();
@@ -149,7 +149,7 @@ namespace ExoftOfficeManager.Infrastructure
                         Date = new DateTime(2021, 10, 10),
                         User = context.Users.FirstOrDefault(user => user.FullName == "James Hetfield"),
                         Type = BookingType.Booked,
-                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 4 && x.PlaceNumber == 1),
+                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 6),
                         Status = BookingStatus.Approved
                     },
 
@@ -158,7 +158,7 @@ namespace ExoftOfficeManager.Infrastructure
                         Date = new DateTime(2021, 10, 10),
                         User = context.Users.FirstOrDefault(user => user.FullName == "Painis Dickens"),
                         Type = BookingType.Booked,
-                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 4 && x.PlaceNumber == 5),
+                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 10),
                         Status = BookingStatus.Approved
                     },
 
@@ -194,7 +194,7 @@ namespace ExoftOfficeManager.Infrastructure
                         Date = new DateTime(2021, 10, 11),
                         User = context.Users.FirstOrDefault(user => user.FullName == "Painis Dickens"),
                         Type = BookingType.Booked,
-                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 4 && x.PlaceNumber == 5),
+                        WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 10),
                         Status = BookingStatus.Approved
                     }
                 );

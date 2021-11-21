@@ -24,7 +24,7 @@ export class YourBookingsComponent implements OnInit, OnDestroy {
     private readonly profileService: ProfileService) { }
 
   ngOnInit(): void {
-    this.bookings = this.bookingService.getUserBookings();
+    this.bookings = this.bookingService.subscribe(this.bookingService.getUserBookings());
     
     this.profileService.behaviourSubject
       .pipe(takeUntil(this.unsubscribe$))

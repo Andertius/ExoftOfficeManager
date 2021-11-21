@@ -12,19 +12,17 @@ export class BookingService {
 
   constructor(private readonly http: HttpClient, private readonly dateService: DateService) { }
 
-  public getUserBookings(): BookingModel[] {
-    return this.subscribe(
-      this.http.get<Array<BookingResponse>>(
-        'https://localhost:44377/Booking/users/91037966-5609-4FF2-4898-08D99ACF32E4/bookings'));
+  public getUserBookings(): Observable<BookingResponse[]> {
+    return this.http.get<Array<BookingResponse>>(
+        'https://localhost:44377/Booking/users/91037966-5609-4FF2-4898-08D99ACF32E4/bookings');
   }
 
-  public getSpecificDayBookings(date: Date): BookingModel[] {
-    return this.subscribe(
-      this.http.get<Array<BookingResponse>>(
-        `https://localhost:44377/Booking/bookings?bookingDate=${date.toISOString().split('T')[0]}`));
+  public getSpecificDayBookings(date: Date): Observable<BookingResponse[]> {
+    return this.http.get<Array<BookingResponse>>(
+        `https://localhost:44377/Booking/bookings?bookingDate=${date.toISOString().split('T')[0]}`);
   }
 
-  private subscribe(serverResponse: Observable<Array<BookingResponse>>): BookingModel[] {
+  public subscribe(serverResponse: Observable<Array<BookingResponse>>): BookingModel[] {
     let bookings: BookingModel[] = [];
 
     serverResponse

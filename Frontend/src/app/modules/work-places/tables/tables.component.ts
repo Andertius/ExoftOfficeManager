@@ -11,7 +11,12 @@ import { BookingModel } from 'src/app/models/booking.model';
 })
 export class TablesComponent implements OnInit {
 
-  range: number[] = Array(10);
+  range = [...Array(10).keys()];
+  tables: Array<{
+    tableNumber: number,
+    bookingType: number,
+  }> = [];
+
   bookings: BookingModel[] = [];
   date: string = "";
 
@@ -19,8 +24,34 @@ export class TablesComponent implements OnInit {
 
   ngOnInit(): void {
     this.date = this.dateService.prettyDate(new Date()).toUpperCase();
-    this.bookings = this.bookingService.getUserBookings();
-    this.bookings.find(x => x.tableNumber == 1)
+    this.bookingService.getSpecificDayBookings(new Date('2021-10-10'))
+      .subscribe(x => {
+        for (let i = 0; i < x.length; i++) {
+          this.bookings.push({
+            userFullName: x[i].booking.user.fullName,
+            date: this.dateService.prettyDate(x[i].booking.date),
+            bookingType: x[i].booking.type,
+            tableNumber: x[i].booking.workPlace.placeNumber,
+          });
+        }
+        
+        for (let i = 0; i < 30; i++) {
+          this.tables.push({
+            tableNumber: i + 1,
+            bookingType: this.getBookingType(i + 1),
+          });
+        }
+      });
+  }
+
+  getBookingType(tableNumber: number): number {
+    const booking = this.bookings.find(x => x.tableNumber === tableNumber);
+    return booking?.bookingType ?? 0;
+  }
+
+  getBookingName(tableNumber: number): string {
+    const booking = this.bookings.find(x => x.tableNumber === tableNumber);
+    return booking?.userFullName ?? "";
   }
 
 }

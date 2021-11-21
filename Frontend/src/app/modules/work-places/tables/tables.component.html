@@ -12,13 +12,56 @@
         <div class="table-wrapper">
             <h4>MAP OF THE 5TH FLOOR</h4>
             
-            <div class="tables">
-                <div class="table-cluster" *ngFor="let table of range">
-                    <div class="triangle-up">
-                        <button class="table-button"></button>
-                        <button class="table-button"></button>
-                        <button class="table-button"></button>
-                    </div>
+            <div class="table-container">
+                <div class="table-cluster" *ngFor="let tableCluster of range">
+                    <div class="triangle-up p-absolute"></div>
+
+                    <div class="p-absolute tables">
+                        <button class="table-button top-left" [ngClass]="{
+                            'free-place': tables[tableCluster * 3].bookingType === 0,
+                            'booked-place': tables[tableCluster * 3].bookingType === 1,
+                            'unavailable-place': tables[tableCluster * 3].bookingType === 2,
+                            'half-booked-place': tables[tableCluster * 3].bookingType === 3 || tables[tableCluster * 3].bookingType === 4
+                        }">
+                            <span *ngIf="getBookingName(tableCluster * 3 + 1) === ''">
+                                +
+                            </span>
+                            
+                            <span *ngIf="getBookingName(tableCluster * 3 + 1) !== ''">
+                                {{ getBookingName(tableCluster * 3 + 1) | initials }}
+                            </span>
+                        </button>
+    
+                        <button class="table-button top-right" [ngClass]="{
+                            'free-place': tables[tableCluster * 3 + 1].bookingType === 0, 
+                            'booked-place': tables[tableCluster * 3 + 1].bookingType === 1,
+                            'unavailable-place': tables[tableCluster * 3 + 1].bookingType === 2,
+                            'half-booked-place': tables[tableCluster * 3 + 1].bookingType === 3 || tables[tableCluster * 3 + 1].bookingType === 4
+                        }">
+                            <span *ngIf="getBookingName(tableCluster * 3 + 2) === ''">
+                                +
+                            </span>
+                            
+                            <span *ngIf="getBookingName(tableCluster * 3 + 2) !== ''">
+                                {{ getBookingName(tableCluster * 3 + 2) | initials }}
+                            </span>
+                        </button>
+    
+                        <button class="table-button bottom" [ngClass]="{
+                            'free-place': tables[tableCluster * 3 + 2].bookingType === 0,
+                            'booked-place': tables[tableCluster * 3 + 2].bookingType === 1,
+                            'unavailable-place': tables[tableCluster * 3 + 2].bookingType === 2,
+                            'half-booked-place': tables[tableCluster * 3 + 2].bookingType === 3 || tables[tableCluster * 3 + 2].bookingType === 4
+                        }">
+                            <span *ngIf="getBookingName(tableCluster * 3 + 3) === ''">
+                                +
+                            </span>
+                            
+                            <span *ngIf="getBookingName(tableCluster * 3 + 3) !== ''">
+                                {{ getBookingName(tableCluster * 3 + 3) | initials }}
+                            </span>
+                        </button>
+                    </div>                    
                 </div>
             </div>
         </div>

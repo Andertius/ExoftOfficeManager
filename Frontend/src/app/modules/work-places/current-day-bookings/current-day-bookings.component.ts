@@ -15,7 +15,7 @@ export class CurrentDayBookingsComponent implements OnInit {
   constructor(private readonly bookingService: BookingService) { }
 
   ngOnInit(): void {
-    this.bookings = this.bookingService.getSpecificDayBookings(new Date('2021-10-10'));
+    this.bookings = this.bookingService.subscribe(this.bookingService.getSpecificDayBookings(new Date('2021-10-10')));
   }
 
   compare(a : BookingModel, b: BookingModel): number {

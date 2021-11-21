@@ -23,7 +23,7 @@
     color: #68b70c;
 }
 
-.tables {
+.table-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     gap: 50px;
@@ -37,6 +37,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.p-absolute {
+    position: absolute;
+}
+
+.tables {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    align-self: flex-end;
+
+    .bottom {
+        grid-column: span 2;
+        justify-self: center;
+    }
 }
 
 .triangle-up {
@@ -60,27 +76,27 @@
 }
 
 .free-place {
-    border-color: #68b70c;
-    background-color: #ebebec;
+    border-color: rgb(#68b70c, .9);
+    background-color: rgb(#ebebec, .9);
     color: #68b70c;
     font-size: large;
 }
 
 .booked-place {
-    border-color: #68b70c;
-    background-color: #ce6a45;
+    border-color: rgb(#68b70c, .9);
+    background-color: rgb(#ce6a45, .9);
     color: white;
 }
 
 .half-booked-place {
-    border-color: #68b70c;
-    background-color: #d6a93e;
+    border-color: rgb(#68b70c, .9);
+    background-color: rgb(#d6a93e, .9);
     color: white;
 }
 
 .unavailable-place {
-    border-color: #68b70c;
-    background-color: #525e6d;
+    border-color: rgb(#68b70c, .9);
+    background-color: rgb(#525e6d, .9);
     color: #68b70c;
 }
 

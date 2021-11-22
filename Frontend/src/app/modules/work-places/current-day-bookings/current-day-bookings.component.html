@@ -8,7 +8,7 @@
                     <p>{{ booking.userFullName | initials }}</p>
                 </div>
         
-                <div class="avatar half-booked-place" *ngIf="booking.bookingType == 2">
+                <div class="avatar unavailable-place" *ngIf="booking.bookingType == 2">
                     <p>{{ booking.userFullName | initials }}</p>
                 </div>
         
@@ -16,15 +16,15 @@
                     <p>{{ booking.userFullName | initials }}</p>
                 </div>
         
-                <div class="avatar unavailable-place" *ngIf="booking.bookingType == 4">
+                <div class="avatar half-booked-place" *ngIf="booking.bookingType == 4">
                     <p>{{ booking.userFullName | initials }}</p>
                 </div>
         
                 <div class="info">
                     <p>{{ booking.userFullName }}</p>
         
-                    <p *ngIf="booking.bookingType == 2">10 am - 14 pm</p>
-                    <p *ngIf="booking.bookingType == 3">14 pm - 18 pm</p>
+                    <p *ngIf="booking.bookingType == 3">10 am - 14 pm</p>
+                    <p *ngIf="booking.bookingType == 4">14 pm - 18 pm</p>
                 </div>
             </div>
         </div>

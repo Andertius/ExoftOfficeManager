@@ -31,6 +31,7 @@
     margin: 50px 0 0 0;
     border: 1px solid rgb(114, 114, 114);
     height: 475px;
+    padding: 10px;
 }
 
 .table-cluster {
@@ -69,6 +70,7 @@
     border-radius: 50%;
     border: 2px solid;
     user-select: none;
+    font-size: larger;
 
     display: flex;
     align-items: center;
@@ -79,7 +81,7 @@
     border-color: rgb(#68b70c, .9);
     background-color: rgb(#ebebec, .9);
     color: #68b70c;
-    font-size: large;
+    font-size: 25px;
 }
 
 .booked-place {

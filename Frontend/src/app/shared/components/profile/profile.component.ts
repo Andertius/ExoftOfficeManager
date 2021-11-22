@@ -1,8 +1,7 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserModel } from 'src/app/models/user.model';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ProfileService } from 'src/app/core/services/profile.service';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DateService } from 'src/app/core/services/date.service';
+import { WorkPlaceModel } from 'src/app/models/work-place.model';
 
 @Component({
   selector: 'app-profile',
@@ -11,40 +10,38 @@ import { ProfileService } from 'src/app/core/services/profile.service';
 })
 export class ProfileComponent implements OnInit {
 
-  user: UserModel = {
-    firstName: 'Phil',
-    lastName: 'Anselmo',
-    email: 'panteraZeBest@pantera.metal',
-    status: 'Status',
-    avatar: '',
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {
+    username: string,
+    workPlace: { tableNumber: number, floorNumber: number },
+    date: Date,
+    bookingType: number
+  },
+  private readonly dateService: DateService) { }
+
+  get bookingText(): string {
+    switch (this.data.bookingType) {
+      case 1:
+        return "Booked for the whole day";
+
+      case 2:
+        return "Booked the place for good";
+
+      case 3:
+        return "Booked from 10 AM to 2 PM";
+
+      case 4:
+        return "Booked from 2 PM to 6 PM";
+
+      default:
+        return "";
+    }
   }
 
-  userForm!: FormGroup;
-
-  emailRegex: RegExp =/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
-  
-  constructor(
-    private readonly profileService: ProfileService,
-    public dialogRef: MatDialogRef<ProfileComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: UserModel) { }
+  get date(): string {
+    return this.dateService.prettyDate(this.data.date);
+  }
 
   ngOnInit(): void {
-    const { firstName, lastName, email, status } = this.user;
-
-    this.userForm = new FormGroup({
-      firstName: new FormControl(firstName, Validators.required),
-      lastName: new FormControl(lastName, Validators.required),
-      email: new FormControl(email, Validators.required),
-      status: new FormControl(status),
-    });
-  }
-
-  submit(): void {
-    this.profileService.behaviourSubject = {
-      avatar: "",
-      fullName: `${this.userForm.value.firstName} ${this.userForm.value.lastName}`,
-    };
-    this.dialogRef.close();
   }
 
 }

@@ -14,7 +14,7 @@ export class BookingService {
 
   public getUserBookings(): Observable<BookingResponse[]> {
     return this.http.get<Array<BookingResponse>>(
-        'https://localhost:44377/Booking/users/91037966-5609-4FF2-4898-08D99ACF32E4/bookings');
+        'https://localhost:44377/Booking/users/4D7BE074-A7B0-4536-719E-08D9ACF1D8DD/bookings');
   }
 
   public getSpecificDayBookings(date: Date): Observable<BookingResponse[]> {
@@ -33,8 +33,11 @@ export class BookingService {
             date: this.dateService.prettyDate(x[i].booking.date),
             bookingType: x[i].booking.type,
             tableNumber: x[i].booking.workPlace.placeNumber,
+            floorNumber: x[i].booking.workPlace.floorNumber,
           });
         }
+        
+        bookings = bookings.filter(x => x.floorNumber === 5);
 
         if (x[0].booking.date != null) {
           bookings.sort(this.compare).reverse();

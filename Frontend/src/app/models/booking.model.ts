@@ -3,4 +3,5 @@ export interface BookingModel {
     userFullName: string;
     bookingType: number;
     tableNumber: number;
+    floorNumber: number;
 }

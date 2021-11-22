@@ -2,15 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GreetingComponent } from './components/greeting/greeting.component';
 import { MaterialModulesModule } from '../modules/material-modules/material-modules.module';
-import { ProfileComponent } from './components/profile/profile.component';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InitialsPipe } from './pipes/initials.pipe';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
     GreetingComponent,
-    ProfileComponent,
+    EditProfileComponent,
     InitialsPipe,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,
@@ -21,7 +23,7 @@ import { InitialsPipe } from './pipes/initials.pipe';
   ],
   exports: [
     GreetingComponent,
-    ProfileComponent,
+    EditProfileComponent,
     InitialsPipe,
   ]
 })

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ProfileService } from '../core/services/profile.service';
-import { ProfileComponent } from '../shared/components/profile/profile.component';
+import { EditProfileComponent } from '../shared/components/edit-profile/edit-profile.component';
 
 @Component({
   selector: 'app-layout',
@@ -42,7 +42,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
   
   openDialog(): void {
-    const dialogRef = this.dialog.open(ProfileComponent, {
+    const dialogRef = this.dialog.open(EditProfileComponent, {
       width: '500px',
       data: {
         firstName: "Alissa",

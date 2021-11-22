@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { delay } from 'rxjs/operators';
 import { BookingService } from 'src/app/core/services/booking.service';
 import { DateService } from 'src/app/core/services/date.service';
 import { BookingModel } from 'src/app/models/booking.model';

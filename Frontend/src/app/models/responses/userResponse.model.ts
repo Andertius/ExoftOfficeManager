@@ -1,4 +1,4 @@
-import { BookingResponse } from "./booking.response";
+import { BookingResponse } from "./bookingResponse.model";
 
 export interface UserResponse {
     id:        string;

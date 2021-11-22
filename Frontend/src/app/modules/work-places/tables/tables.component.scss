@@ -1,3 +1,5 @@
+@import "src/styles.scss";
+
 .super-container {
     height: 100%;
     background-color: #3a3e46;
@@ -47,7 +49,7 @@
 .tables {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 25px;
+    gap: 20px 25px;
     align-self: flex-end;
 
     .bottom {
@@ -78,28 +80,28 @@
 }
 
 .free-place {
-    border-color: rgb(#68b70c, .9);
-    background-color: rgb(#ebebec, .9);
-    color: #68b70c;
+    border-color: rgb($green, .9);
+    background-color: rgb($free-place-background, .9);
+    color: $green;
     font-size: 25px;
 }
 
 .booked-place {
-    border-color: rgb(#68b70c, .9);
-    background-color: rgb(#ce6a45, .9);
+    border-color: rgb($green, .9);
+    background-color: rgb($booked-place-background, .9);
     color: white;
 }
 
 .half-booked-place {
-    border-color: rgb(#68b70c, .9);
-    background-color: rgb(#d6a93e, .9);
+    border-color: rgb($green, .9);
+    background-color: rgb($half-booked-place-background, .9);
     color: white;
 }
 
 .unavailable-place {
-    border-color: rgb(#68b70c, .9);
-    background-color: rgb(#525e6d, .9);
-    color: #68b70c;
+    border-color: rgb($green, .9);
+    background-color: rgb($booked-permanently-place-background, .9);
+    color: $green;
 }
 
 hr {
@@ -110,7 +112,7 @@ hr {
 }
 
 h4 {
-    color: #68b70c;
+    color: $green;
     font-weight: bold;
     margin: 30px 0 0 0;
 }

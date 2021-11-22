@@ -28,18 +28,10 @@ namespace ExoftOfficeManager.Infrastructure
 
             if (!context.WorkPlaces.Any())
             {
-                context.WorkPlaces.AddRange(
-                    new WorkPlace { FloorNumber = 5, PlaceNumber = 1 },
-                    new WorkPlace { FloorNumber = 5, PlaceNumber = 2 },
-                    new WorkPlace { FloorNumber = 5, PlaceNumber = 3 },
-                    new WorkPlace { FloorNumber = 5, PlaceNumber = 4 },
-                    new WorkPlace { FloorNumber = 5, PlaceNumber = 5 },
-                    new WorkPlace { FloorNumber = 5, PlaceNumber = 6 },
-                    new WorkPlace { FloorNumber = 5, PlaceNumber = 7 },
-                    new WorkPlace { FloorNumber = 5, PlaceNumber = 8 },
-                    new WorkPlace { FloorNumber = 5, PlaceNumber = 9 },
-                    new WorkPlace { FloorNumber = 5, PlaceNumber = 10 }
-                );
+                for (int i = 1; i <= 30; i++)
+                {
+                    context.WorkPlaces.Add(new WorkPlace { FloorNumber = 5, PlaceNumber = i });
+                }
 
                 context.SaveChanges();
             }

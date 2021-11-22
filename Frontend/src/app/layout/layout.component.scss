@@ -1,3 +1,5 @@
+@import "src/styles.scss";
+
 * {
     margin: 0px;
     padding: 0px;
@@ -17,14 +19,16 @@ nav {
     display: flex;
 }
 
+$avatar-background: #586270;
+
 .avatar {
     height: 35px;
     width: 35px;
     border-radius: 50%;
     border: 2px solid;
     border-color: lightgray;
-    background-color: #586270;
-    color: #68b70c;
+    background-color: $avatar-background;
+    color: $green;
     user-select: none;
 
     display: flex;

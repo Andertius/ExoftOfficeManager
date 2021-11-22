@@ -11,13 +11,7 @@ import { ProfileService } from 'src/app/core/services/profile.service';
 })
 export class EditProfileComponent implements OnInit {
 
-  user: UserModel = {
-    firstName: 'Phil',
-    lastName: 'Anselmo',
-    email: 'panteraZeBest@pantera.metal',
-    status: 'Status',
-    avatar: '',
-  }
+  user: UserModel;
 
   userForm!: FormGroup;
 
@@ -26,7 +20,9 @@ export class EditProfileComponent implements OnInit {
   constructor(
     private readonly profileService: ProfileService,
     public dialogRef: MatDialogRef<EditProfileComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: UserModel) { }
+    @Inject(MAT_DIALOG_DATA) public data: { user: UserModel, prevName: string }) {
+      this.user = data.user;
+    }
 
   ngOnInit(): void {
     const { firstName, lastName, email, status } = this.user;
@@ -43,6 +39,7 @@ export class EditProfileComponent implements OnInit {
     this.profileService.behaviourSubject = {
       avatar: "",
       fullName: `${this.userForm.value.firstName} ${this.userForm.value.lastName}`,
+      prevName: this.data.prevName,
     };
     this.dialogRef.close();
   }

@@ -1,6 +1,8 @@
+@import "src/styles.scss";
+
 .super-container {
     height: 100%;
-    background: #3a3e46;
+    background: $component-background;
     color: white;
     border-radius: 5px;
 }
@@ -35,21 +37,21 @@
         }
 
         .booked-place {
-            border-color: #68b70c;
-            background-color: #ce6a45;
+            border-color: $green;
+            background-color: $booked-place-background;
             color: white;
         }
 
         .half-booked-place {
-            border-color: #68b70c;
-            background-color: #d6a93e;
+            border-color: $green;
+            background-color: $half-booked-place-background;
             color: white;
         }
 
         .unavailable-place {
-            border-color: #68b70c;
-            background-color: #525e6d;
-            color: #68b70c;
+            border-color: $green;
+            background-color: $booked-permanently-place-background;
+            color: $green;
         }
 
         .info {

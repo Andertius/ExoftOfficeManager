@@ -1,3 +1,5 @@
+@import "src/styles.scss";
+
 * {
     margin: 0 !important;
     box-sizing: border-box;
@@ -13,7 +15,7 @@
     display: grid;
     grid-template-columns: 4fr 1fr;
     gap: 15px;
-    background: #2c2c2c;
+    background: $page-background;
     padding: 20px;
 
     .grid-left-item {

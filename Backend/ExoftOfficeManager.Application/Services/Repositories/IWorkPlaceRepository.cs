@@ -17,6 +17,8 @@ namespace ExoftOfficeManager.Application.Services.Repositories
 
         Task<WorkPlace> FindWorkPlaceById(Guid placeId);
 
+        Task<WorkPlace> FindWorkPlaceByPlaceNumber(int place, int floor);
+
         /// <summary>
         /// Attempts to get a workplace from the database by <paramref name="placeId"/>.
         /// </summary>

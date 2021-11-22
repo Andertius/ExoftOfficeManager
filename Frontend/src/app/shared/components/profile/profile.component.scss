@@ -1,0 +1,16 @@
+@import "src/styles.scss";
+
+.container {
+    background-color: $popup-background;
+    border-radius: 5px;
+    color: white;
+    padding: 10px 20px;
+}
+
+.booking {
+    font-size: large;
+}
+
+.date {
+    color: $green;
+}

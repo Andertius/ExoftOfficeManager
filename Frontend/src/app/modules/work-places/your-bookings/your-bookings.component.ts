@@ -6,7 +6,9 @@ import { BookingService } from 'src/app/core/services/booking.service';
 import { DateService } from 'src/app/core/services/date.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
 import { BookingModel } from 'src/app/models/booking.model';
-import { BookingResponse } from 'src/app/models/responses/booking.response';
+import { EditProfileResultModel } from 'src/app/models/edit-profile-result.model';
+import { BookingType } from 'src/app/models/enums/booking-type.enum';
+import { BookingResponse } from 'src/app/models/responses/bookingResponse.model';
 
 @Component({
   selector: 'app-your-bookings',
@@ -22,13 +24,17 @@ export class YourBookingsComponent implements OnInit, OnDestroy {
   constructor(
     private readonly bookingService: BookingService,
     private readonly profileService: ProfileService) { }
+    
+  public get bookingType(): typeof BookingType {
+    return BookingType;
+  }
 
   ngOnInit(): void {
     this.bookings = this.bookingService.subscribe(this.bookingService.getUserBookings());
     
     this.profileService.behaviourSubject
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((res: any) => {
+      .subscribe((res: EditProfileResultModel) => {
         this.bookings.forEach(x => x.userFullName = res.fullName);
       });
   }

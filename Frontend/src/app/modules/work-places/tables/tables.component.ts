@@ -1,7 +1,13 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { BookingService } from 'src/app/core/services/booking.service';
 import { DateService } from 'src/app/core/services/date.service';
+import { WorkPlaceService } from 'src/app/core/services/work-place.service';
 import { BookingModel } from 'src/app/models/booking.model';
+import { BookingType } from 'src/app/models/enums/booking-type.enum';
+import { WorkPlaceResponse } from 'src/app/models/responses/work-placeRespnose.model';
+import { ProfileComponent } from 'src/app/shared/components/profile/profile.component';
+import { BookPlaceComponent } from '../book-place/book-place.component';
 
 @Component({
   selector: 'app-tables',
@@ -11,22 +17,30 @@ import { BookingModel } from 'src/app/models/booking.model';
 })
 export class TablesComponent implements OnInit, AfterViewInit {
 
-  range = [...Array(10).keys()];
+  clusterRange = [...Array(10).keys()];
+  tableRange = [...Array(3).keys()];
   tables: Array<{
     tableNumber: number,
-    bookingType: number,
-    bookingType2: number,
+    bookingType: BookingType,
+    bookingType2: BookingType,
   }> = [];
 
   bookings: BookingModel[] = [];
   date: string = "";
   
   _bookTable = this.bookTable.bind(this);
+  _peekAtProfile = this.peekAtProfile.bind(this);
 
   constructor(
     private readonly dateService: DateService,
     private readonly bookingService: BookingService,
-    private readonly elementRef: ElementRef) { }
+    private readonly workPlaceService: WorkPlaceService,
+    private readonly elementRef: ElementRef,
+    private readonly dialog: MatDialog) { }
+
+  public get bookingType(): typeof BookingType {
+    return BookingType;
+  }
 
   ngOnInit(): void {
     this.date = this.dateService.prettyDate(new Date()).toUpperCase();
@@ -54,25 +68,75 @@ export class TablesComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     const dom: HTMLElement = this.elementRef.nativeElement;
-    const elements = dom.querySelectorAll('.free-place');
+    const freePlaces = dom.querySelectorAll('.free-place');
 
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].addEventListener('click', this._bookTable, false);
+    for (var i = 0; i < freePlaces.length; i++) {
+      freePlaces[i].addEventListener('click', this._bookTable, false);
     }
-  } 
+    
+    const bookedPlaces = dom.querySelectorAll('.booked-place');
+    const bookedPermanentlyPlaces = dom.querySelectorAll('.booked-permanently-place');
+    const halfBookedPlaces = dom.querySelectorAll('.half-booked-place');
+
+    for (var i = 0; i < bookedPlaces.length; i++) {
+      bookedPlaces[i].addEventListener('click', this._peekAtProfile, false);
+    }
+
+    for (var i = 0; i < bookedPermanentlyPlaces.length; i++) {
+      bookedPermanentlyPlaces[i].addEventListener('click', this._peekAtProfile, false);
+    }
+
+    for (var i = 0; i < halfBookedPlaces.length; i++) {
+      halfBookedPlaces[i].addEventListener('click', this._peekAtProfile, false);
+    }
+  }
+
+  peekAtProfile(event: Event): void {
+    const button = event.currentTarget as HTMLButtonElement;
+    const target = new ElementRef(event.currentTarget);
+
+    const table = Number(button.id.slice(0, button.id.length - 2));
+
+    const booking = button.id[button.id.length - 1] === "0" ?
+      this.bookings.filter(x => x.tableNumber === table)[0] : this.bookings.filter(x => x.tableNumber === table)[1];
+
+    const dialogRef = this.dialog.open(ProfileComponent, {
+      data: {
+        username: booking.userFullName,
+        workPlace: { tableNumber: table, floorNumber: 5 },
+        date: booking.date,
+        bookingType: booking.bookingType,
+        trigger: target,
+      }
+    });
+  }
 
   bookTable(event: Event) {
-    console.log('a');
+    const button = event.currentTarget as HTMLButtonElement;
+
+    this.workPlaceService.findWorkPlaceByPlaceNumber(Number(button.id.slice(0, button.id.length - 2)), 5)
+      .subscribe(workPlace => {
+        const dialogRef = this.dialog.open(BookPlaceComponent, {
+          data: {
+            workPlaceId: workPlace.workPlace.id,
+            userId: "1D0BEA4F-DD83-4F45-F647-08D9ADBE1ABA",
+            bookingType: 0,
+            bookingDate: new Date(),
+            days: null,
+          },
+        });
+      }
+    );    
   }
 
-  getBookingType(tableNumber: number): number {
+  getBookingType(tableNumber: number): BookingType {
     const booking = this.bookings.find(x => x.tableNumber === tableNumber);
-    return booking?.bookingType ?? 0;
+    return booking?.bookingType ?? BookingType.Available;
   }
 
-  getBookingType2(tableNumber: number): number {
+  getBookingType2(tableNumber: number): BookingType {
     const booking = this.bookings.slice().reverse().find(x => x.tableNumber === tableNumber);
-    return booking?.bookingType ?? 0;
+    return booking?.bookingType ?? BookingType.Available;
   }
 
   getBookingName(tableNumber: number): string {
@@ -83,10 +147,6 @@ export class TablesComponent implements OnInit, AfterViewInit {
   getBookingName2(tableNumber: number): string {
     const booking = this.bookings.slice().reverse().find(x => x.tableNumber === tableNumber);
     return booking?.userFullName ?? "";
-  }
-
-  openProfile(event: Event): void {
-    
   }
 
 }

@@ -16,16 +16,13 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
     {
         private readonly IBookingRepository _repository;
         private readonly IWorkPlaceRepository _placeRepository;
-        private readonly IUserRepository _userRepository;
 
         public AddBookingCommandHandler(
             IBookingRepository bookingRepository,
-            IWorkPlaceRepository placeRepository,
-            IUserRepository userRepository)
+            IWorkPlaceRepository placeRepository)
         {
             _repository = bookingRepository;
             _placeRepository = placeRepository;
-            _userRepository = userRepository;
         }
 
         public async Task<Unit> Handle(AddBookingCommand request, CancellationToken cancellationToken)
@@ -35,6 +32,14 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
                 if (place.Bookings.Where(x => x.Date == request.BookingDate && x.Type == request.BookingType).Any())
                 {
                     throw new ArgumentException($"Cannot book with status '{request.BookingType}', because the work place already has that status.");
+                }
+                else if (place.Bookings.Any() &&
+                    ((place.Bookings.First().Type == BookingType.FirstHalfBooked &&
+                    request.BookingType != BookingType.SecondHalfBooked) ||
+                    (place.Bookings.First().Type == BookingType.SecondHalfBooked &&
+                    request.BookingType != BookingType.FirstHalfBooked)))
+                {
+                    throw new ArgumentException($"Cannot book with status '{request.BookingType}', because the work place is booked for half a day.");
                 }
 
                 for (int i = 0; i < request.DayNumber; i++)

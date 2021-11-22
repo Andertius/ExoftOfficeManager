@@ -47,7 +47,8 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
                     place.Bookings.Any(x => x.Status != BookingStatus.Approved) ||
                     !place.Bookings.Any(x => x.Type == BookingType.BookedPermanently) &&
                     !place.Bookings.Any(x => x.Type == BookingType.Booked) &&
-                    !place.Bookings.All(x => x.Type == BookingType.FirstHalfBooked || x.Type == BookingType.SecondHalfBooked))
+                     place.Bookings.All(x => x.Type == BookingType.FirstHalfBooked || x.Type == BookingType.SecondHalfBooked) &&
+                     place.Bookings.Count < 2)
                    .ToListAsync();
         }
                     
@@ -72,7 +73,8 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
                     !work.Bookings.Any() ||
                     !work.Bookings.Any(x => x.Type == BookingType.BookedPermanently) &&
                     !work.Bookings.Any(x => x.Type == BookingType.Booked) &&
-                    !work.Bookings.All(x => x.Type == BookingType.FirstHalfBooked || x.Type == BookingType.SecondHalfBooked))
+                     work.Bookings.All(x => x.Type == BookingType.FirstHalfBooked || x.Type == BookingType.SecondHalfBooked) &&
+                     work.Bookings.Count < 2)
                 .FirstOrDefault(x => x.Id == placeId);
 
             //var a = _context.WorkPlaces
@@ -97,6 +99,13 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
         public async Task Commit()
         {
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<WorkPlace> FindWorkPlaceByPlaceNumber(int place, int floor)
+        {
+            return await _context.WorkPlaces
+                .Include(x => x.Bookings)
+                .FirstOrDefaultAsync(x => x.PlaceNumber == place && x.FloorNumber == floor);
         }
     }
 }

@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BookingModel } from 'src/app/models/booking.model';
-import { BookingResponse } from 'src/app/models/responses/booking.response';
+import { AddBookingRequest } from 'src/app/models/requests/addBookingRequest.model';
+import { BookingResponse } from 'src/app/models/responses/bookingResponse.model';
 import { DateService } from './date.service';
 
 @Injectable({
@@ -14,7 +15,7 @@ export class BookingService {
 
   public getUserBookings(): Observable<BookingResponse[]> {
     return this.http.get<Array<BookingResponse>>(
-        'https://localhost:44377/Booking/users/4D7BE074-A7B0-4536-719E-08D9ACF1D8DD/bookings');
+        'https://localhost:44377/Booking/users/1D0BEA4F-DD83-4F45-F647-08D9ADBE1ABA/bookings');
   }
 
   public getSpecificDayBookings(date: Date): Observable<BookingResponse[]> {
@@ -47,6 +48,17 @@ export class BookingService {
       });
 
     return bookings;
+  }
+
+  public addBooking(data: AddBookingRequest): void {
+    debugger
+    this.http.post(`https://localhost:44377/WorkPlace/work-places/${data.workPlaceId}/book`, {
+      userId: data.userId,
+      bookingType: data.bookingType,
+      bookingDate: data.bookingDate,
+      days: data.days
+    })
+    .subscribe();
   }
 
   compare(a: BookingModel, b: BookingModel): number {

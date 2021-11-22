@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.Bookings.Commands.AddBooking;
 using ExoftOfficeManager.Application.WorkPlaces.Queries.FindWorkPlaceById;
+using ExoftOfficeManager.Application.WorkPlaces.Queries.FindWorkPlaceByPlaceNumber;
 using ExoftOfficeManager.Application.WorkPlaces.Queries.GetAvailableWorkPlaces;
 using ExoftOfficeManager.Application.WorkPlaces.Queries.GetBookedWorkPlaces;
 using ExoftOfficeManager.Application.WorkPlaces.Queries.GetWorkPlaces;
@@ -33,28 +34,37 @@ namespace ExoftOfficeManager.Controllers
             return Ok(places);
         }
 
-        [HttpGet("workplaces/booked-work-places")]
+        [HttpGet("work-places/booked-work-places")]
         public async Task<IActionResult> GetBooked(DateTime date)
         {
             var places = await _mediator.Send(new GetBookedWorkPlacesQuery(date.Date));
             return Ok(places);
         }
 
-        [HttpGet("workplaces/available-workplaces")]
+        [HttpGet("work-places/available-work-places")]
         public async Task<IActionResult> GetAllAvailable(DateTime date)
         {
             var places = await _mediator.Send(new GetAvailableWorkPlacesQuery(date.Date));
             return Ok(places);
         }
 
-        [HttpGet("workplaces/{placeId}/workplace")]
+        [HttpGet("work-places/{placeId}/work-place")]
         public async Task<IActionResult> FindWorkPlace([FromRoute] Guid placeId)
         {
             var workPlace = await _mediator.Send(new FindWorkPlaceByIdQuery(placeId));
             return Ok(workPlace);
         }
 
-        [HttpPost("workplaces/{placeId}/book")]
+        [HttpGet("work-places/{placeNumber}/{floorNumber}/work-place")]
+        public async Task<IActionResult> FindWorkPlaceByPlaceNumber(
+            [FromRoute] int placeNumber,
+            [FromRoute] int floorNumber)
+        {
+            var workPlace = await _mediator.Send(new FindWorkPlaceByPlaceNumberQuery(placeNumber, floorNumber));
+            return Ok(workPlace);
+        }
+
+        [HttpPost("work-places/{placeId}/book")]
         public async Task<IActionResult> Book(
             [FromRoute] Guid placeId,
             [FromBody] BookWorkPlaceRequest request)

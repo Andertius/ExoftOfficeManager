@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ProfileService } from '../core/services/profile.service';
+import { EditProfileResultModel } from '../models/edit-profile-result.model';
 import { EditProfileComponent } from '../shared/components/edit-profile/edit-profile.component';
 
 @Component({
@@ -28,7 +29,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.profileService.behaviourSubject
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((res: any) => {
+      .subscribe((res: EditProfileResultModel) => {
         this.userFullName = res.fullName;
       }
     );
@@ -45,11 +46,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(EditProfileComponent, {
       width: '500px',
       data: {
-        firstName: "Alissa",
-        lastName: "White-Gluz",
-        email: "alissa@archenemy.info",
-        status: "Status",
-        avatar: ""
+          user: {firstName: "Alissa",
+          lastName: "White-Gluz",
+          email: "alissa@archenemy.info",
+          status: "Status",
+          avatar: ""
+        },
+      prevName: this.userFullName,
       }
     });
 

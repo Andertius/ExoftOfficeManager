@@ -1,3 +1,5 @@
+@import "src/styles.scss";
+
 .input-class-full {
     width: 100%;
 }
@@ -7,7 +9,7 @@
 }
 
 .background {
-    background: #42474f;
+    background: $popup-background;
     border-radius: 5px;
 }
 
@@ -15,7 +17,7 @@ button {
     display: block;
     width: 100%;
     border-radius: 0px 0px 5px 5px;
-    background-color: #73bf17;
+    background-color: $green;
     color: white;
     border: none;
     height: 35px;

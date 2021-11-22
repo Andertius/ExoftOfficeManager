@@ -4,15 +4,15 @@
     
         <div role="list" class="grid max-height">
             <div role="listitem" *ngFor="let booking of bookings" class="list-item">
-                <div class="avatar booked-place" *ngIf="booking.bookingType == 1">
+                <div class="avatar booked-place" *ngIf="booking.bookingType == bookingType.Booked">
                     <p>{{ booking.userFullName | initials }}</p>
                 </div>
     
-                <div class="avatar unavailable-place" *ngIf="booking.bookingType == 2">
+                <div class="avatar unavailable-place" *ngIf="booking.bookingType == bookingType.BookedPermanently">
                     <p>{{ booking.userFullName | initials }}</p>
                 </div>
     
-                <div class="avatar half-booked-place" *ngIf="booking.bookingType == 4 || booking.bookingType == 3">
+                <div class="avatar half-booked-place" *ngIf="booking.bookingType == bookingType.FirstHalfBooked || booking.bookingType == bookingType.SecondHalfBooked">
                     <p>{{ booking.userFullName | initials }}</p>
                 </div>
     
@@ -20,8 +20,8 @@
                     <p>{{ booking.userFullName }}</p>
                     <p>{{ booking.date }}</p>
     
-                    <p *ngIf="booking.bookingType == 3">10 am - 14 pm</p>
-                    <p *ngIf="booking.bookingType == 4">14 pm - 18 pm</p>
+                    <p *ngIf="booking.bookingType == 3">10 am - 2 pm</p>
+                    <p *ngIf="booking.bookingType == 4">2 pm - 6 pm</p>
                 </div>
             </div>
         </div>    

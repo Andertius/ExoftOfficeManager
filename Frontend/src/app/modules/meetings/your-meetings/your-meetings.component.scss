@@ -1,0 +1,12 @@
+@import "src/styles.scss";
+
+.super-container {
+    background-color: $component-background;
+    color: white;
+    border-radius: 5px;
+    height: 100%;
+}
+
+.container {
+    padding: 20px 30px;
+}

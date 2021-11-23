@@ -1,8 +1,8 @@
 <div class="super-container">
     <div class="container">
         <div class="date">
-            <p class="date-text">{{ date }}</p>
-            <button mat-button>
+            <p class="date-text">{{ dateString }}</p>
+            <button mat-button (click)="openDatePicker($event)">
                 <mat-icon class="date-icon">calendar_today</mat-icon>
             </button>
         </div>
@@ -39,8 +39,8 @@
                                 *ngIf="tables[tableCluster * 3 + tableItself].bookingType === bookingType.FirstHalfBooked ||
                                     tables[tableCluster * 3 + tableItself].bookingType === bookingType.SecondHalfBooked"
                                     [ngClass]="{
-                                        'free-place': tables[tableCluster * 3 + tableItself].bookingType === tables[tableCluster * 3 + tableItself].bookingType2,
-                                        'half-booked-place': tables[tableCluster * 3 + tableItself].bookingType !== tables[tableCluster * 3 + tableItself].bookingType2
+                                        'free-place': tables[tableCluster * 3 + tableItself].bookingType !== tables[tableCluster * 3 + tableItself].bookingType2,
+                                        'half-booked-place': tables[tableCluster * 3 + tableItself].bookingType === tables[tableCluster * 3 + tableItself].bookingType2
                                     }">
                                 <span *ngIf="getBookingName2(tableCluster * 3 + 1 + tableItself) === getBookingName(tableCluster * 3 + 1 + tableItself)">
                                     +

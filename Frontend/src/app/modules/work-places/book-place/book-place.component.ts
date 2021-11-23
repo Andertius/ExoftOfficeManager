@@ -19,7 +19,12 @@ export class BookPlaceComponent implements OnInit {
   }
 
   constructor(public dialogRef: MatDialogRef<BookPlaceComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: AddBookingRequest,
+    @Inject(MAT_DIALOG_DATA) public data: {
+      request: AddBookingRequest,
+      userFullName: string,
+      tableNumber: number,
+      floorNumber: number,
+     },
     private readonly bookingService: BookingService
   ) { }
 
@@ -35,9 +40,20 @@ export class BookPlaceComponent implements OnInit {
   }
 
   submitButton(): void {
-    this.data.bookingType = this.bookingForm.value.type;
-    this.data.bookingDate = this.bookingForm.value.date.toISOString().split('T')[0];
-    this.bookingService.addBooking(this.data);
+    this.data.request.bookingType = this.bookingForm.value.type;
+    this.bookingForm.value.date.setHours(3);
+    this.data.request.bookingDate = this.bookingForm.value.date.toISOString().split('T')[0];
+    this.bookingService.addBooking(this.data.request);
+
+    this.bookingService.behaviourSubject = {
+      date: this.data.request.bookingDate,
+      userFullName: this.data.userFullName,
+      bookingType: this.data.request.bookingType,
+      tableNumber: this.data.tableNumber,
+      floorNumber: this.data.floorNumber,
+    }
+
+    this.dialogRef.close();
   }
 
 }

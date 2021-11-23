@@ -12,11 +12,11 @@
             <p class="date-header">SELECT TIME</p>
             <mat-radio-group aria-label="Select an option" formControlName="type">
                 <div class="grid">
-                    <mat-radio-button value="bookingType.FirstHalfBooked">10 AM - 2 PM</mat-radio-button>
-                    <mat-radio-button value="bookingType.SecondHalfBooked" class="margin-left-10px">2 PM - 6 PM</mat-radio-button>
+                    <mat-radio-button [value]="bookingType.FirstHalfBooked">10 AM - 2 PM</mat-radio-button>
+                    <mat-radio-button [value]="bookingType.SecondHalfBooked" class="margin-left-10px">2 PM - 6 PM</mat-radio-button>
     
-                    <mat-radio-button value="bookingType.Booked">ALL DAY LONG</mat-radio-button>
-                    <mat-radio-button value="bookingType.BookedPermanently" class="margin-left-10px">FREEZE</mat-radio-button>
+                    <mat-radio-button [value]="bookingType.Booked">ALL DAY LONG</mat-radio-button>
+                    <mat-radio-button [value]="bookingType.BookedPermanently" class="margin-left-10px">FREEZE</mat-radio-button>
                 </div>
             </mat-radio-group>
         </div>

@@ -1,52 +1,54 @@
-<form [formGroup]="meetingForm" class="container">
-    <h4>CREATE A NEW MEETING</h4>
+<div class="super-container">
+    <form [formGroup]="meetingForm" class="container">
+        <h4>CREATE A NEW MEETING</h4>
 
-    <div>
-        <mat-form-field class="example-chip-list" appearance="fill">
-            <mat-label>Required</mat-label>
-            <mat-chip-list #requiredList aria-label="User selection">
-            <mat-chip *ngFor="let user of required" [selectable]="selectable"
-                      [removable]="removable" (removed)="removeRequired(user)">
-                {{user}}
-                <button matChipRemove *ngIf="removable">
-                    <mat-icon>cancel</mat-icon>
-                </button>
-            </mat-chip>
-            <input placeholder="Enter username..."
-                   [matChipInputFor]="requiredList"
-                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                   [matChipInputAddOnBlur]="addOnBlur"
-                   (matChipInputTokenEnd)="addRequired($event)">
-            </mat-chip-list>
-        </mat-form-field>
-    </div>
-    
-    <div>
-        <mat-form-field class="example-chip-list" appearance="fill">
-            <mat-label>Non-Required</mat-label>
-            <mat-chip-list #nonRequiredList aria-label="User selection">
-            <mat-chip *ngFor="let user of nonRequired" [selectable]="selectable"
-                      [removable]="removable" (removed)="removeNonRequired(user)">
-                {{user}}
-                <button matChipRemove *ngIf="removable">
-                    <mat-icon>cancel</mat-icon>
-                </button>
-            </mat-chip>
-            <input placeholder="Enter username..."
-                   [matChipInputFor]="nonRequiredList"
-                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                   [matChipInputAddOnBlur]="addOnBlur"
-                   (matChipInputTokenEnd)="addNonRequired($event)">
-            </mat-chip-list>
-        </mat-form-field>
-    </div>
+        <div>
+            <mat-form-field class="example-chip-list" appearance="fill">
+                <mat-label>Required</mat-label>
+                <mat-chip-list #requiredList aria-label="User selection">
+                <mat-chip *ngFor="let user of required" [selectable]="selectable"
+                        [removable]="removable" (removed)="removeRequired(user)">
+                    {{user}}
+                    <button matChipRemove *ngIf="removable">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </mat-chip>
+                <input placeholder="Enter username..."
+                    [matChipInputFor]="requiredList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="addOnBlur"
+                    (matChipInputTokenEnd)="addRequired($event)">
+                </mat-chip-list>
+            </mat-form-field>
+        </div>
+        
+        <div>
+            <mat-form-field class="example-chip-list" appearance="fill">
+                <mat-label>Non-Required</mat-label>
+                <mat-chip-list #nonRequiredList aria-label="User selection">
+                <mat-chip *ngFor="let user of nonRequired" [selectable]="selectable"
+                        [removable]="removable" (removed)="removeNonRequired(user)">
+                    {{user}}
+                    <button matChipRemove *ngIf="removable">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </mat-chip>
+                <input placeholder="Enter username..."
+                    [matChipInputFor]="nonRequiredList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="addOnBlur"
+                    (matChipInputTokenEnd)="addNonRequired($event)">
+                </mat-chip-list>
+            </mat-form-field>
+        </div>
 
-    <div>
-        <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Subject</mat-label>
-            <textarea matInput formControlName="subject"></textarea>
-        </mat-form-field>
-    </div>
+        <div>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Subject</mat-label>
+                <textarea matInput formControlName="subject"></textarea>
+            </mat-form-field>
+        </div>
 
-    <button mat-flat-button color="primary" type="submit" (click)="submit()">Done</button>
-</form>
+        <button mat-flat-button color="primary" type="submit" (click)="submit()">Done</button>
+    </form>
+</div>

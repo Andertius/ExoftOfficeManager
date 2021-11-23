@@ -1,9 +1,19 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DateService {
+    private _behaviourSubject$: Subject<Date> = new BehaviorSubject(new Date());
+
+    public get behaviourSubject(): Subject<Date> {
+        return this._behaviourSubject$;
+    }
+
+    public set behaviourSubject(value: any) {
+        this._behaviourSubject$.next(value);
+    }
 
     public prettyDate(date: Date): string {
         return `${this.parseMonth(new Date(date).getMonth())}` + ' ' +

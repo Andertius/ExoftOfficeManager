@@ -1,11 +1,13 @@
-import { AfterViewInit, Component, ElementRef, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { BookingService } from 'src/app/core/services/booking.service';
 import { DateService } from 'src/app/core/services/date.service';
 import { WorkPlaceService } from 'src/app/core/services/work-place.service';
 import { BookingModel } from 'src/app/models/booking.model';
 import { BookingType } from 'src/app/models/enums/booking-type.enum';
-import { WorkPlaceResponse } from 'src/app/models/responses/work-placeRespnose.model';
+import { DatePickerComponent } from 'src/app/shared/components/date-picker/date-picker.component';
 import { ProfileComponent } from 'src/app/shared/components/profile/profile.component';
 import { BookPlaceComponent } from '../book-place/book-place.component';
 
@@ -16,6 +18,8 @@ import { BookPlaceComponent } from '../book-place/book-place.component';
   host: { class: 'app-tables' }
 })
 export class TablesComponent implements OnInit, AfterViewInit {
+  
+  private unsubscribe$: Subject<void> = new Subject();
 
   clusterRange = [...Array(10).keys()];
   tableRange = [...Array(3).keys()];
@@ -26,7 +30,8 @@ export class TablesComponent implements OnInit, AfterViewInit {
   }> = [];
 
   bookings: BookingModel[] = [];
-  date: string = "";
+  date: Date = new Date();
+  dateString: string = "";
   
   _bookTable = this.bookTable.bind(this);
   _peekAtProfile = this.peekAtProfile.bind(this);
@@ -36,16 +41,65 @@ export class TablesComponent implements OnInit, AfterViewInit {
     private readonly bookingService: BookingService,
     private readonly workPlaceService: WorkPlaceService,
     private readonly elementRef: ElementRef,
-    private readonly dialog: MatDialog) { }
+    private readonly dialog: MatDialog,
+    private readonly changeDetector: ChangeDetectorRef) { }
 
   public get bookingType(): typeof BookingType {
     return BookingType;
   }
 
   ngOnInit(): void {
-    this.date = this.dateService.prettyDate(new Date()).toUpperCase();
-    this.bookingService.getSpecificDayBookings(new Date('2021-10-10'))
+    this.dateString = this.dateService.prettyDate(this.date).toUpperCase();
+    this.getBookings();
+
+    this.dateService.behaviourSubject
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe(x => {
+        this.date = x;
+        this.dateString = this.dateService.prettyDate(this.date).toUpperCase();
+        this.getBookings();
+      }
+    );
+
+    this.bookingService.behaviourSubject
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(x => {
+        this.bookings.push({
+          userFullName: x.userFullName,
+          date: this.dateService.prettyDate(new Date(x.date)),
+          bookingType: x.bookingType,
+          tableNumber: x.tableNumber,
+          floorNumber: x.floorNumber,
+        });
+
+        let index = this.tables.findIndex(table => table.tableNumber == x.tableNumber);
+        let table = this.tables[index];
+        let button: HTMLElement | null;
+
+        if (table.bookingType === BookingType.Available) {
+          this.tables[index].bookingType = x.bookingType;
+          button = document.getElementById(`${x.tableNumber}.0`);
+
+          let button2 = document.getElementById(`${x.tableNumber}.5`);
+
+          debugger;
+          button2?.addEventListener('click', this._bookTable);
+        } else {
+          this.tables[index].bookingType2 = x.bookingType;
+          button = document.getElementById(`${x.tableNumber}.5`);
+        }
+
+        button?.removeEventListener('click', this._bookTable);
+        button?.addEventListener('click', this._peekAtProfile);
+      });
+  }
+
+  getBookings(): void {
+    this.bookingService.getSpecificDayBookings(this.date)
+      .subscribe(x => {
+        this.bookings = [];
+        this.tables = [];
+
         for (let i = 0; i < x.length; i++) {
           this.bookings.push({
             userFullName: x[i].booking.user.fullName,
@@ -63,7 +117,24 @@ export class TablesComponent implements OnInit, AfterViewInit {
             bookingType2: this.getBookingType2(i + 1),
           });
         }
-      });
+      }
+    );
+  }
+
+  openDatePicker(event: Event): void {
+    
+    const dialogRef = this.dialog.open(DatePickerComponent, {
+      data: {
+        date: new Date(),
+        trigger: new ElementRef(event.currentTarget),
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe((x: Date) => {
+        this.dateService.behaviourSubject = x;
+      }
+    );
   }
 
   ngAfterViewInit() {
@@ -118,11 +189,16 @@ export class TablesComponent implements OnInit, AfterViewInit {
       .subscribe(workPlace => {
         const dialogRef = this.dialog.open(BookPlaceComponent, {
           data: {
-            workPlaceId: workPlace.workPlace.id,
-            userId: "1D0BEA4F-DD83-4F45-F647-08D9ADBE1ABA",
-            bookingType: 0,
-            bookingDate: new Date(),
-            days: null,
+            request: {
+              workPlaceId: workPlace.workPlace.id,
+              userId: "1D0BEA4F-DD83-4F45-F647-08D9ADBE1ABA",
+              bookingType: 0,
+              bookingDate: new Date(),
+              days: null,
+            },
+            userFullName: "Alissa White-Gluz",
+            tableNumber: Number(button.id.slice(0, button.id.length - 2)),
+            floorNumber: 5,
           },
         });
       }

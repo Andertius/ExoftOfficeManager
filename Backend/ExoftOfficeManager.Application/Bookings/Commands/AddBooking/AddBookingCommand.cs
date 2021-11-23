@@ -13,7 +13,7 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
             Guid developerId,
             BookingType type,
             DateTime date,
-            int days)
+            int? days)
         {
             PlaceId = id;
             UserId = developerId;
@@ -30,6 +30,6 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
 
         public DateTime BookingDate { get; set; }
 
-        public int DayNumber { get; set; }
+        public int? DayNumber { get; set; }
     }
 }

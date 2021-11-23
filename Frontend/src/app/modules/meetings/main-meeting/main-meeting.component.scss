@@ -2,6 +2,11 @@
     margin: 0px;
 }
 
+.container {
+    display: flex;
+    height: 94.95%;
+}
+
 .grid {
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;

@@ -9,6 +9,6 @@ namespace ExoftOfficeManager.Requests
         public Guid UserId { get; set; }
         public BookingType BookingType { get; set; }
         public DateTime BookingDate { get; set; }
-        public int Days { get; set; }
+        public int? Days { get; set; }
     }
 }

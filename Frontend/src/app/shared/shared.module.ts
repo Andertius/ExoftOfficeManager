@@ -6,6 +6,7 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
 import { ReactiveFormsModule } from '@angular/forms';
 import { InitialsPipe } from './pipes/initials.pipe';
 import { ProfileComponent } from './components/profile/profile.component';
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     EditProfileComponent,
     InitialsPipe,
     ProfileComponent,
+    DatePickerComponent,
   ],
   imports: [
     CommonModule,

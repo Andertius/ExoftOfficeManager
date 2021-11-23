@@ -42,7 +42,7 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
                     throw new ArgumentException($"Cannot book with status '{request.BookingType}', because the work place is booked for half a day.");
                 }
 
-                for (int i = 0; i < request.DayNumber; i++)
+                for (int i = 0; i < (request.DayNumber.HasValue ? request.DayNumber : 1); i++)
                 {
                     var booking = new Booking
                     {
@@ -59,7 +59,7 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
                     await _repository.AddBooking(booking);
                 }
 
-                await _repository.Commit();
+                //await _repository.Commit();
                 return Unit.Value;
             }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { BookingService } from 'src/app/core/services/booking.service';
+import { DateService } from 'src/app/core/services/date.service';
 import { ProfileService } from 'src/app/core/services/profile.service';
 import { BookingModel } from 'src/app/models/booking.model';
 import { EditProfileResultModel } from 'src/app/models/edit-profile-result.model';
@@ -20,7 +21,8 @@ export class CurrentDayBookingsComponent implements OnInit {
 
   constructor(
     private readonly profileService: ProfileService,
-    private readonly bookingService: BookingService) { }
+    private readonly bookingService: BookingService,
+    private readonly dateService: DateService) { }
 
   public get bookingType(): typeof BookingType {
     return BookingType;
@@ -34,6 +36,13 @@ export class CurrentDayBookingsComponent implements OnInit {
       .subscribe((res: EditProfileResultModel) => {
         this.bookings.forEach(x => x.userFullName == res.prevName ? x.userFullName = res.fullName : '');
       });
+
+    this.dateService.behaviourSubject
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(res => {
+        res.setHours(3);
+        this.bookings = this.bookingService.subscribe(this.bookingService.getSpecificDayBookings(res));
+      })
   }
 
   compare(a : BookingModel, b: BookingModel): number {
@@ -44,6 +53,6 @@ export class CurrentDayBookingsComponent implements OnInit {
     }
     
     return 0;
-  }
+  }  
 
 }

@@ -1,15 +1,13 @@
-<div class="grid">
-    <div class="grid-left-item">
-        <app-greeting [firstName]="firstUserName">Here you can see all the meetings and create new ones!</app-greeting>
-
-        <app-new-meeting></app-new-meeting>
-    </div>
-
-    <div class="grid-middle-item">
-
-    </div>
-
-    <div class="grid-right-item">
-
+<div class="container">
+    <div class="grid">
+        <div class="grid-left-item">
+            <app-greeting [firstName]="firstUserName">Here you can see all the meetings and create new ones!</app-greeting>
+    
+            <app-new-meeting></app-new-meeting>
+        </div>
+    
+        <app-meeeting-calendar class="grid-middle-item"></app-meeeting-calendar>
+        
+        <app-your-meetings class="grid-right-item"></app-your-meetings>
     </div>
 </div>

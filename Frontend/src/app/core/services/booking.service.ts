@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { BookingModel } from 'src/app/models/booking.model';
 import { AddBookingRequest } from 'src/app/models/requests/addBookingRequest.model';
 import { BookingResponse } from 'src/app/models/responses/bookingResponse.model';
@@ -10,6 +10,16 @@ import { DateService } from './date.service';
   providedIn: 'root'
 })
 export class BookingService {
+  
+  private _behaviourSubject$: Subject<BookingModel> = new Subject();
+
+  public get behaviourSubject(): Subject<BookingModel> {
+      return this._behaviourSubject$;
+  }
+
+  public set behaviourSubject(value: any) {
+      this._behaviourSubject$.next(value);
+  }
 
   constructor(private readonly http: HttpClient, private readonly dateService: DateService) { }
 
@@ -51,7 +61,6 @@ export class BookingService {
   }
 
   public addBooking(data: AddBookingRequest): void {
-    debugger
     this.http.post(`https://localhost:44377/WorkPlace/work-places/${data.workPlaceId}/book`, {
       userId: data.userId,
       bookingType: data.bookingType,

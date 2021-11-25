@@ -59,7 +59,7 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
                     await _repository.AddBooking(booking);
                 }
 
-                //await _repository.Commit();
+                await _repository.Commit();
                 return Unit.Value;
             }
 

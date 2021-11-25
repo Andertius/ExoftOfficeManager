@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -17,7 +17,7 @@ import { BookPlaceComponent } from '../book-place/book-place.component';
   styleUrls: ['./tables.component.scss'],
   host: { class: 'app-tables' }
 })
-export class TablesComponent implements OnInit, AfterViewInit {
+export class TablesComponent implements OnInit {
   
   private unsubscribe$: Subject<void> = new Subject();
 
@@ -41,8 +41,7 @@ export class TablesComponent implements OnInit, AfterViewInit {
     private readonly bookingService: BookingService,
     private readonly workPlaceService: WorkPlaceService,
     private readonly elementRef: ElementRef,
-    private readonly dialog: MatDialog,
-    private readonly changeDetector: ChangeDetectorRef) { }
+    private readonly dialog: MatDialog) { }
 
   public get bookingType(): typeof BookingType {
     return BookingType;
@@ -58,7 +57,6 @@ export class TablesComponent implements OnInit, AfterViewInit {
         this.date = x;
         this.dateString = this.dateService.prettyDate(this.date).toUpperCase();
         this.bookingService.getSpecificDayBookings(this.date).subscribe();
-        this.manageButtonHandlers();
       }
     );
 
@@ -159,35 +157,6 @@ export class TablesComponent implements OnInit, AfterViewInit {
         }
       }
     );
-  }
-
-  ngAfterViewInit() {
-    this.manageButtonHandlers();
-  }
-
-  manageButtonHandlers(): void {
-    const dom: HTMLElement = this.elementRef.nativeElement;
-    const freePlaces = dom.querySelectorAll('.free-place');
-
-    for (var i = 0; i < freePlaces.length; i++) {
-      freePlaces[i].addEventListener('click', this._bookTable, false);
-    }
-    
-    const bookedPlaces = dom.querySelectorAll('.booked-place');
-    const bookedPermanentlyPlaces = dom.querySelectorAll('.booked-permanently-place');
-    const halfBookedPlaces = dom.querySelectorAll('.half-booked-place');
-
-    for (var i = 0; i < bookedPlaces.length; i++) {
-      bookedPlaces[i].addEventListener('click', this._peekAtProfile, false);
-    }
-
-    for (var i = 0; i < bookedPermanentlyPlaces.length; i++) {
-      bookedPermanentlyPlaces[i].addEventListener('click', this._peekAtProfile, false);
-    }
-
-    for (var i = 0; i < halfBookedPlaces.length; i++) {
-      halfBookedPlaces[i].addEventListener('click', this._peekAtProfile, false);
-    }
   }
 
   peekAtProfile(event: Event): void {

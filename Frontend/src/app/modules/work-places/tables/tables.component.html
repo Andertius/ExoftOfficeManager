@@ -25,7 +25,10 @@
                                     'unavailable-place': tables[tableCluster * 3 + tableItself].bookingType === bookingType.BookedPermanently,
                                     'half-booked-place': tables[tableCluster * 3 + tableItself].bookingType === bookingType.FirstHalfBooked ||
                                         tables[tableCluster * 3 + tableItself].bookingType === bookingType.SecondHalfBooked
-                                }">
+                                }"
+                                (click)="(tables[tableCluster * 3 + tableItself].bookingType === bookingType.Available) ?
+                                        bookTable($event) :
+                                        peekAtProfile($event)">
                                 <span *ngIf="getBookingName(tableCluster * 3 + 1 + tableItself) === ''">
                                     +
                                 </span>
@@ -44,7 +47,10 @@
                                             tables[tableCluster * 3 + tableItself].bookingType === bookingType.SecondHalfBooked,
                                         'd-none' : tables[tableCluster * 3 + tableItself].bookingType !== bookingType.FirstHalfBooked &&
                                             tables[tableCluster * 3 + tableItself].bookingType !== bookingType.SecondHalfBooked
-                                    }">
+                                    }"
+                                    (click)="(tables[tableCluster * 3 + tableItself].bookingType2 === bookingType.Available) ?
+                                        bookTable($event) :
+                                        peekAtProfile($event)">
                                 <span *ngIf="getBookingName2(tableCluster * 3 + 1 + tableItself) === getBookingName(tableCluster * 3 + 1 + tableItself)">
                                     +
                                 </span>

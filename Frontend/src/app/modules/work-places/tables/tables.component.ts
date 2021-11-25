@@ -32,9 +32,6 @@ export class TablesComponent implements OnInit {
   bookings: BookingModel[] = [];
   date: Date = new Date();
   dateString: string = "";
-  
-  _bookTable = this.bookTable.bind(this);
-  _peekAtProfile = this.peekAtProfile.bind(this);
 
   constructor(
     private readonly dateService: DateService,
@@ -75,22 +72,12 @@ export class TablesComponent implements OnInit {
         debugger;
           let index = this.tables.findIndex(table => table.tableNumber == x.tableNumber);
           let table = this.tables[index];
-          let button: HTMLElement | null;
   
           if (table.bookingType === BookingType.Available) {
             this.tables[index].bookingType = x.bookingType;
-            button = document.getElementById(`${x.tableNumber}.0`);
-  
-            let button2 = document.getElementById(`${x.tableNumber}.5`);
-  
-            button2?.addEventListener('click', this._bookTable);
           } else {
             this.tables[index].bookingType2 = x.bookingType;
-            button = document.getElementById(`${x.tableNumber}.5`);
           }
-  
-          button?.removeEventListener('click', this._bookTable);
-          button?.addEventListener('click', this._peekAtProfile);
         }
       });
 
@@ -196,6 +183,7 @@ export class TablesComponent implements OnInit {
             userFullName: "Alissa White-Gluz",
             tableNumber: Number(button.id.slice(0, button.id.length - 2)),
             floorNumber: 5,
+            bookings: this.bookings,
           },
         });
       }

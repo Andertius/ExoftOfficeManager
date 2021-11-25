@@ -1,17 +1,24 @@
-<form [formGroup]="loginForm" class="centered-div lightgray-background">
-    <mat-form-field class="example-full-width input-class" appearance="fill">
-        <mat-label>Username</mat-label>
-        <input matInput forControlName="username">
-    </mat-form-field>
+<div class="page">
+    <div class="super-container">
+        <div class="green-patyk"></div>
+        <div class="container">
+            <form [formGroup]="loginForm">
+                <mat-form-field class="input-class" appearance="fill">
+                    <mat-label>Username</mat-label>
+                    <input matInput forControlName="username">
+                </mat-form-field>
 
-    <mat-form-field class="example-full-width input-class" appearance="fill">
-        <mat-label>Password</mat-label>
-        <input matInput forControlName="username">
-    </mat-form-field>
+                <mat-form-field class="input-class" appearance="fill">
+                    <mat-label>Password</mat-label>
+                    <input matInput forControlName="username">
+                </mat-form-field>
 
-    <button mat-flat-button color="primary" type="submit" (click)="submit()">Log in</button>
+                <a>Forgot Password?</a>
+            </form>
+        </div>
 
-    <br />
+        <button type="submit" (click)="submit()" class="submit-button">Sign in</button>
 
-    <a >Forgot Password</a>
-</form>
+        <img src="../../../../assets/exoft-logo-image.png" class="image">
+    </div>
+</div>

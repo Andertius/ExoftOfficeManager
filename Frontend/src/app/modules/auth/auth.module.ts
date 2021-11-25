@@ -7,20 +7,21 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { MaterialModulesModule } from '../material-modules/material-modules.module';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     CommonModule,
 
     ReactiveFormsModule,
 
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
+    MaterialModulesModule
   ]
 })
 export class AuthModule { }

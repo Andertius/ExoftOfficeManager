@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BookingService } from 'src/app/core/services/booking.service';
+import { BookingModel } from 'src/app/models/booking.model';
 import { BookingType } from 'src/app/models/enums/booking-type.enum';
 import { AddBookingRequest } from 'src/app/models/requests/addBookingRequest.model';
 
@@ -24,6 +25,7 @@ export class BookPlaceComponent implements OnInit {
       userFullName: string,
       tableNumber: number,
       floorNumber: number,
+      bookings: BookingModel[],
      },
     private readonly bookingService: BookingService
   ) { }
@@ -42,7 +44,12 @@ export class BookPlaceComponent implements OnInit {
   submitButton(): void {
     this.data.request.bookingType = this.bookingForm.value.type;
     this.bookingForm.value.date.setHours(3);
-    this.data.request.bookingDate = this.bookingForm.value.date.toISOString().split('T')[0];
+    this.data.request.bookingDate = this.bookingForm.value.date.toISOString().split('T')[0];    
+
+    if (!this.validateBooking()) {
+      return;
+    }
+
     this.bookingService.addBooking(this.data.request);
 
     this.bookingService.behaviourSubject = {
@@ -54,6 +61,23 @@ export class BookPlaceComponent implements OnInit {
     };
 
     this.dialogRef.close();
+  }
+
+  validateBooking(): boolean {
+    const today = new Date();
+    today.setHours(3);
+    debugger;
+    const todayString = today.toISOString().split('T')[0];
+
+    if (this.data.request.bookingDate < todayString) {
+      alert("You cannot travel back in time!");
+      return false;
+    } else if (this.data.bookings.filter(x => x.userFullName === this.data.userFullName).length !== 0) {
+      alert("You you have already booked a table for this day!");
+      return false;
+    }
+
+    return true;
   }
 
 }

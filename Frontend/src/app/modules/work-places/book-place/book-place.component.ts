@@ -51,7 +51,7 @@ export class BookPlaceComponent implements OnInit {
       bookingType: this.data.request.bookingType,
       tableNumber: this.data.tableNumber,
       floorNumber: this.data.floorNumber,
-    }
+    };
 
     this.dialogRef.close();
   }

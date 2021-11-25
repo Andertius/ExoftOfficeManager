@@ -57,41 +57,63 @@ export class TablesComponent implements OnInit, AfterViewInit {
       .subscribe(x => {
         this.date = x;
         this.dateString = this.dateService.prettyDate(this.date).toUpperCase();
-        this.getBookings();
+        this.bookingService.getSpecificDayBookings(this.date).subscribe();
+        this.manageButtonHandlers();
       }
     );
 
     this.bookingService.behaviourSubject
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(x => {
-        this.bookings.push({
-          userFullName: x.userFullName,
-          date: this.dateService.prettyDate(new Date(x.date)),
-          bookingType: x.bookingType,
-          tableNumber: x.tableNumber,
-          floorNumber: x.floorNumber,
-        });
+        if (this.dateService.prettyDate(new Date(x.date)).toUpperCase() === this.dateString) {
+          this.bookings.push({
+            userFullName: x.userFullName,
+            date: this.dateService.prettyDate(new Date(x.date)),
+            bookingType: x.bookingType,
+            tableNumber: x.tableNumber,
+            floorNumber: x.floorNumber,
+          });
 
-        let index = this.tables.findIndex(table => table.tableNumber == x.tableNumber);
-        let table = this.tables[index];
-        let button: HTMLElement | null;
-
-        if (table.bookingType === BookingType.Available) {
-          this.tables[index].bookingType = x.bookingType;
-          button = document.getElementById(`${x.tableNumber}.0`);
-
-          let button2 = document.getElementById(`${x.tableNumber}.5`);
-
-          debugger;
-          button2?.addEventListener('click', this._bookTable);
-        } else {
-          this.tables[index].bookingType2 = x.bookingType;
-          button = document.getElementById(`${x.tableNumber}.5`);
+        debugger;
+          let index = this.tables.findIndex(table => table.tableNumber == x.tableNumber);
+          let table = this.tables[index];
+          let button: HTMLElement | null;
+  
+          if (table.bookingType === BookingType.Available) {
+            this.tables[index].bookingType = x.bookingType;
+            button = document.getElementById(`${x.tableNumber}.0`);
+  
+            let button2 = document.getElementById(`${x.tableNumber}.5`);
+  
+            button2?.addEventListener('click', this._bookTable);
+          } else {
+            this.tables[index].bookingType2 = x.bookingType;
+            button = document.getElementById(`${x.tableNumber}.5`);
+          }
+  
+          button?.removeEventListener('click', this._bookTable);
+          button?.addEventListener('click', this._peekAtProfile);
         }
-
-        button?.removeEventListener('click', this._bookTable);
-        button?.addEventListener('click', this._peekAtProfile);
       });
+
+    this.bookingService.behaviourSubject1
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe(x => {
+      this.bookings = [];
+      this.tables = [];
+
+      for (let i = 0; i < x.length; i++) {
+        this.bookings.push(x[i]);
+      }
+      
+      for (let i = 0; i < 30; i++) {
+        this.tables.push({
+          tableNumber: i + 1,
+          bookingType: this.getBookingType(i + 1),
+          bookingType2: this.getBookingType2(i + 1),
+        });
+      }
+    });
   }
 
   getBookings(): void {
@@ -132,12 +154,18 @@ export class TablesComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed()
       .subscribe((x: Date) => {
-        this.dateService.behaviourSubject = x;
+        if (x !== undefined) {
+          this.dateService.behaviourSubject = x;
+        }
       }
     );
   }
 
   ngAfterViewInit() {
+    this.manageButtonHandlers();
+  }
+
+  manageButtonHandlers(): void {
     const dom: HTMLElement = this.elementRef.nativeElement;
     const freePlaces = dom.querySelectorAll('.free-place');
 
@@ -191,7 +219,7 @@ export class TablesComponent implements OnInit, AfterViewInit {
           data: {
             request: {
               workPlaceId: workPlace.workPlace.id,
-              userId: "1D0BEA4F-DD83-4F45-F647-08D9ADBE1ABA",
+              userId: "D5219B5E-E72E-4E3A-49C5-08D9AF3D83EB",
               bookingType: 0,
               bookingDate: new Date(),
               days: null,
@@ -211,7 +239,12 @@ export class TablesComponent implements OnInit, AfterViewInit {
   }
 
   getBookingType2(tableNumber: number): BookingType {
-    const booking = this.bookings.slice().reverse().find(x => x.tableNumber === tableNumber);
+    let booking = this.bookings.slice().reverse().find(x => x.tableNumber === tableNumber);
+
+    if (booking?.bookingType === this.getBookingType(tableNumber)) {
+      return BookingType.Available;
+    }
+
     return booking?.bookingType ?? BookingType.Available;
   }
 

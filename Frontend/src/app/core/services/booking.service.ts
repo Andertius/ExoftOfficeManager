@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { BookingModel } from 'src/app/models/booking.model';
 import { AddBookingRequest } from 'src/app/models/requests/addBookingRequest.model';
 import { BookingResponse } from 'src/app/models/responses/bookingResponse.model';
@@ -20,17 +21,29 @@ export class BookingService {
   public set behaviourSubject(value: any) {
       this._behaviourSubject$.next(value);
   }
+  
+  private _behaviourSubject1$: Subject<BookingModel[]> = new Subject();
+
+  public get behaviourSubject1(): Subject<BookingModel[]> {
+      return this._behaviourSubject1$;
+  }
+
+  public set behaviourSubject1(value: any) {
+      this._behaviourSubject1$.next(value);
+  }
 
   constructor(private readonly http: HttpClient, private readonly dateService: DateService) { }
 
   public getUserBookings(): Observable<BookingResponse[]> {
     return this.http.get<Array<BookingResponse>>(
-        'https://localhost:44377/Booking/users/1D0BEA4F-DD83-4F45-F647-08D9ADBE1ABA/bookings');
+        'https://localhost:44377/Booking/users/D5219B5E-E72E-4E3A-49C5-08D9AF3D83EB/bookings');
   }
 
   public getSpecificDayBookings(date: Date): Observable<BookingResponse[]> {
     return this.http.get<Array<BookingResponse>>(
-        `https://localhost:44377/Booking/bookings?bookingDate=${date.toISOString().split('T')[0]}`);
+        `https://localhost:44377/Booking/bookings?bookingDate=${date.toISOString().split('T')[0]}`).pipe(tap(res => {
+          this.behaviourSubject1.next(this.bookingResponseToModel(res))
+        }));
   }
 
   public subscribe(serverResponse: Observable<Array<BookingResponse>>): BookingModel[] {
@@ -56,6 +69,32 @@ export class BookingService {
           bookings[0].date = 'Permanent';
         }
       });
+
+    return bookings;
+  }
+
+  bookingResponseToModel(response: BookingResponse[]): BookingModel[] {
+    let bookings: BookingModel[] = [];
+
+    if (response.length !== 0) {
+      for (let i = 0; i < response.length; i++) {
+        bookings.push({
+          userFullName: response[i].booking.user.fullName,
+          date: this.dateService.prettyDate(response[i].booking.date),
+          bookingType: response[i].booking.type,
+          tableNumber: response[i].booking.workPlace.placeNumber,
+          floorNumber: response[i].booking.workPlace.floorNumber,
+        });
+      }
+      
+      bookings = bookings.filter(response => response.floorNumber === 5);
+  
+      if (response[0].booking.date != null) {
+        bookings.sort(this.compare).reverse();
+      } else {
+        bookings[0].date = 'Permanent';
+      }
+    }
 
     return bookings;
   }

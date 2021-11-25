@@ -29,7 +29,6 @@ export class CurrentDayBookingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bookings = this.bookingService.subscribe(this.bookingService.getSpecificDayBookings(new Date('2021-10-10')));
 
     this.profileService.behaviourSubject
       .pipe(takeUntil(this.unsubscribe$))
@@ -41,8 +40,16 @@ export class CurrentDayBookingsComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(res => {
         res.setHours(3);
-        this.bookings = this.bookingService.subscribe(this.bookingService.getSpecificDayBookings(res));
+        this.bookingService.getSpecificDayBookings(res).subscribe();
       })
+
+    this.bookingService.behaviourSubject1
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(res => {
+        this.bookings = res;
+      })
+    
+    this.bookingService.getSpecificDayBookings(new Date());
   }
 
   compare(a : BookingModel, b: BookingModel): number {

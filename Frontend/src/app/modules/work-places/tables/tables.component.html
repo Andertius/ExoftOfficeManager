@@ -17,7 +17,7 @@
                     <div class="triangle-up p-absolute"></div>
 
                     <div class="p-absolute tables">
-                        <div *ngFor="let tableItself of tableRange" [ngClass]="tableItself == 2 ? 'bottom' : ''">
+                        <div *ngFor="let tableItself of tableRange" [ngClass]="tableItself === 2 ? 'bottom' : ''">
                             <button attr.id="{{tableCluster * 3 + 1 + tableItself}}.0" class="table-button"
                                 [ngClass]="{
                                     'free-place': tables[tableCluster * 3 + tableItself].bookingType === bookingType.Available,
@@ -35,12 +35,15 @@
                                 </span>
                             </button>
     
-                            <button attr.id="{{tableCluster * 3 + 1 + tableItself}}.5" class="table-button"
-                                *ngIf="tables[tableCluster * 3 + tableItself].bookingType === bookingType.FirstHalfBooked ||
-                                    tables[tableCluster * 3 + tableItself].bookingType === bookingType.SecondHalfBooked"
+                            <button attr.id="{{tableCluster * 3 + 1 + tableItself}}.5"
                                     [ngClass]="{
-                                        'free-place': tables[tableCluster * 3 + tableItself].bookingType !== tables[tableCluster * 3 + tableItself].bookingType2,
-                                        'half-booked-place': tables[tableCluster * 3 + tableItself].bookingType === tables[tableCluster * 3 + tableItself].bookingType2
+                                        'free-place': tables[tableCluster * 3 + tableItself].bookingType2 === bookingType.Available,
+                                        'half-booked-place': tables[tableCluster * 3 + tableItself].bookingType2 === bookingType.FirstHalfBooked ||
+                                            tables[tableCluster * 3 + tableItself].bookingType2 === bookingType.SecondHalfBooked,
+                                        'table-button' : tables[tableCluster * 3 + tableItself].bookingType === bookingType.FirstHalfBooked ||
+                                            tables[tableCluster * 3 + tableItself].bookingType === bookingType.SecondHalfBooked,
+                                        'd-none' : tables[tableCluster * 3 + tableItself].bookingType !== bookingType.FirstHalfBooked &&
+                                            tables[tableCluster * 3 + tableItself].bookingType !== bookingType.SecondHalfBooked
                                     }">
                                 <span *ngIf="getBookingName2(tableCluster * 3 + 1 + tableItself) === getBookingName(tableCluster * 3 + 1 + tableItself)">
                                     +

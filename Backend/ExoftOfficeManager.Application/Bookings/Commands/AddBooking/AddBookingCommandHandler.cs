@@ -7,6 +7,7 @@ using ExoftOfficeManager.Application.Services.Repositories;
 using ExoftOfficeManager.Domain.Dtos;
 using ExoftOfficeManager.Domain.Entities;
 using ExoftOfficeManager.Domain.Enums;
+using ExoftOfficeManager.Domain.Exceptions.Booking;
 
 using MediatR;
 
@@ -31,7 +32,7 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
             {
                 if (place.Bookings.Where(x => x.Date == request.BookingDate && x.Type == request.BookingType).Any())
                 {
-                    throw new ArgumentException($"Cannot book with status '{request.BookingType}', because the work place already has that status.");
+                    throw new BookingStatusException(request.BookingType);
                 }
                 else if (place.Bookings.Any() &&
                     ((place.Bookings.First().Type == BookingType.FirstHalfBooked &&
@@ -39,7 +40,7 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
                     (place.Bookings.First().Type == BookingType.SecondHalfBooked &&
                     request.BookingType != BookingType.FirstHalfBooked)))
                 {
-                    throw new ArgumentException($"Cannot book with status '{request.BookingType}', because the work place is booked for half a day.");
+                    throw new BookingStatusException($"Cannot book with status '{request.BookingType}', because the work place is booked for half a day.");
                 }
 
                 for (int i = 0; i < (request.DayNumber.HasValue ? request.DayNumber : 1); i++)
@@ -63,7 +64,7 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
                 return Unit.Value;
             }
 
-            throw new ArgumentException($"The work place with id = '{request.PlaceId}' is already fully booked");
+            throw new PlaceAlreadyBookedException(request.BookingDate);
         }
     }
 }

@@ -4,6 +4,7 @@ using ExoftOfficeManager.Application.Services;
 using ExoftOfficeManager.Application.Validators.Commands.Bookings;
 using ExoftOfficeManager.Extensions;
 using ExoftOfficeManager.Infrastructure;
+using ExoftOfficeManager.Middlewares;
 
 using FluentValidation;
 
@@ -66,6 +67,8 @@ namespace ExoftOfficeManager
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ExoftOfficeManager v1"));
             }
+
+            app.UseMiddleware<DatabaseExceptionMiddleware>();
 
             app.UseHttpsRedirection();
 

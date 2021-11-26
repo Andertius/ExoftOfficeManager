@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { BookingModel } from 'src/app/models/booking.model';
 import { AddBookingRequest } from 'src/app/models/requests/addBookingRequest.model';
 import { BookingResponse } from 'src/app/models/responses/bookingResponse.model';
@@ -31,12 +31,22 @@ export class BookingService {
   public set behaviourSubject1(value: any) {
       this._behaviourSubject1$.next(value);
   }
+  
+  private _errorSubject$: Subject<string> = new Subject();
+
+  public get errorSubject(): Subject<string> {
+      return this._errorSubject$;
+  }
+
+  public set errorSubject(value: any) {
+      this._errorSubject$.next(value);
+  }
 
   constructor(private readonly http: HttpClient, private readonly dateService: DateService) { }
 
   public getUserBookings(): Observable<BookingResponse[]> {
     return this.http.get<Array<BookingResponse>>(
-        'https://localhost:44377/Booking/users/D5219B5E-E72E-4E3A-49C5-08D9AF3D83EB/bookings');
+        'https://localhost:44377/Booking/users/1D0BEA4F-DD83-4F45-F647-08D9ADBE1ABA/bookings');
   }
 
   public getSpecificDayBookings(date: Date): Observable<BookingResponse[]> {
@@ -105,7 +115,14 @@ export class BookingService {
       bookingType: data.bookingType,
       bookingDate: data.bookingDate,
       days: data.days
-    })
+    }, { observe: 'response' })
+    .pipe(catchError(err => {
+      if (err.status === 400) {
+        this.errorSubject = err.error.message;
+      }
+
+      return of(0);
+    }))
     .subscribe();
   }
 

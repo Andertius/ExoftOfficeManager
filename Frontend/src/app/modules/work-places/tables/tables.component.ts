@@ -175,7 +175,7 @@ export class TablesComponent implements OnInit {
           data: {
             request: {
               workPlaceId: workPlace.workPlace.id,
-              userId: "D5219B5E-E72E-4E3A-49C5-08D9AF3D83EB",
+              userId: "1D0BEA4F-DD83-4F45-F647-08D9ADBE1ABA",
               bookingType: 0,
               bookingDate: new Date(),
               days: null,

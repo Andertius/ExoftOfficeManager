@@ -66,7 +66,6 @@ export class BookPlaceComponent implements OnInit {
   validateBooking(): boolean {
     const today = new Date();
     today.setHours(3);
-    debugger;
     const todayString = today.toISOString().split('T')[0];
 
     if (this.data.request.bookingDate < todayString) {

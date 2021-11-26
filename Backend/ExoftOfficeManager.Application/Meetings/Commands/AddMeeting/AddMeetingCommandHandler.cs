@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.Services.Repositories;
 using ExoftOfficeManager.Domain.Entities;
+using ExoftOfficeManager.Domain.Exceptions.Meetings;
 
 using MediatR;
 
@@ -26,6 +27,10 @@ namespace ExoftOfficeManager.Application.Meetings.Commands.AddMeeting
             {
                 await _repository.AddMeeting(request.Meeting);
                 await _repository.Commit();
+            }
+            else
+            {
+                throw new MeetingsIntersectException("Cannot book a meeting because it is intersecting with another one.");
             }
 
             return Unit.Value;

@@ -13,7 +13,7 @@ namespace ExoftOfficeManager.Domain.Exceptions
             var serializeOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
+                WriteIndented = true,
             };
 
             return JsonSerializer.Serialize(this, serializeOptions);

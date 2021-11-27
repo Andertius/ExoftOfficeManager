@@ -6,7 +6,10 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.RemoveBookingByWorkpl
 {
     public class RemoveBookingByWorkplaceCommand : IRequest
     {
-        public RemoveBookingByWorkplaceCommand(Guid placeId, DateTime date, Guid userId)
+        public RemoveBookingByWorkplaceCommand(
+            Guid placeId,
+            DateTime date,
+            Guid userId)
         {
             PlaceId = placeId;
             Date = date;

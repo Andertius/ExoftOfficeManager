@@ -42,14 +42,15 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
         public async Task<IList<WorkPlace>> GetAllAvailableWorkPlaces(DateTime bookingDate)
         {
             return await _context.WorkPlaces
-                   .Include(x => x.Bookings.Where(x => !x.Date.HasValue || x.Date == bookingDate))
-                   .Where(place => !place.Bookings.Any() ||
-                    place.Bookings.Any(x => x.Status != BookingStatus.Approved) ||
+                .Include(x => x.Bookings.Where(x => !x.Date.HasValue || x.Date == bookingDate))
+                .Where(place => 
+                    !place.Bookings.Any() ||
+                     place.Bookings.Any(x => x.Status != BookingStatus.Approved) ||
                     !place.Bookings.Any(x => x.Type == BookingType.BookedPermanently) &&
                     !place.Bookings.Any(x => x.Type == BookingType.Booked) &&
                      place.Bookings.All(x => x.Type == BookingType.FirstHalfBooked || x.Type == BookingType.SecondHalfBooked) &&
                      place.Bookings.Count < 2)
-                   .ToListAsync();
+                .ToListAsync();
         }
                     
         public async Task<WorkPlace> FindWorkPlaceById(Guid placeId)
@@ -88,7 +89,6 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
                 //    !work.Bookings.All(x => x.Type == BookingType.FirstHalfBooked || x.Type == BookingType.SecondHalfBooked));
 
             return place is null ? (false, null) : (true, place);
-            //throw new Exception();
         }
 
         public void UpdateWorkPlace(WorkPlace place)

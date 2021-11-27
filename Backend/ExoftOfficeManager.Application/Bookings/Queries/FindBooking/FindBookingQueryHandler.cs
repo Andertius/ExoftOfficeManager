@@ -12,12 +12,14 @@ namespace ExoftOfficeManager.Application.Bookings.Queries.FindBooking
 {
     public class FindBookingQueryHandler : IRequestHandler<FindBookingQuery, BookingsQueryResponse>
     {
-        private readonly IBookingRepository _repository;
+        private readonly IBookingRepository _bookingRepository;
         private readonly IWorkPlaceRepository _placeRepository;
 
-        public FindBookingQueryHandler(IBookingRepository repo, IWorkPlaceRepository placeRepo)
+        public FindBookingQueryHandler(
+            IBookingRepository bookingRepo,
+            IWorkPlaceRepository placeRepo)
         {
-            _repository = repo;
+            _bookingRepository = bookingRepo;
             _placeRepository = placeRepo;
         }
 
@@ -30,7 +32,7 @@ namespace ExoftOfficeManager.Application.Bookings.Queries.FindBooking
                 request.BookingId = booking.Id;
             }
 
-            var getPendingBookings = await _repository.FindById(request.BookingId);
+            var getPendingBookings = await _bookingRepository.FindById(request.BookingId);
             return new BookingsQueryResponse(BookingMapper.MapIntoDto(getPendingBookings));
         }
     }

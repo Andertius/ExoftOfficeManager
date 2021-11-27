@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,7 +21,9 @@ namespace ExoftOfficeManager.Application.Meetings.Queries.GetMeetings
         public async Task<MeetingsQueryResponse[]> Handle(GetMeetingsQuery request, CancellationToken cancellationToken)
         {
             var meetings = await _repository.GetAllMeetings(request.MeetingDate);
-            return meetings.Select(x => new MeetingsQueryResponse(MeetingMapper.MapIntoDto(x))).ToArray();
+            return meetings
+                .Select(x => new MeetingsQueryResponse(MeetingMapper.MapIntoDto(x)))
+                .ToArray();
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,12 +10,14 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.RemoveBookingByWorkpl
 {
     public class RemoveBookingByWorkplaceCommandHandler : IRequestHandler<RemoveBookingByWorkplaceCommand>
     {
-        private readonly IBookingRepository _repository;
+        private readonly IBookingRepository _bookingRepository;
         private readonly IWorkPlaceRepository _placeRepository;
 
-        public RemoveBookingByWorkplaceCommandHandler(IBookingRepository repo, IWorkPlaceRepository placeRepo)
+        public RemoveBookingByWorkplaceCommandHandler(
+            IBookingRepository bookingRepository,
+            IWorkPlaceRepository placeRepo)
         {
-            _repository = repo;
+            _bookingRepository = bookingRepository;
             _placeRepository = placeRepo;
         }
 
@@ -27,8 +26,8 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.RemoveBookingByWorkpl
             var placeDto = await _placeRepository.FindWorkPlaceById(request.PlaceId);
             var booking = placeDto.Bookings.FirstOrDefault(x => x.Date == request.Date && x.User.Id == request.UserId);
 
-            _repository.RemoveBooking(booking.Id);
-            await _repository.Commit();
+            _bookingRepository.RemoveBooking(booking.Id);
+            await _bookingRepository.Commit();
 
             return Unit.Value;
         }

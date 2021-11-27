@@ -34,7 +34,9 @@ namespace ExoftOfficeManager.Controllers
         }
 
         [HttpGet("meetings/available-hours")]
-        public async Task<IActionResult> GetAllAvailableHours([FromQuery] DateTime date, [FromQuery] int room)
+        public async Task<IActionResult> GetAllAvailableHours(
+            [FromQuery] DateTime date,
+            [FromQuery] int room)
         {
             var hours = await _mediator.Send(new GetAvailableHoursQuery(date.Date, room));
             return Ok(hours);

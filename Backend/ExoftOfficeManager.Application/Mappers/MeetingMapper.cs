@@ -25,19 +25,18 @@ namespace ExoftOfficeManager.Application.Mappers
 
                 .ForMember(nameof(MeetingDto.RequiredUsers), x =>
                     x.MapFrom(src =>
-                        src.RequiredUserMeetings
-                        .Select(x => x.RequiredUser)))
+                        src.RequiredUserMeetings.Select(x => x.RequiredUser)))
 
                 .ForMember(nameof(MeetingDto.NonRequiredUsers), x =>
                     x.MapFrom(src =>
                         src.NotRequiredUserMeetings
-                        .Select(x => new UserDto
-                        {
-                            AvatarUrl = x.NotRequiredUser.Avatar,
-                            FullName = x.NotRequiredUser.FullName,
-                            Id = x.NotRequiredUser.Id,
-                            Role = x.NotRequiredUser.Role,
-                        }))));
+                            .Select(x => new UserDto
+                            {
+                                AvatarUrl = x.NotRequiredUser.Avatar,
+                                FullName = x.NotRequiredUser.FullName,
+                                Id = x.NotRequiredUser.Id,
+                                Role = x.NotRequiredUser.Role,
+                            }))));
 
             IMapper mapper = config.CreateMapper();
             return mapper.Map<Meeting, MeetingDto>(source);

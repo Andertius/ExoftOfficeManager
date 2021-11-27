@@ -2,8 +2,6 @@
 using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.Bookings.Commands.ChangeBookingStatus;
-using ExoftOfficeManager.Application.Bookings.Commands.UpdateBooking;
-using ExoftOfficeManager.Application.Bookings.Queries.FindBooking;
 using ExoftOfficeManager.Application.Bookings.Queries.GetPendingBookings;
 using ExoftOfficeManager.Application.Meetings.Commands.RemoveMeeting;
 using ExoftOfficeManager.Domain.Enums;

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Domain.Dtos;
 using ExoftOfficeManager.Domain.Entities;
 
 namespace ExoftOfficeManager.Application.Services.Repositories

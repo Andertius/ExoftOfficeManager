@@ -1,15 +1,8 @@
-
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '~@angular/material' as mat;
-// Plus imports for other components in your app.
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
+@import 'app/shared/modules/angular-material/angular-material.style.scss';
+
 @include mat.core();
-
-/* You can add global styles to this file, and also import other style files */
 
 p {
   margin: 0 !important;
@@ -21,10 +14,6 @@ body {
     margin: 0;
     font-family: Roboto, "Segoe UI", sans-serif !important;
 }
-
-/* Importing Bootstrap SCSS file. */
-//@import '~bootstrap/scss/bootstrap';
-@import 'app/shared/modules/angular-material/angular-material.style.scss';
 
 $my-primary: mat.define-palette(mat.$light-green-palette, 600);
 $my-accent: mat.define-palette(mat.$light-green-palette, 600);

@@ -7,7 +7,6 @@ using ExoftOfficeManager.Application.WorkPlaces.Queries.FindWorkPlaceByPlaceNumb
 using ExoftOfficeManager.Application.WorkPlaces.Queries.GetAvailableWorkPlaces;
 using ExoftOfficeManager.Application.WorkPlaces.Queries.GetBookedWorkPlaces;
 using ExoftOfficeManager.Application.WorkPlaces.Queries.GetWorkPlaces;
-using ExoftOfficeManager.Domain.Enums;
 using ExoftOfficeManager.Requests;
 
 using MediatR;
@@ -35,14 +34,14 @@ namespace ExoftOfficeManager.Controllers
         }
 
         [HttpGet("work-places/booked-work-places")]
-        public async Task<IActionResult> GetBooked(DateTime date)
+        public async Task<IActionResult> GetBooked([FromRoute] DateTime date)
         {
             var places = await _mediator.Send(new GetBookedWorkPlacesQuery(date.Date));
             return Ok(places);
         }
 
         [HttpGet("work-places/available-work-places")]
-        public async Task<IActionResult> GetAllAvailable(DateTime date)
+        public async Task<IActionResult> GetAllAvailable([FromRoute] DateTime date)
         {
             var places = await _mediator.Send(new GetAvailableWorkPlacesQuery(date.Date));
             return Ok(places);

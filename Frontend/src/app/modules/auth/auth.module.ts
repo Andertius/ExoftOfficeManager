@@ -1,27 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './login/login.component';
-
+import { MaterialModulesModule } from '../material-modules/material-modules.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { MaterialModulesModule } from '../material-modules/material-modules.module';
-
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    ForgotPasswordComponent,
-  ],
-  imports: [
-    CommonModule,
+    declarations: [
+        LoginComponent,
+        ForgotPasswordComponent,
+    ],
+    imports: [
+        CommonModule,
 
-    ReactiveFormsModule,
+        ReactiveFormsModule,
 
-    MaterialModulesModule
-  ]
+        MaterialModulesModule
+    ]
 })
 export class AuthModule { }

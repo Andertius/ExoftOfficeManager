@@ -23,6 +23,7 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.ChangeBookingStatus
 
             _repository.UpdateBooking(booking);
             await _repository.Commit();
+
             return Unit.Value;
         }
     }

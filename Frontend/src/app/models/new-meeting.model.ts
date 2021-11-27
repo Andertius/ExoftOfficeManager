@@ -1,5 +1,5 @@
-export interface NewMeetingModel {
-    required: Array<string>,
-    nonRequired: Array<string>,
-    subject: string,
+export interface NewMeeting {
+    required:    string[],
+    nonRequired: string[],
+    subject:     string,
 }

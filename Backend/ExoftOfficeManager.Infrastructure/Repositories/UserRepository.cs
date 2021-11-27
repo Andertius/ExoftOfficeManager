@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Application.Mappers;
 using ExoftOfficeManager.Application.Services.Repositories;
-using ExoftOfficeManager.Domain.Dtos;
 using ExoftOfficeManager.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;

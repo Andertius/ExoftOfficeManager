@@ -10,7 +10,7 @@ namespace ExoftOfficeManager.Application.WorkPlaces.Queries.FindWorkPlaceById
 {
     public class FindWorkPlaceByIdQueryHandler : IRequestHandler<FindWorkPlaceByIdQuery, WorkPlacesQueryResponse>
     {
-        private IWorkPlaceRepository _repository;
+        private readonly IWorkPlaceRepository _repository;
 
         public FindWorkPlaceByIdQueryHandler(IWorkPlaceRepository repo)
         {

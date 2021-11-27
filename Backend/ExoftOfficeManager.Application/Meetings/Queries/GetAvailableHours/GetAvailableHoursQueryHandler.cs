@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.Services.Repositories;
-using ExoftOfficeManager.Domain.Dtos;
 using ExoftOfficeManager.Domain.Entities;
 
 using MediatR;
@@ -37,7 +35,9 @@ namespace ExoftOfficeManager.Application.Meetings.Queries.GetAvailableHours
                 }
             }
 
-            return availableHours.Select(x => new GetAvailableHoursQueryResponse(x)).ToArray();
+            return availableHours
+                .Select(x => new GetAvailableHoursQueryResponse(x))
+                .ToArray();
         }
 
         private static bool CheckIfTimeIsInAMeeting(Meeting meeting, int room, TimeSpan time)

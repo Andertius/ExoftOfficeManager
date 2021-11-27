@@ -1,0 +1,74 @@
+@import "src/styles.scss";
+
+.header {
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    background: $popup-background;
+    padding: 25px 15px 0 15px;
+    color: white;
+    border-radius: 10px 10px 0 0;
+    height: 265px;
+    width: 400px;
+    margin-top: 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 60px;
+}
+
+.d-flex {
+    float: left !important;
+}
+
+.margin-left-10px {
+    margin-left: 10px;
+}
+
+.close-button {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    color: white;
+    border: none;
+}
+
+.heading {
+    font-size: 30px;
+    margin-left: 10px !important;
+}
+
+.form {
+    height: 100%;
+    width: 100%;
+}
+
+.submit-button {
+    display: block;
+    width: 100%;
+    border-radius: 0px 0px 10px 10px;
+    background-color: $green;
+    color: white;
+    border: none;
+    height: 35px;
+}
+
+.date-wrapper {
+    margin-bottom: 50px;
+}
+
+.date-header {
+    margin-bottom: 20px !important;
+}
+
+.date-select {
+    display: block;
+}

@@ -12,7 +12,8 @@ namespace ExoftOfficeManager.Infrastructure
         {
             if (!context.Users.Any())
             {
-                context.Users.AddRange(
+                context.Users.AddRange( new[]
+                {
                     new User { FullName = "Norbert Moses", Avatar = "avatar_path", Role = UserRole.Admin },
                     new User { FullName = "John Doe", Avatar = "avatar_path", Role = UserRole.Developer },
                     new User { FullName = "Painis Dickens", Avatar = "avatar_path", Role = UserRole.Admin },
@@ -20,8 +21,8 @@ namespace ExoftOfficeManager.Infrastructure
                     new User { FullName = "Bob", Avatar = "avatar_path", Role = UserRole.Developer },
                     new User { FullName = "James Hetfield", Avatar = "avatar_path", Role = UserRole.Developer },
                     new User { FullName = "Dave Mustaine", Avatar = "avatar_path", Role = UserRole.Developer },
-                    new User { FullName = "John Petrucci", Avatar = "avatar_path", Role = UserRole.Developer }
-                );
+                    new User { FullName = "John Petrucci", Avatar = "avatar_path", Role = UserRole.Developer },
+                });
 
                 context.SaveChanges();
             }
@@ -45,7 +46,7 @@ namespace ExoftOfficeManager.Infrastructure
                         Duration = new TimeSpan(0, 30, 0),
                         RoomNumber = 1,
                         MeetingPurpose = "Talk about the future",
-                        Owner = context.Users.FirstOrDefault(user => user.FullName == "Norbert Moses")
+                        Owner = context.Users.FirstOrDefault(user => user.FullName == "Norbert Moses"),
                     },
 
                     new Meeting
@@ -54,7 +55,7 @@ namespace ExoftOfficeManager.Infrastructure
                         Duration = new TimeSpan(0, 30, 0),
                         RoomNumber = 1,
                         MeetingPurpose = "Meeting with client",
-                        Owner = context.Users.FirstOrDefault(user => user.FullName == "John Doe")
+                        Owner = context.Users.FirstOrDefault(user => user.FullName == "John Doe"),
                     },
 
                     new Meeting
@@ -63,7 +64,7 @@ namespace ExoftOfficeManager.Infrastructure
                         Duration = new TimeSpan(0, 30, 0),
                         RoomNumber = 1,
                         MeetingPurpose = "Play call of duty",
-                        Owner = context.Users.FirstOrDefault(user => user.FullName == "Painis Dickens")
+                        Owner = context.Users.FirstOrDefault(user => user.FullName == "Painis Dickens"),
                     },
 
                     new Meeting
@@ -72,7 +73,7 @@ namespace ExoftOfficeManager.Infrastructure
                         Duration = new TimeSpan(2, 0, 0),
                         RoomNumber = 1,
                         MeetingPurpose = "Have some tea",
-                        Owner = context.Users.FirstOrDefault(user => user.FullName == "Pootis Pencer")
+                        Owner = context.Users.FirstOrDefault(user => user.FullName == "Pootis Pencer"),
                     },
 
                     new Meeting
@@ -81,7 +82,7 @@ namespace ExoftOfficeManager.Infrastructure
                         Duration = new TimeSpan(0, 30, 0),
                         RoomNumber = 2,
                         MeetingPurpose = "To poop",
-                        Owner = context.Users.FirstOrDefault(user => user.FullName == "Bob")
+                        Owner = context.Users.FirstOrDefault(user => user.FullName == "Bob"),
                     },
 
                     new Meeting
@@ -90,7 +91,7 @@ namespace ExoftOfficeManager.Infrastructure
                         Duration = new TimeSpan(1, 0, 0),
                         RoomNumber = 2,
                         MeetingPurpose = "Stand up comedy",
-                        Owner = context.Users.FirstOrDefault(user => user.FullName == "James Hetfield")
+                        Owner = context.Users.FirstOrDefault(user => user.FullName == "James Hetfield"),
                     },
 
                     new Meeting
@@ -99,7 +100,7 @@ namespace ExoftOfficeManager.Infrastructure
                         Duration = new TimeSpan(1, 30, 0),
                         RoomNumber = 2,
                         MeetingPurpose = "Look at memes",
-                        Owner = context.Users.FirstOrDefault(user => user.FullName == "John Petrucci")
+                        Owner = context.Users.FirstOrDefault(user => user.FullName == "John Petrucci"),
                     }
                 );
 
@@ -115,7 +116,7 @@ namespace ExoftOfficeManager.Infrastructure
                         User = context.Users.FirstOrDefault(user => user.FullName == "Norbert Moses"),
                         Type = BookingType.BookedPermanently,
                         WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 2),
-                        Status = BookingStatus.Approved
+                        Status = BookingStatus.Approved,
                     },
 
                     new Booking
@@ -124,7 +125,7 @@ namespace ExoftOfficeManager.Infrastructure
                         User = context.Users.FirstOrDefault(user => user.FullName == "John Doe"),
                         Type = BookingType.BookedPermanently,
                         WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 3),
-                        Status = BookingStatus.Approved
+                        Status = BookingStatus.Approved,
                     },
 
                     new Booking
@@ -133,7 +134,7 @@ namespace ExoftOfficeManager.Infrastructure
                         User = context.Users.FirstOrDefault(user => user.FullName == "Bob"),
                         Type = BookingType.FirstHalfBooked,
                         WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 5),
-                        Status = BookingStatus.Approved
+                        Status = BookingStatus.Approved,
                     },
 
                     new Booking
@@ -142,7 +143,7 @@ namespace ExoftOfficeManager.Infrastructure
                         User = context.Users.FirstOrDefault(user => user.FullName == "James Hetfield"),
                         Type = BookingType.Booked,
                         WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 6),
-                        Status = BookingStatus.Approved
+                        Status = BookingStatus.Approved,
                     },
 
                     new Booking
@@ -151,7 +152,7 @@ namespace ExoftOfficeManager.Infrastructure
                         User = context.Users.FirstOrDefault(user => user.FullName == "Painis Dickens"),
                         Type = BookingType.Booked,
                         WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 10),
-                        Status = BookingStatus.Approved
+                        Status = BookingStatus.Approved,
                     },
 
                     new Booking
@@ -160,7 +161,7 @@ namespace ExoftOfficeManager.Infrastructure
                         User = context.Users.FirstOrDefault(user => user.FullName == "Pootis Pencer"),
                         Type = BookingType.FirstHalfBooked,
                         WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 1),
-                        Status = BookingStatus.Approved
+                        Status = BookingStatus.Approved,
                     },
 
                     new Booking
@@ -169,7 +170,7 @@ namespace ExoftOfficeManager.Infrastructure
                         User = context.Users.FirstOrDefault(user => user.FullName == "Bob"),
                         Type = BookingType.SecondHalfBooked,
                         WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 1),
-                        Status = BookingStatus.Approved
+                        Status = BookingStatus.Approved,
                     },
 
                     new Booking
@@ -178,7 +179,7 @@ namespace ExoftOfficeManager.Infrastructure
                         User = context.Users.FirstOrDefault(user => user.FullName == "John Petrucci"),
                         Type = BookingType.Booked,
                         WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 4),
-                        Status = BookingStatus.Approved
+                        Status = BookingStatus.Approved,
                     },
 
                     new Booking
@@ -187,7 +188,7 @@ namespace ExoftOfficeManager.Infrastructure
                         User = context.Users.FirstOrDefault(user => user.FullName == "Painis Dickens"),
                         Type = BookingType.Booked,
                         WorkPlace = context.WorkPlaces.FirstOrDefault(x => x.FloorNumber == 5 && x.PlaceNumber == 10),
-                        Status = BookingStatus.Approved
+                        Status = BookingStatus.Approved,
                     }
                 );
 

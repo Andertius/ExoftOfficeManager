@@ -1,7 +1,4 @@
-﻿using System;
-
-using ExoftOfficeManager.Domain.Dtos;
-using ExoftOfficeManager.Domain.Enums;
+﻿using ExoftOfficeManager.Domain.Dtos;
 
 namespace ExoftOfficeManager.Application.Bookings.Queries
 {

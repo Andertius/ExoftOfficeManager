@@ -1,9 +1,9 @@
 import { BookingType } from "./enums/booking-type.enum";
 
-export interface BookingModel {
-    date: string;
+export interface Booking {
+    date:         string;
     userFullName: string;
-    bookingType: BookingType;
-    tableNumber: number;
-    floorNumber: number;
+    bookingType:  BookingType;
+    tableNumber:  number;
+    floorNumber:  number;
 }

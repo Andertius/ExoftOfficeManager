@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'initials'
+    name: 'initials'
 })
 export class InitialsPipe implements PipeTransform {
-  transform(name: string): string {
-    let splitName = name.split(' ');
-    return splitName[0][0] + splitName[splitName.length - 1][0];
-  }
+    public transform(name: string): string {
+        let splitName = name.split(' ');
+        return splitName[0][0] + splitName[splitName.length - 1][0];
+    }
 }

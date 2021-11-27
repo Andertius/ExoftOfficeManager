@@ -20,9 +20,13 @@ namespace ExoftOfficeManager
 
         public static void Migrate(IServiceProvider serviceProvider)
         {
-            using var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            using var scope = serviceProvider
+                .GetRequiredService<IServiceScopeFactory>()
+                .CreateScope();
+
             var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             dbContext.Database.Migrate();
+
             SeedData.EnsurePopulated(dbContext);
         }
 

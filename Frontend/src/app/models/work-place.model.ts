@@ -1,4 +1,4 @@
-export interface WorkPlaceModel {
+export interface WorkPlace {
     floorNumber: number,
     placeNumber: number,
 }

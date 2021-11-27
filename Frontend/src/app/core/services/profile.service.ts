@@ -1,18 +1,18 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Subject } from "rxjs";
-import { EditProfileResultModel } from "src/app/models/edit-profile-result.model";
+import { Subject } from "rxjs";
+import { EditProfileResult } from "src/app/models/edit-profile-result.model";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProfileService {
-    private _behaviourSubject$: Subject<EditProfileResultModel> = new BehaviorSubject({avatar: "", fullName: "Alissa", prevName: "Alissa"});
+    private _profileSubject$: Subject<EditProfileResult> = new Subject();
 
-    public get behaviourSubject(): Subject<EditProfileResultModel> {
-        return this._behaviourSubject$;
+    public get profileSubject(): Subject<EditProfileResult> {
+        return this._profileSubject$;
     }
 
-    public set behaviourSubject(value: any) {
-        this._behaviourSubject$.next(value);
+    public setProfileSubject(value: EditProfileResult): void {
+        this._profileSubject$.next(value);
     }
 }

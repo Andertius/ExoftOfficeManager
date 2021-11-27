@@ -1,5 +1,4 @@
-﻿
-using ExoftOfficeManager.Domain.Dtos;
+﻿using ExoftOfficeManager.Domain.Dtos;
 
 using MediatR;
 

@@ -1,8 +1,10 @@
+import { Booking } from "../booking.model";
+
 export interface WorkPlaceResponse {
     workPlace: {
-        id: string,
+        id:          string,
         floorNumber: number,
         placeNumber: number,
-        bookings: [],
+        bookings:    Booking[],
     }
 }

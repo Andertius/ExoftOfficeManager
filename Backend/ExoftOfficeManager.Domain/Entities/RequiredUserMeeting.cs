@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ExoftOfficeManager.Domain.Entities
+﻿namespace ExoftOfficeManager.Domain.Entities
 {
     public class RequiredUserMeeting : EntityBase
     {

@@ -11,7 +11,10 @@ namespace ExoftOfficeManager.Application.Bookings.Queries.FindBooking
             BookingId = bookingId;
         }
 
-        public FindBookingQuery(Guid placeId, DateTime date, Guid userId)
+        public FindBookingQuery(
+            Guid placeId,
+            DateTime date,
+            Guid userId)
         {
             PlaceId = placeId;
             Date = date;

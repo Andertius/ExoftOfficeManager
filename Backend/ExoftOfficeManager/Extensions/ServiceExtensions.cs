@@ -8,7 +8,8 @@ namespace ExoftOfficeManager.Extensions
     public static class ServiceExtensions
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services)
-            => services.AddScoped<IMeetingRepository, MeetingRepository>()
+            => services
+                .AddScoped<IMeetingRepository, MeetingRepository>()
                 .AddScoped<IUserRepository, UserRepository>()
                 .AddScoped<IWorkPlaceRepository, WorkPlaceRepository>()
                 .AddScoped<IBookingRepository, BookingRepository>();

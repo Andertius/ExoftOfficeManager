@@ -1,5 +1,5 @@
-export interface EditProfileResultModel {
-    avatar: string,
+export interface EditProfileResult {
+    avatar:   string,
     fullName: string,
     prevName: string,
 }

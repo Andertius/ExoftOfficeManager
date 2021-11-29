@@ -9,11 +9,12 @@
     </a>
 
     <div class="container" >
-        <div class="avatar">
-            <p>{{ userFullName | initials }}</p>
+        <div class="user.avatar">
+            <img *ngIf="user.avatar !== ''" [src]="user.avatar" class="avatar-image">
+            <p *ngIf="user.avatar === ''">{{ user.firstName + ' ' + user.lastName | initials }}</p>
         </div>
         <button mat-button [matMenuTriggerFor]="menu" class="profile">
-            {{ userFullName }}
+            {{ user.firstName + ' ' + user.lastName }}
             <mat-icon aria-hidden="false" aria-label="Arrow">arrow_drop_down</mat-icon>
         </button>
         <mat-menu #menu="matMenu">

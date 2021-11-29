@@ -73,6 +73,8 @@ namespace ExoftOfficeManager
 
             app.UseMiddleware<DatabaseExceptionMiddleware>();
 
+            app.UseStaticFiles();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

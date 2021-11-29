@@ -66,7 +66,7 @@ export class BookingService {
                 }));
     }
 
-    public bookingResponseObservableToModel(serverResponse: Observable<Array<BookingResponse>>): Booking[] {
+    public bookingResponseObservableToModel(serverResponse: Observable<BookingResponse[]>): Booking[] {
         let bookings: Booking[] = [];
 
         serverResponse

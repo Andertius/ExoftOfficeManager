@@ -1,9 +1,9 @@
-import { BookingResponse } from "./booking-response.model";
+import { BookingResponse } from "../../models/responses/booking-response.model";
 
 export interface UserResponse {
     id:        string;
     fullName:  string;
-    avatarURL: string;
+    avatar:    string;
     role:      number;
     bookings:  BookingResponse;
 }

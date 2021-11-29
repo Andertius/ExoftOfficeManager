@@ -2,7 +2,7 @@ import { ProfileService } from 'src/app/core/services/profile.service';
 
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { User } from 'src/app/models/user.model';
+import { User } from 'src/app/core/models/user.model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -35,10 +35,14 @@ export class EditProfileComponent implements OnInit {
 
     public submit(): void {
         this._profileService.setProfileSubject({
-            avatar: "",
+            avatar: this.user.avatar,
             fullName: `${this.userForm.value.firstName} ${this.userForm.value.lastName}`,
             prevName: this.data.prevName,
         });
+        this._dialogRef.close();
+    }
+
+    public close(): void {
         this._dialogRef.close();
     }
 }

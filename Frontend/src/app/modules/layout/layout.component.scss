@@ -36,3 +36,11 @@ $avatar-background: #586270;
     align-items: center;
     justify-content: center;
 }
+
+.avatar-image {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    border: 2px solid;
+    border-color: lightgray;
+}

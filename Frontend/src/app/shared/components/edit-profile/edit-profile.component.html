@@ -1,3 +1,20 @@
+<div class="header">
+    <button class="close-button" (click)="close()">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    
+    <p class="heading">Profile settings</p>
+    
+    <div class="avatar-wrapper">
+        <img *ngIf="user.avatar !== ''" [src]="user.avatar" class="avatar-image">
+        <p *ngIf="user.avatar === ''" class="initials">
+            <span class="text">
+                {{ user.firstName + ' ' + user.lastName | initials }}
+            </span>
+        </p>
+    </div>
+</div>
+
 <form [formGroup]="userForm" class="background">
     <div class="container">
         <div>
@@ -28,5 +45,5 @@
 
     </div>
 
-    <button type="submit" (click)="submit()">Save Changes</button>
+    <button type="submit" (click)="submit()" class="submit-button">Save Changes</button>
 </form>

@@ -14,3 +14,20 @@
 .date {
     color: $green;
 }
+
+.name-and-avatar {
+    display: flex;
+}
+
+.avatar-wrapper {
+    margin-left: 10px;
+}
+
+.avatar {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(0, -50%);
+    border: 2px solid $green;
+}

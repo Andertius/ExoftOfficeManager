@@ -167,6 +167,7 @@ export class TablesComponent implements OnInit, OnDestroy {
                 workPlace: { tableNumber: table, floorNumber: 5 },
                 date: booking.date,
                 bookingType: booking.bookingType,
+                avatar: "https://localhost:44377/images/avatars/image.jpg",
                 trigger: target,
             }
         });

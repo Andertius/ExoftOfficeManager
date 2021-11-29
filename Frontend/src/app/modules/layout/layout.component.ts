@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { EditProfileResult } from '../../models/edit-profile-result.model';
+import { User } from 'src/app/core/models/user.model';
 
 @Component({
     selector: 'app-layout',
@@ -14,7 +15,7 @@ import { EditProfileResult } from '../../models/edit-profile-result.model';
     styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit, OnDestroy {
-    @Input() userFullName!: string;
+    @Input() user!: User;
 
     private _unsubscribe$: Subject<void> = new Subject();
 
@@ -34,10 +35,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this._profileService.profileSubject
             .pipe(takeUntil(this._unsubscribe$))
             .subscribe((res: EditProfileResult) => {
-                this.userFullName = res.fullName;
+                this.user.firstName = res.fullName.split(' ')[0];
+                this.user.lastName = res.fullName.split(' ')[1];
             });
-
-        this.userFullName = 'Alissa White-Gluz';
     }
 
     public ngOnDestroy(): void {
@@ -50,13 +50,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
             width: '500px',
             data: {
                 user: {
-                    firstName: "Alissa",
-                    lastName: "White-Gluz",
+                    firstName: this.user.firstName,
+                    lastName: this.user.lastName,
                     email: "alissa@archenemy.info",
                     status: "Status",
-                    avatar: "",
+                    avatar: this.user.avatar,
                 },
-                prevName: this.userFullName,
+                prevName: this.user.firstName + ' ' + this.user.lastName,
             }
         });
 

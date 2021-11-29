@@ -1,5 +1,5 @@
 import { WorkPlace } from "../work-place.model";
-import { UserResponse } from "./user-response.model";
+import { UserResponse } from "../../core/models/user-response.model";
 
 export interface BookingResponse {
     booking: {

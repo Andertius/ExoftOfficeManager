@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { User } from 'src/app/core/models/user.model';
 
 @Component({
     selector: 'app-main-meeting',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
     styleUrls: ['./main-meeting.component.scss']
 })
 export class MainMeetingComponent {
-    public firstUserName: string = "Alissa";
+    @Input() user!: User;
 }

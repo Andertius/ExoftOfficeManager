@@ -1,5 +1,11 @@
 <div class="container">
-    <h1 class="name">{{ data.username }}</h1>
+    <div class="name-and-avatar">
+        <h1 class="name">{{ data.username }}</h1>
+    
+        <div class="avatar-wrapper">
+            <img [src]="data.avatar" class="avatar">
+        </div>
+    </div>
 
     <p class="booking">{{ bookingText }}</p>
 

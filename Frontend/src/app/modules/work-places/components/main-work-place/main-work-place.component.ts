@@ -10,9 +10,9 @@ import { takeUntil } from 'rxjs/operators';
     styleUrls: ['./main-work-place.component.scss']
 })
 export class MainWorkPlaceComponent implements OnInit, OnDestroy {
-    private _unsubscribe$: Subject<void> = new Subject();
+    userFirstName = "Alissa";
 
-    public firstUserName: string = "Alissa";
+    private _unsubscribe$: Subject<void> = new Subject();
 
     constructor(private readonly _errorService: ErrorService) { }
 

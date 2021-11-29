@@ -41,7 +41,8 @@ export class ProfileComponent implements OnInit {
         workPlace: { tableNumber: number, floorNumber: number },
         date: Date,
         bookingType: BookingType,
-        trigger: ElementRef
+        avatar: string,
+        trigger: ElementRef,
     },
         private readonly _matDialogRef: MatDialogRef<ProfileComponent>,
         private readonly _dateService: DateService) {

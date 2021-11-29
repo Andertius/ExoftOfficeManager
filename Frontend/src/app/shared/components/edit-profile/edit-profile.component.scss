@@ -4,6 +4,12 @@
     width: 100%;
 }
 
+.header {
+    display: flex;
+    align-items: center;
+    margin: 0 0 10px 0;
+}
+
 .input-class-half {
     width: 50%;
 }
@@ -13,7 +19,7 @@
     border-radius: 5px;
 }
 
-button {
+.submit-button {
     display: block;
     width: 100%;
     border-radius: 0px 0px 5px 5px;
@@ -25,4 +31,47 @@ button {
 
 .container {
     padding: 10px;
+}
+
+.close-button {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    color: white;
+    border: none;
+}
+
+.heading {
+    font-size: 30px;
+    margin-left: 10px !important;
+}
+
+.avatar-wrapper {
+    margin-left: 65px;
+}
+
+.avatar-image {
+    position: absolute;
+    transform: translate(0, -55%);
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    border: 2px $green solid;
+    z-index: 1;
+}
+
+.initials {
+    height: 120px;
+    width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    position: absolute;
+    transform: translate(0, -55%);
+    border-radius: 50%;
+    border: 2px white solid;
+    background-color: $green;
+    color: black;
+    z-index: 1;
 }

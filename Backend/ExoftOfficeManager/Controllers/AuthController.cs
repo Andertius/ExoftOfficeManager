@@ -4,10 +4,14 @@ using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.Services;
 using ExoftOfficeManager.Application.Services.Repositories;
+using ExoftOfficeManager.Application.Users.Commands.AddUser;
+using ExoftOfficeManager.Application.Users.Queries.FindUserByEmail;
 using ExoftOfficeManager.Domain.Entities;
 using ExoftOfficeManager.Domain.Enums;
 using ExoftOfficeManager.Infrastructure.Identity;
 using ExoftOfficeManager.Requests.Auth;
+
+using MediatR;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -24,12 +28,26 @@ namespace ExoftOfficeManager.Controllers
 
         private readonly UserManager<AppIdentityUser> _userManager;
         private readonly SignInManager<AppIdentityUser> _signInManager;
+        private readonly RoleManager<AppIdentityRole> _roleManager;
 
-        public AuthController(IUserRepository userRepo, UserManager<AppIdentityUser> usrMngr, SignInManager<AppIdentityUser> signInMngr)
+        private readonly IMediator _mediator;
+
+        public AuthController(
+            IUserRepository userRepo,
+            IEmailService mailService,
+            UserManager<AppIdentityUser> usrMngr,
+            SignInManager<AppIdentityUser> signInMngr,
+            RoleManager<AppIdentityRole> roleManager,
+            IMediator mediator)
         {
             _userRepository = userRepo;
+
             _userManager = usrMngr;
             _signInManager = signInMngr;
+            _roleManager = roleManager;
+
+            _emailService = mailService;
+            _mediator = mediator;
         }
 
         [HttpPost("login")]
@@ -43,24 +61,30 @@ namespace ExoftOfficeManager.Controllers
 
                 if ((await _signInManager.PasswordSignInAsync(request.UserName, request.Password, false, false)).Succeeded)
                 {
-                    return Redirect(request.ReturnUrl ?? "/");
+                    return NoContent();
                 }
             }
 
             ModelState.AddModelError("", "Invalid name or password");
-            return Unauthorized();
+            var error = new
+            {
+                message = "The request is invalid.",
+                error = ModelState.Values.SelectMany(e=> e.Errors.Select(er=>er.ErrorMessage))
+            };
+
+            return BadRequest(error);
         }
 
         [Authorize]
         [HttpPost("logout")]
-        public async Task<RedirectResult> Logout([FromBody] string returnUrl = "/")
+        public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return Redirect(returnUrl);
+            return NoContent();
         }
 
         [HttpPost("signup")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Signup([FromBody] SignUpRequest request)
         {
             var user = new AppIdentityUser { UserName = request.UserName, Email = request.Email };
@@ -68,13 +92,25 @@ namespace ExoftOfficeManager.Controllers
 
             if (result.Succeeded)
             {
+                if ((await _mediator.Send(new FindUserByEmailQuery(request.Email))).User is null)
+                {
+                    await _mediator.Send(new AddUserCommand(new User
+                    {
+                        Email = request.Email,
+                        FullName = request.FullName,
+                        Role = request.Role,
+                    }));
+                }
+
+                await _userManager.AddToRoleAsync(user, Enum.GetName(typeof(UserRole), request.Role));
+
                 if ((await _signInManager.PasswordSignInAsync(user.UserName, request.Password, false, false)).Succeeded)
                 {
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var confirmationLink = Url.Action(nameof(ConfirmEmail), "Auth", new { userId = user.Id, token }, Request.Scheme);
 
                     _emailService.SendEmailConfirmationEmail(
-                        $"Dear {user.UserName},\nHere is the <a href=\"{confirmationLink}\">link</a> to confirm your email.",
+                        $"Dear {user.UserName},<br/>Here is the <a href=\"{confirmationLink}\">link</a> to confirm your email.",
                         user.Email);
 
                     return NoContent();
@@ -86,7 +122,14 @@ namespace ExoftOfficeManager.Controllers
                 ModelState.AddModelError("", err.Description);
             }
 
-            return Unauthorized();
+            ModelState.AddModelError("", "Invalid name or password");
+            var error = new
+            {
+                message = "The request is invalid.",
+                error = ModelState.Values.SelectMany(e => e.Errors.Select(er => er.ErrorMessage))
+            };
+
+            return BadRequest(error);
         }
 
         [HttpPut("confirm-email")]
@@ -109,14 +152,13 @@ namespace ExoftOfficeManager.Controllers
                 await _userRepository.AddUser(new User
                 {
                     Avatar = "",
-                    IdentityUser = user,
                     Role = (UserRole)Enum.Parse(typeof(UserRole), (await _userManager.GetRolesAsync(user)).FirstOrDefault()),
                 });
 
                 return NoContent();
             }
 
-            return Unauthorized("There was a problem confirming your email, please try again later.");
+            return Unauthorized("There was a problem confirming your email");
         }
 
         [HttpPut("reset-password")]
@@ -139,7 +181,14 @@ namespace ExoftOfficeManager.Controllers
                 }
             }
 
-            return BadRequest();
+            ModelState.AddModelError("", "Invalid name or password");
+            var error = new
+            {
+                message = "The request is invalid.",
+                error = ModelState.Values.SelectMany(e => e.Errors.Select(er => er.ErrorMessage))
+            };
+
+            return BadRequest(error);
         }
     }
 }

@@ -4,15 +4,22 @@ using System.Net.Mail;
 using ExoftOfficeManager.Application.Services;
 using ExoftOfficeManager.Infrastructure.Configuration;
 
+using Microsoft.Extensions.Options;
+
 namespace ExoftOfficeManager.Infrastructure
 {
     public class GmailService : IEmailService
     {
-        private readonly EmailConfig emailConfig;
+        private readonly EmailConfig _emailConfig;
+
+        public GmailService(IOptions<EmailConfig> opts)
+        {
+            _emailConfig = opts.Value;
+        }
 
         public void SendEmailConfirmationEmail(string message, string to)
         {
-            using var mailMessage = new MailMessage(emailConfig.Address, to)
+            using var mailMessage = new MailMessage(_emailConfig.Address, to)
             {
                 Subject = "Email Confirmation",
                 Body = message,
@@ -24,7 +31,7 @@ namespace ExoftOfficeManager.Infrastructure
 
         public void SendPasswordResetEmail(string message, string to)
         {
-            using var mailMessage = new MailMessage(emailConfig.Address, to)
+            using var mailMessage = new MailMessage(_emailConfig.Address, to)
             {
                 Subject = "Password reset",
                 Body = message,
@@ -36,12 +43,12 @@ namespace ExoftOfficeManager.Infrastructure
 
         private void SendEmail(MailMessage mailMessage)
         {
-            var smtp = new SmtpClient(emailConfig.Host, emailConfig.Port)
+            var smtp = new SmtpClient(_emailConfig.Host, _emailConfig.Port)
             {
                 Credentials = new NetworkCredential()
                 {
-                    UserName = emailConfig.Address,
-                    Password = emailConfig.Password,
+                    UserName = _emailConfig.Address,
+                    Password = _emailConfig.Password,
                 },
 
                 EnableSsl = true,

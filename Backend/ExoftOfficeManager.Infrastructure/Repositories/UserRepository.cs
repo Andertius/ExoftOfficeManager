@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-using ExoftOfficeManager.Application.Mappers;
 using ExoftOfficeManager.Application.Services.Repositories;
-using ExoftOfficeManager.Domain.Dtos;
 using ExoftOfficeManager.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +31,16 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
                 .Include(x => x.Bookings)
                 .ThenInclude(x => x.User)
                 .FirstOrDefaultAsync(x => x.Id == userId);
+
+            return user;
+        }
+
+        public async Task<User> FindUserByEmail(string email)
+        {
+            var user = await _context.Users
+                .Include(x => x.Bookings)
+                .ThenInclude(x => x.User)
+                .FirstOrDefaultAsync(x => x.Email == email);
 
             return user;
         }

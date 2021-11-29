@@ -1,4 +1,7 @@
-﻿using ExoftOfficeManager.Domain.Entities;
+﻿using System.Threading;
+using System.Threading.Tasks;
+
+using ExoftOfficeManager.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +20,13 @@ namespace ExoftOfficeManager.Infrastructure
         public AppDbContext(DbContextOptions<AppDbContext> opts)
             : base(opts)
         {
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+
+
+            return base.SaveChangesAsync(cancellationToken);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

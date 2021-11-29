@@ -35,6 +35,16 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
             return user;
         }
 
+        public async Task<User> FindUserByEmail(string email)
+        {
+            var user = await _context.Users
+                .Include(x => x.Bookings)
+                .ThenInclude(x => x.User)
+                .FirstOrDefaultAsync(x => x.Email == email);
+
+            return user;
+        }
+
         public async Task AddUser(User user)
         {
             await _context.Users.AddAsync(user);

@@ -4,14 +4,20 @@ using ExoftOfficeManager.Application.Services;
 using ExoftOfficeManager.Application.Validators.Commands.Bookings;
 using ExoftOfficeManager.Extensions;
 using ExoftOfficeManager.Infrastructure;
+using ExoftOfficeManager.Infrastructure.Configuration;
+using ExoftOfficeManager.Infrastructure.Identity;
 using ExoftOfficeManager.Middlewares;
 
 using FluentValidation;
 
 using MediatR;
 
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +41,8 @@ namespace ExoftOfficeManager
         {
             services.AddRepositories();
 
+            services.AddScoped<IEmailService, GmailService>();
+
             #region MediatR
             services.AddMediatR(Assembly.Load("ExoftOfficeManager.Application"));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
@@ -48,9 +56,20 @@ namespace ExoftOfficeManager
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyConnection")));
 
+            services.AddDbContext<AppIdentityDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+
+            services.AddIdentity<AppIdentityUser, AppIdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityDbContext>()
+                .AddDefaultTokenProviders()
+                .AddUserStore<UserStore<AppIdentityUser, AppIdentityRole, AppIdentityDbContext, Guid>>()
+                .AddRoleStore<RoleStore<AppIdentityRole, AppIdentityDbContext, Guid>>();
+
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
+            services.Configure<EmailConfig>(Configuration.GetSection("Email"));
 
             services.AddSwaggerGen(c =>
             {

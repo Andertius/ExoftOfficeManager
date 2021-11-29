@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ExoftOfficeManager.Requests
 {
@@ -10,6 +11,7 @@ namespace ExoftOfficeManager.Requests
 
         public int RoomNumber { get; set; }
 
+        [Required]
         public string MeetingPurpose { get; set; }
     }
 }

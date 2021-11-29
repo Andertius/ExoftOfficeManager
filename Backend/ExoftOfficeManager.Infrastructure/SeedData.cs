@@ -1,32 +1,141 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using ExoftOfficeManager.Domain.Entities;
 using ExoftOfficeManager.Domain.Enums;
+using ExoftOfficeManager.Infrastructure.Identity;
+
+using Microsoft.AspNetCore.Identity;
 
 namespace ExoftOfficeManager.Infrastructure
 {
     public class SeedData
     {
-        public static void EnsurePopulated(AppDbContext context)
+        private readonly UserManager<AppIdentityUser> _userManager;
+        private readonly RoleManager<AppIdentityRole> _roleManager;
+
+        private readonly List<User> users = new()
         {
+            new User
+            {
+                FullName = "Norbert Moses",
+                Avatar = "avatar_path",
+                Role = UserRole.Admin,
+                Email = "norses@generic.email.address",
+            },
+
+            new User
+            {
+                FullName = "John Doe",
+                Avatar = "avatar_path",
+                Role = UserRole.Developer,
+                Email = "johndoe@example.com",
+            },
+
+            new User
+            {
+                FullName = "Painis Dickens",
+                Avatar = "avatar_path",
+                Role = UserRole.Admin,
+                Email = "soldier@team.fortress",
+            },
+
+            new User
+            {
+                FullName = "Pootis Pencer",
+                Avatar = "avatar_path",
+                Role = UserRole.Developer,
+                Email = "heavy@team.fortress",
+            },
+
+            new User
+            {
+                FullName = "Bob",
+                Avatar = "avatar_path",
+                Role = UserRole.Developer,
+                Email = "boooooooob@aaa.aaa",
+            },
+
+            new User
+            {
+                FullName = "James Hetfield",
+                Avatar = "avatar_path",
+                Role = UserRole.Developer,
+                Email = "meta@lli.ca",
+            },
+
+            new User
+            {
+                FullName = "Dave Mustaine",
+                Avatar = "avatar_path",
+                Role = UserRole.Developer,
+                Email = "mega@de.th",
+            },
+
+            new User
+            {
+                FullName = "John Petrucci",
+                Avatar = "avatar_path",
+                Role = UserRole.Developer,
+                Email = "dream@theat.er",
+            }
+        };
+
+        public SeedData(UserManager<AppIdentityUser> userManger, RoleManager<AppIdentityRole> roleManager)
+        {
+            _userManager = userManger;
+            _roleManager = roleManager;
+        }
+
+        public async Task EnsurePopulated(AppDbContext context, AppIdentityDbContext identityContext)
+        {
+            #region Roles
+            string[] roleNames = { "Admin", "Developer" };
+            IdentityResult roleResult;
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = await _roleManager.RoleExistsAsync(roleName);
+
+                if (!roleExist)
+                {
+                    roleResult = await _roleManager.CreateAsync(new AppIdentityRole() { Name = roleName });
+                }
+            }
+            #endregion
+
+            #region IdentityUsers
+            if (!identityContext.Users.Any())
+            {
+                foreach (var user in users)
+                {
+                    var userToAdd = new AppIdentityUser
+                    {
+                        UserName = user.Email.Split('@')[0],
+                        Email = user.Email,
+                    };
+
+                    var result = await _userManager.CreateAsync(userToAdd, "Secret123$");
+
+                    if (result.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(userToAdd, Enum.GetName(typeof(UserRole), user.Role));
+                    }
+                }
+            }
+            #endregion
+
+            #region Users
             if (!context.Users.Any())
             {
-                context.Users.AddRange( new[]
-                {
-                    new User { FullName = "Norbert Moses", Avatar = "avatar_path", Role = UserRole.Admin },
-                    new User { FullName = "John Doe", Avatar = "avatar_path", Role = UserRole.Developer },
-                    new User { FullName = "Painis Dickens", Avatar = "avatar_path", Role = UserRole.Admin },
-                    new User { FullName = "Pootis Pencer", Avatar = "avatar_path", Role = UserRole.Developer },
-                    new User { FullName = "Bob", Avatar = "avatar_path", Role = UserRole.Developer },
-                    new User { FullName = "James Hetfield", Avatar = "avatar_path", Role = UserRole.Developer },
-                    new User { FullName = "Dave Mustaine", Avatar = "avatar_path", Role = UserRole.Developer },
-                    new User { FullName = "John Petrucci", Avatar = "avatar_path", Role = UserRole.Developer },
-                });
-
+                context.Users.AddRange(users);
                 context.SaveChanges();
             }
+            #endregion
 
+            #region WorkPlaces
             if (!context.WorkPlaces.Any())
             {
                 for (int i = 1; i <= 30; i++)
@@ -36,7 +145,9 @@ namespace ExoftOfficeManager.Infrastructure
 
                 context.SaveChanges();
             }
+            #endregion
 
+            #region Meetings
             if (!context.Meetings.Any())
             {
                 context.Meetings.AddRange(
@@ -106,7 +217,9 @@ namespace ExoftOfficeManager.Infrastructure
 
                 context.SaveChanges();
             }
+            #endregion
 
+            #region Bookings
             if (!context.Bookings.Any())
             {
                 context.Bookings.AddRange(
@@ -194,6 +307,7 @@ namespace ExoftOfficeManager.Infrastructure
 
                 context.SaveChanges();
             }
+            #endregion
         }
     }
 }

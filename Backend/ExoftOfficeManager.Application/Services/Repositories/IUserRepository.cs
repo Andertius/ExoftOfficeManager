@@ -12,6 +12,8 @@ namespace ExoftOfficeManager.Application.Services.Repositories
 
         Task<User> FindUserById(Guid userId);
 
+        Task<User> FindUserByEmail(string email);
+
         Task AddUser(User user);
 
         Task Commit();

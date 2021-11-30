@@ -1,7 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.Services.Repositories;
+using ExoftOfficeManager.Application.Users.Commands.UpdateUser;
 using ExoftOfficeManager.Domain.Entities;
+using ExoftOfficeManager.Requests;
+
+using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +17,13 @@ namespace ExoftOfficeManager.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _repository;
+        private readonly IMediator _mediator;
 
-        public UserController(IUserRepository repo)
+        public UserController(
+            IMediator mediator,
+            IUserRepository repo)
         {
+            _mediator = mediator;
             _repository = repo;
         }
 
@@ -32,6 +41,19 @@ namespace ExoftOfficeManager.Controllers
                 Role = randomUser.Role,
                 Email = randomUser.Email,
             });
+        }
+
+        [HttpPut("users/{userId}/update-user")]
+        public async Task<IActionResult> UpdateUser(
+            [FromRoute] Guid userId,
+            [FromBody] UpdateUserRequest request)
+        {
+            await _mediator.Send(new UpdateUserCommand(
+                userId,
+                request.FullName,
+                request.Avatar));
+
+            return NoContent();
         }
     }
 }

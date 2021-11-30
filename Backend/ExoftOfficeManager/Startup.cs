@@ -58,7 +58,9 @@ namespace ExoftOfficeManager
             services.AddDbContext<AppIdentityDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
 
-            services.AddIdentity<AppIdentityUser, AppIdentityRole>()
+            services.AddIdentity<AppIdentityUser, AppIdentityRole>(options => {
+                options.User.RequireUniqueEmail = true;
+            })
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders()
                 .AddUserStore<UserStore<AppIdentityUser, AppIdentityRole, AppIdentityDbContext, Guid>>()

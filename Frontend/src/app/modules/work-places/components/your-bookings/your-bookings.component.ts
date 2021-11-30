@@ -15,6 +15,8 @@ import { takeUntil } from 'rxjs/operators';
     styleUrls: ['./your-bookings.component.scss']
 })
 export class YourBookingsComponent implements OnInit, OnDestroy {
+    @Input() id!: string;
+
     private _unsubscribe$: Subject<void> = new Subject();
 
     public bookings: Array<Booking> = new Array<Booking>();
@@ -32,7 +34,7 @@ export class YourBookingsComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.bookings = this._bookingService
             .bookingResponseObservableToModel(this._bookingService
-                .getUserBookings(sessionStorage.getItem("sessionUserId") ?? ""));
+                .getUserBookings(this.id));
 
         this._profileService.profileSubject
             .pipe(takeUntil(this._unsubscribe$))
@@ -42,7 +44,7 @@ export class YourBookingsComponent implements OnInit, OnDestroy {
         
         this._errorService.errorSubject
             .pipe(takeUntil(this._unsubscribe$))
-            .subscribe(x => alert(x));
+            .subscribe(x => console.log(x));
     }
 
     public ngOnDestroy(): void {

@@ -44,7 +44,7 @@ export class BookPlaceComponent implements OnInit, OnDestroy {
 
         this._errorService.errorSubject
             .pipe(takeUntil(this._unsubscribe$))
-            .subscribe(x => alert(x));
+            .subscribe(x => console.log(x));
     }
 
     public ngOnDestroy(): void {

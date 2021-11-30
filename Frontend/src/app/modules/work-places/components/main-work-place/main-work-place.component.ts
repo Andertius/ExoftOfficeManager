@@ -4,6 +4,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ActivatedRoute, } from '@angular/router';
 
 @Component({
     selector: 'app-main-work-place',
@@ -11,19 +12,31 @@ import { takeUntil } from 'rxjs/operators';
     styleUrls: ['./main-work-place.component.scss']
 })
 export class MainWorkPlaceComponent implements OnInit, OnDestroy {
-    public userFirstName!: string;
-
     private _unsubscribe$: Subject<void> = new Subject();
+    private _userFirstName: string;
 
-    constructor(private readonly _errorService: ErrorService) { }
+    public userFullName!: string;
+    public id!: string;
+
+    public get userFirstName(): string {
+        return this._userFirstName.toUpperCase();
+    }
+
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private readonly _errorService: ErrorService) {
+            this.activatedRoute.queryParamMap.subscribe(params => {
+                this.userFullName = String(params.get('userFullName'));
+                this.id = String(params.get('id'));
+            });
+        
+            this._userFirstName = this.userFullName.split(' ')[0].toUpperCase();
+        }
 
     public ngOnInit(): void {
         this._errorService.errorSubject
             .pipe(takeUntil(this._unsubscribe$))
-            .subscribe(x => alert(x));
-            
-        this.userFirstName = sessionStorage.getItem("sessionUserFullName") ?? "";
-        this.userFirstName = this.userFirstName.split(' ')[0];
+            .subscribe(x => console.log(x));
     }
 
     public ngOnDestroy(): void {

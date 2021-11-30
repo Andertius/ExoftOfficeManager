@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { User } from './core/models/user.model';
@@ -12,10 +13,11 @@ import { UserService } from './core/services/user.service';
 export class AppComponent implements OnInit, OnDestroy {
     private _unsubscribe$: Subject<void> = new Subject();
 
-    public title = 'Frontend';
     public user!: User;
 
-    constructor(private readonly _userService: UserService) { }
+    constructor(
+        private readonly _userService: UserService,
+        private readonly _router: Router) { }
 
     public ngOnInit(): void {
         this._userService.dummyUserSubject
@@ -26,9 +28,8 @@ export class AppComponent implements OnInit, OnDestroy {
                 if (this.user.avatar === null) {
                     this.user.avatar = '';
                 }
-                
-                sessionStorage.setItem("sessionUserFullName", `${this.user.firstName} ${this.user.lastName}`);
-                sessionStorage.setItem("sessionUserId", this.user.id);
+
+                this._router.navigate(['work-place'], { queryParams: { id: this.user.id, userFullName: `${this.user.firstName} ${this.user.lastName}` } });
             });
 
         this._userService.getDummyUser().subscribe();

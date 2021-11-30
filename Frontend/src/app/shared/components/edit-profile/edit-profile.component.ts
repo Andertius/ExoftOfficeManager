@@ -4,6 +4,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/core/models/user.model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-edit-profile',
@@ -17,8 +18,10 @@ export class EditProfileComponent implements OnInit {
 
     constructor(
         private readonly _profileService: ProfileService,
+        private readonly _router: Router,
         private readonly _dialogRef: MatDialogRef<EditProfileComponent>,
         @Inject(MAT_DIALOG_DATA) public data: { user: User, prevName: string }) {
+
         this.user = data.user;
     }
 
@@ -41,7 +44,19 @@ export class EditProfileComponent implements OnInit {
             email: this.userForm.value.email,
             status: this.userForm.value.status,
         });
+
+        this._profileService.updateUser(this.user.id, { avatar: this.user.avatar, fullName: `${this.userForm.value.firstName} ${this.userForm.value.lastName}` });
+
         this._dialogRef.close();
+        
+        this._router.navigate([this._router.url.split('?')[0]],
+            {
+                queryParams:
+                {
+                    id: this.user.id,
+                    userFullName: `${this.userForm.value.firstName} ${this.userForm.value.lastName}`
+                }
+            });
     }
 
     public close(): void {

@@ -18,6 +18,10 @@ export class GreetingComponent implements OnInit, OnDestroy {
 
     public greetingMessage: string = "";
 
+    public get getFirstName(): string {
+        return this.firstName.toUpperCase();
+    }
+
     constructor(private readonly _profileService: ProfileService) { }
 
     ngOnInit(): void {

@@ -44,7 +44,8 @@ export class BookingService {
             `https://localhost:44377/Booking/users/${id}/bookings`)
             .pipe(catchError(err => {
                 if (err.status === 400) {
-                    this._errorService.setErrorSubject(err.error.message);
+                    console.log(id);
+                    this._errorService.setErrorSubject('ass');
                 }
 
                 return of([]);
@@ -60,7 +61,7 @@ export class BookingService {
                 }),
                 catchError(err => {
                     if (err.status === 400) {
-                        this._errorService.setErrorSubject(err.error.message);
+                        this._errorService.setErrorSubject('assa');
                     }
 
                     return of([]);
@@ -132,7 +133,7 @@ export class BookingService {
         })
             .pipe(catchError(err => {
                 if (err.status === 400) {
-                    this._errorService.setErrorSubject(err.error.message);
+                    this._errorService.setErrorSubject('assa');
                 }
 
                 return of(0);

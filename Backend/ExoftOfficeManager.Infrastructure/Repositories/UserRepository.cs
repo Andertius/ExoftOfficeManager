@@ -50,6 +50,11 @@ namespace ExoftOfficeManager.Infrastructure.Repositories
             await _context.Users.AddAsync(user);
         }
 
+        public void UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+        }
+
         public async Task Commit()
         {
             await _context.SaveChangesAsync();

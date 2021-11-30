@@ -16,6 +16,8 @@ namespace ExoftOfficeManager.Application.Services.Repositories
 
         Task AddUser(User user);
 
+        void UpdateUser(User user);
+
         Task Commit();
     }
 }

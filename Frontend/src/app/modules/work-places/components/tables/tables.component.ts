@@ -21,6 +21,8 @@ import { BookingType } from 'src/app/models/enums/booking-type.enum';
     host: { class: 'app-tables' }
 })
 export class TablesComponent implements OnInit, OnDestroy {
+    @Input() id!: string;
+    @Input() userFullName!: string;
 
     private _unsubscribe$: Subject<void> = new Subject();
 
@@ -103,7 +105,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 
         this._errorService.errorSubject
             .pipe(takeUntil(this._unsubscribe$))
-            .subscribe(x => alert(x));
+            .subscribe(x => console.log(x));
     }
 
     public ngOnDestroy(): void {
@@ -183,12 +185,12 @@ export class TablesComponent implements OnInit, OnDestroy {
                     data: {
                         request: {
                             workPlaceId: workPlace.workPlace.id,
-                            userId: sessionStorage.getItem("sessionUserId") ?? "",
+                            userId: this.id,
                             bookingType: 0,
                             bookingDate: new Date(),
                             days: null,
                         },
-                        userFullName: sessionStorage.getItem("sessionUserFullName"),
+                        userFullName: this.userFullName,
                         tableNumber: Number(button.id.slice(0, button.id.length - 2)),
                         floorNumber: 5,
                         bookings: this.bookings,

@@ -1,10 +1,10 @@
 <nav mat-tab-nav-bar mat-align-tabs="center">
-    <a mat-tab-link [routerLink]="'work-place'" (click)="activeLink='work-place'"
+    <a mat-tab-link [routerLink]="'work-place'" id="work-place" (click)="changeToWorkPlace($event)"
         [active]="activeLink === 'work-place'">
         Work places
     </a>
 
-    <a mat-tab-link [routerLink]="'meeting'" (click)="activeLink='meeting'" [active]="activeLink === 'meeting'">
+    <a mat-tab-link [routerLink]="'meeting'" id="meeting" (click)="changeToMeeting($event)" [active]="activeLink === 'meeting'">
         Meeting room
     </a>
 

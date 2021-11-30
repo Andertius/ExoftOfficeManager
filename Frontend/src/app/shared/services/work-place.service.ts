@@ -40,7 +40,7 @@ export class WorkPlaceService {
         return this._http.get<WorkPlaceResponse>(`https://localhost:44377/WorkPlace/work-places/${place}/${floor}/work-place`)
             .pipe(catchError(err => {
                 if (err.status === 400) {
-                    this._errorService.setErrorSubject(err.error.message);
+                    this._errorService.setErrorSubject('err.error.message');
                 }
 
                 return EMPTY;

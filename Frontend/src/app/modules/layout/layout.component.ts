@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { EditProfileResult } from '../../models/edit-profile-result.model';
 import { User } from 'src/app/core/models/user.model';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-layout',
@@ -19,16 +20,12 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private _unsubscribe$: Subject<void> = new Subject();
 
-    public links: Array<string> = [
-        'book-place',
-        'work-place',
-    ];
-
     public activeLink = "";
 
     constructor(
         private readonly _dialog: MatDialog,
-        private readonly _profileService: ProfileService)
+        private readonly _profileService: ProfileService,
+        private readonly _router: Router)
     { }
 
     public ngOnInit(): void {
@@ -62,6 +59,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
             width: '500px',
             data: {
                 user: {
+                    id: this.user.id,
                     firstName: this.user.firstName,
                     lastName: this.user.lastName,
                     email: this.user.email,
@@ -73,5 +71,16 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         dialogRef.afterClosed().subscribe(_ => console.log('The dialog was closed'));
+    }
+
+    public changeToWorkPlace(event: Event): void {
+        this.activeLink = 'work-place';
+        this._router.navigate(['work-place'], { queryParams: { id: this.user.id, userFullName: `${this.user.firstName} ${this.user.lastName}` } });
+        console.log(this._router.url);
+    }
+
+    public changeToMeeting(event: Event): void {
+        this.activeLink = 'meeting';
+        this._router.navigate(['meeting'], { queryParams: { id: this.user.id, userFullName: `${this.user.firstName} ${this.user.lastName}` } });
     }
 }

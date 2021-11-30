@@ -5,11 +5,11 @@
     
             <app-status-info></app-status-info>
     
-            <app-tables class="grid-left-lower-item"></app-tables>
+            <app-tables class="grid-left-lower-item" [id]="id" [userFullName]="userFullName"></app-tables>
         </div>
     
         <div class="grid-right-item">
-            <app-your-bookings></app-your-bookings>
+            <app-your-bookings [id]="id"></app-your-bookings>
     
             <app-current-day-bookings></app-current-day-bookings>
         </div>

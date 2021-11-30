@@ -24,7 +24,8 @@ export class UserService {
     }
 
     public getDummyUser(): Observable<UserResponse> {
-        return this._http.get<UserResponse>("https://localhost:44377/User/users/dummy-user")
+        return this._http
+            .get<UserResponse>("https://localhost:44377/User/users/dummy-user")
             .pipe(tap(x => this.dummyUserSubject.next(this.convertResponseToModel(x))));
     }
 

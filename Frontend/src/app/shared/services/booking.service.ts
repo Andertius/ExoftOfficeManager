@@ -8,6 +8,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { Booking } from 'src/app/models/booking.model';
 import { AddBookingRequest } from 'src/app/models/requests/add-booking-request.model';
 import { BookingResponse } from 'src/app/models/responses/booking-response.model';
+import { User } from 'src/app/core/models/user.model';
 
 @Injectable({
     providedIn: 'root'
@@ -38,9 +39,9 @@ export class BookingService {
         private readonly _errorService: ErrorService)
     { }
 
-    public getUserBookings(): Observable<BookingResponse[]> {
+    public getUserBookings(id: string): Observable<BookingResponse[]> {
         return this._http.get<Array<BookingResponse>>(
-            'https://localhost:44377/Booking/users/1D0BEA4F-DD83-4F45-F647-08D9ADBE1ABA/bookings')
+            `https://localhost:44377/Booking/users/${id}/bookings`)
             .pipe(catchError(err => {
                 if (err.status === 400) {
                     this._errorService.setErrorSubject(err.error.message);

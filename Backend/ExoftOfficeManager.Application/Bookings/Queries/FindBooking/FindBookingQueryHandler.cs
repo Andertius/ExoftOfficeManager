@@ -32,8 +32,8 @@ namespace ExoftOfficeManager.Application.Bookings.Queries.FindBooking
                 request.BookingId = booking.Id;
             }
 
-            var getPendingBookings = await _bookingRepository.FindById(request.BookingId);
-            return new BookingsQueryResponse(BookingMapper.MapIntoDto(getPendingBookings));
+            var getBookings = await _bookingRepository.FindById(request.BookingId);
+            return new BookingsQueryResponse(BookingMapper.MapIntoDto(getBookings));
         }
     }
 }

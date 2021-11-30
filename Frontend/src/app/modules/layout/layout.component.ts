@@ -2,7 +2,7 @@ import { EditProfileComponent } from '../../shared/components/edit-profile/edit-
 
 import { ProfileService } from '../../core/services/profile.service';
 
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { User } from 'src/app/core/models/user.model';
     templateUrl: './layout.component.html',
     styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent implements OnInit, OnDestroy {
+export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() user!: User;
 
     private _unsubscribe$: Subject<void> = new Subject();
@@ -37,7 +37,19 @@ export class LayoutComponent implements OnInit, OnDestroy {
             .subscribe((res: EditProfileResult) => {
                 this.user.firstName = res.fullName.split(' ')[0];
                 this.user.lastName = res.fullName.split(' ')[1];
+
+                if (this.user.lastName === undefined) {
+                    this.user.lastName = "";
+                }
+
+                this.user.email = res.email;
             });
+    }
+
+    public ngAfterViewInit(): void {
+        if (this.user.lastName === undefined) {
+            this.user.lastName = "";
+        }
     }
 
     public ngOnDestroy(): void {
@@ -52,7 +64,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
                 user: {
                     firstName: this.user.firstName,
                     lastName: this.user.lastName,
-                    email: "alissa@archenemy.info",
+                    email: this.user.email,
                     status: "Status",
                     avatar: this.user.avatar,
                 },

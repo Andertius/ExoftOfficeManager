@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 
+using ExoftOfficeManager.Application.Services.Repositories;
 using ExoftOfficeManager.Domain.Entities;
-using ExoftOfficeManager.Domain.Enums;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,18 +11,26 @@ namespace ExoftOfficeManager.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        public UserController()
+        private readonly IUserRepository _repository;
+
+        public UserController(IUserRepository repo)
         {
+            _repository = repo;
         }
 
         [HttpGet("users/dummy-user")]
-        public async Task<IActionResult> GetUser()
+        public async Task<IActionResult> GetDummyUser()
         {
+            var users = await _repository.GetAllUsers();
+            var randomUser = users[4];
+
             return Ok(new User
             {
+                Id = randomUser.Id,
                 Avatar = "https://localhost:44377/images/avatars/image.jpg",
-                FullName = "Alissa White-Gluz",
-                Role = UserRole.Developer,
+                FullName = randomUser.FullName,
+                Role = randomUser.Role,
+                Email = randomUser.Email,
             });
         }
     }

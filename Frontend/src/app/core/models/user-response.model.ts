@@ -6,4 +6,5 @@ export interface UserResponse {
     avatar:    string;
     role:      number;
     bookings:  BookingResponse;
+    email:     string,
 }

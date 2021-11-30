@@ -4,7 +4,7 @@ import { ProfileService } from 'src/app/core/services/profile.service';
 
 import { Booking } from 'src/app/models/booking.model';
 import { BookingType } from 'src/app/models/enums/booking-type.enum';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { EditProfileResult } from 'src/app/models/edit-profile-result.model';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -30,7 +30,9 @@ export class YourBookingsComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.bookings = this._bookingService.bookingResponseObservableToModel(this._bookingService.getUserBookings());
+        this.bookings = this._bookingService
+            .bookingResponseObservableToModel(this._bookingService
+                .getUserBookings(sessionStorage.getItem("sessionUserId") ?? ""));
 
         this._profileService.profileSubject
             .pipe(takeUntil(this._unsubscribe$))

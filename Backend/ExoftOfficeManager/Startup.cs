@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 
 using ExoftOfficeManager.Application.Services;
@@ -12,10 +13,8 @@ using FluentValidation;
 
 using MediatR;
 
-using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

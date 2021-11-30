@@ -9,13 +9,13 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.AddBooking
     public class AddBookingCommand : IRequest
     {
         public AddBookingCommand(
-            Guid id,
+            Guid placeId,
             Guid developerId,
             BookingType type,
             DateTime date,
             int? days)
         {
-            PlaceId = id;
+            PlaceId = placeId;
             UserId = developerId;
             BookingType = type;
             BookingDate = date;

@@ -38,6 +38,8 @@ export class EditProfileComponent implements OnInit {
             avatar: this.user.avatar,
             fullName: `${this.userForm.value.firstName} ${this.userForm.value.lastName}`,
             prevName: this.data.prevName,
+            email: this.userForm.value.email,
+            status: this.userForm.value.status,
         });
         this._dialogRef.close();
     }

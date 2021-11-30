@@ -26,6 +26,9 @@ export class AppComponent implements OnInit, OnDestroy {
                 if (this.user.avatar === null) {
                     this.user.avatar = '';
                 }
+                
+                sessionStorage.setItem("sessionUserFullName", `${this.user.firstName} ${this.user.lastName}`);
+                sessionStorage.setItem("sessionUserId", this.user.id);
             });
 
         this._userService.getDummyUser().subscribe();

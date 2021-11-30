@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExoftOfficeManager.Infrastr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExoftOfficeManager.Application", "ExoftOfficeManager.Application\ExoftOfficeManager.Application.csproj", "{52EC517D-B1FA-4FF7-8A10-6E79173B5118}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExoftOfficeManager.Tests", "ExoftOfficeManager.Tests\ExoftOfficeManager.Tests.csproj", "{DFAFD605-1BD8-40A8-82CD-A2D7AA73ACD2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{52EC517D-B1FA-4FF7-8A10-6E79173B5118}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52EC517D-B1FA-4FF7-8A10-6E79173B5118}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52EC517D-B1FA-4FF7-8A10-6E79173B5118}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFAFD605-1BD8-40A8-82CD-A2D7AA73ACD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFAFD605-1BD8-40A8-82CD-A2D7AA73ACD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFAFD605-1BD8-40A8-82CD-A2D7AA73ACD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFAFD605-1BD8-40A8-82CD-A2D7AA73ACD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

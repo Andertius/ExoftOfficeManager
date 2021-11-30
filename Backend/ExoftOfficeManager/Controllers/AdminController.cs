@@ -31,7 +31,7 @@ namespace ExoftOfficeManager.Controllers
         }
 
         [HttpGet("bookings/pending-bookings")]
-        public async Task<IActionResult> GetAllPendingBooking()
+        public async Task<IActionResult> GetAllPendingBookings()
         {
             var pendingBookings = await _mediator.Send(new GetPendingBookingsQuery());
             return Ok(pendingBookings);

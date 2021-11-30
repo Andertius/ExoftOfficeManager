@@ -31,10 +31,11 @@ export class UserService {
     private convertResponseToModel(res: UserResponse): User
     {
         return {
+            id: res.id,
             avatar: res.avatar,
             firstName: res.fullName.split(' ')[0],
             lastName: res.fullName.split(' ')[1],
-            email: '',
+            email: res.email,
             status: 'status',
         };
     }

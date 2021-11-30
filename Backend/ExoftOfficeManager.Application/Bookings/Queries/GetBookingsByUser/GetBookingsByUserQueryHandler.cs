@@ -21,9 +21,10 @@ namespace ExoftOfficeManager.Application.Bookings.Queries.GetBookingsByUser
         public async Task<BookingsQueryResponse[]> Handle(GetBookingsByUserQuery request, CancellationToken cancellationToken)
         {
             var pendingBookings = await _repository.GetBookingsByUser(request.UserId);
-            return pendingBookings
+            var a = pendingBookings
                 .Select(b => new BookingsQueryResponse(BookingMapper.MapIntoDto(b)))
                 .ToArray();
+            return a;
         }
     }
 }

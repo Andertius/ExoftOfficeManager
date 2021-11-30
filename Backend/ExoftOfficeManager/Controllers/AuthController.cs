@@ -149,16 +149,10 @@ namespace ExoftOfficeManager.Controllers
 
             if ((await _userManager.ConfirmEmailAsync(user, token)).Succeeded)
             {
-                await _userRepository.AddUser(new User
-                {
-                    Avatar = "",
-                    Role = (UserRole)Enum.Parse(typeof(UserRole), (await _userManager.GetRolesAsync(user)).FirstOrDefault()),
-                });
-
                 return NoContent();
             }
 
-            return Unauthorized("There was a problem confirming your email");
+            return BadRequest("There was a problem confirming your email");
         }
 
         [HttpPut("reset-password")]

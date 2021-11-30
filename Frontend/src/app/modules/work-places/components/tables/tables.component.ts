@@ -7,7 +7,7 @@ import { DateService } from 'src/app/shared/services/date.service';
 import { ErrorService } from 'src/app/shared/services/error.service';
 import { WorkPlaceService } from 'src/app/shared/services/work-place.service';
 
-import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -21,6 +21,7 @@ import { BookingType } from 'src/app/models/enums/booking-type.enum';
     host: { class: 'app-tables' }
 })
 export class TablesComponent implements OnInit, OnDestroy {
+
     private _unsubscribe$: Subject<void> = new Subject();
 
     public clusterRange = [...Array(10).keys()];
@@ -102,7 +103,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 
         this._errorService.errorSubject
             .pipe(takeUntil(this._unsubscribe$))
-            .subscribe(x => alert(x))
+            .subscribe(x => alert(x));
     }
 
     public ngOnDestroy(): void {
@@ -182,12 +183,12 @@ export class TablesComponent implements OnInit, OnDestroy {
                     data: {
                         request: {
                             workPlaceId: workPlace.workPlace.id,
-                            userId: "1D0BEA4F-DD83-4F45-F647-08D9ADBE1ABA",
+                            userId: sessionStorage.getItem("sessionUserId") ?? "",
                             bookingType: 0,
                             bookingDate: new Date(),
                             days: null,
                         },
-                        userFullName: "Alissa White-Gluz",
+                        userFullName: sessionStorage.getItem("sessionUserFullName"),
                         tableNumber: Number(button.id.slice(0, button.id.length - 2)),
                         floorNumber: 5,
                         bookings: this.bookings,

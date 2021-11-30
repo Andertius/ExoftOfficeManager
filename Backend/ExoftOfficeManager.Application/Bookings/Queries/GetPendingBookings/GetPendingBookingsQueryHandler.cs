@@ -9,7 +9,7 @@ using MediatR;
 
 namespace ExoftOfficeManager.Application.Bookings.Queries.GetPendingBookings
 {
-    class GetPendingBookingsQueryHandler : IRequestHandler<GetPendingBookingsQuery, BookingsQueryResponse[]>
+    public class GetPendingBookingsQueryHandler : IRequestHandler<GetPendingBookingsQuery, BookingsQueryResponse[]>
     {
         private readonly IBookingRepository _repository;
 

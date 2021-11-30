@@ -14,17 +14,17 @@ namespace ExoftOfficeManager.Application.Bookings.Commands.RemoveBookingByWorkpl
         private readonly IWorkPlaceRepository _placeRepository;
 
         public RemoveBookingByWorkplaceCommandHandler(
-            IBookingRepository bookingRepository,
+            IBookingRepository bookingRepo,
             IWorkPlaceRepository placeRepo)
         {
-            _bookingRepository = bookingRepository;
+            _bookingRepository = bookingRepo;
             _placeRepository = placeRepo;
         }
 
         public async Task<Unit> Handle(RemoveBookingByWorkplaceCommand request, CancellationToken cancellationToken)
         {
-            var placeDto = await _placeRepository.FindWorkPlaceById(request.PlaceId);
-            var booking = placeDto.Bookings.FirstOrDefault(x => x.Date == request.Date && x.User.Id == request.UserId);
+            var place = await _placeRepository.FindWorkPlaceById(request.PlaceId);
+            var booking = place.Bookings.FirstOrDefault(x => x.Date == request.Date && x.User.Id == request.UserId);
 
             _bookingRepository.RemoveBooking(booking.Id);
             await _bookingRepository.Commit();

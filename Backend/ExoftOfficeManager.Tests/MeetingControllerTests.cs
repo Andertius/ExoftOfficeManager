@@ -45,13 +45,13 @@ namespace ExoftOfficeManager.Tests
                 .Setup(x => x.GetAllMeetings(It.IsAny<DateTime>()))
                 .ReturnsAsync(getMeetings);
 
-            var command = new GetMeetingsQuery(date);
+            var query = new GetMeetingsQuery(date);
             var handler = new GetMeetingsQueryHandler(repository.Object);
 
             var mediator = new Mock<IMediator>();
             mediator
                 .Setup(x => x.Send(It.IsAny<GetMeetingsQuery>(), default))
-                .Returns(handler.Handle(command, default));
+                .Returns(handler.Handle(query, default));
 
             var controller = new MeetingController(mediator.Object);
             #endregion
@@ -104,13 +104,13 @@ namespace ExoftOfficeManager.Tests
                 .Setup(x => x.GetAllMeetings(It.IsAny<DateTime>()))
                 .ReturnsAsync(getMeetings);
 
-            var command = new GetAvailableHoursQuery(date, roomNumber);
+            var query = new GetAvailableHoursQuery(date, roomNumber);
             var handler = new GetAvailableHoursQueryHandler(repository.Object);
 
             var mediator = new Mock<IMediator>();
             mediator
                 .Setup(x => x.Send(It.IsAny<GetAvailableHoursQuery>(), default))
-                .Returns(handler.Handle(command, default));
+                .Returns(handler.Handle(query, default));
 
             var controller = new MeetingController(mediator.Object);
             #endregion
@@ -163,13 +163,13 @@ namespace ExoftOfficeManager.Tests
                 .Setup(x => x.FindMeetingById(It.IsAny<Guid>()))
                 .ReturnsAsync(findMeeting);
 
-            var command = new FindMeetingByIdQuery(id);
+            var query = new FindMeetingByIdQuery(id);
             var handler = new FindMeetingByIdQueryHandler(repository.Object);
 
             var mediator = new Mock<IMediator>();
             mediator
                 .Setup(x => x.Send(It.IsAny<FindMeetingByIdQuery>(), default))
-                .Returns(handler.Handle(command, default));
+                .Returns(handler.Handle(query, default));
 
             var controller = new MeetingController(mediator.Object);
             #endregion

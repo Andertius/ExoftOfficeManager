@@ -47,13 +47,13 @@ namespace ExoftOfficeManager.Tests
                 .Setup(x => x.GetAllWorkPlaces())
                 .ReturnsAsync(list);
 
-            var command = new GetWorkPlacesQuery();
+            var query = new GetWorkPlacesQuery();
             var handler = new GetWorkPlacesQueryHandler(repository.Object);
 
             var mediator = new Mock<IMediator>();
             mediator
                 .Setup(x => x.Send(It.IsAny<GetWorkPlacesQuery>(), default))
-                .Returns(handler.Handle(command, default));
+                .Returns(handler.Handle(query, default));
 
             var controller = new WorkPlaceController(mediator.Object);
 #           endregion
@@ -109,13 +109,13 @@ namespace ExoftOfficeManager.Tests
                 .Setup(x => x.GetAllBookedWorkPlaces(date))
                 .ReturnsAsync(() => list.Where(x => x.Bookings.Any(x => x.Date == date)).ToArray());
 
-            var command = new GetBookedWorkPlacesQuery(date);
+            var query = new GetBookedWorkPlacesQuery(date);
             var handler = new GetBookedWorkPlacesQueryHandler(repository.Object);
 
             var mediator = new Mock<IMediator>();
             mediator
                 .Setup(x => x.Send(It.IsAny<GetBookedWorkPlacesQuery>(), default))
-                .Returns(handler.Handle(command, default));
+                .Returns(handler.Handle(query, default));
 
             var controller = new WorkPlaceController(mediator.Object);
             #endregion
@@ -187,13 +187,13 @@ namespace ExoftOfficeManager.Tests
                 .Setup(x => x.GetAllAvailableWorkPlaces(date))
                 .ReturnsAsync(() => list.Where(x => x.Bookings.All(x => x.Date != date)).ToArray());
 
-            var command = new GetAvailableWorkPlacesQuery(date);
+            var query = new GetAvailableWorkPlacesQuery(date);
             var handler = new GetAvailableWorkPlacesQueryHandler(repository.Object);
 
             var mediator = new Mock<IMediator>();
             mediator
                 .Setup(x => x.Send(It.IsAny<GetAvailableWorkPlacesQuery>(), default))
-                .Returns(handler.Handle(command, default));
+                .Returns(handler.Handle(query, default));
 
             var controller = new WorkPlaceController(mediator.Object);
             #endregion
@@ -259,13 +259,13 @@ namespace ExoftOfficeManager.Tests
                 .Setup(x => x.FindWorkPlaceById(id))
                 .ReturnsAsync(() => list.FirstOrDefault(x => x.Id == id));
 
-            var command = new FindWorkPlaceByIdQuery(id);
+            var query = new FindWorkPlaceByIdQuery(id);
             var handler = new FindWorkPlaceByIdQueryHandler(repository.Object);
 
             var mediator = new Mock<IMediator>();
             mediator
                 .Setup(x => x.Send(It.IsAny<FindWorkPlaceByIdQuery>(), default))
-                .Returns(handler.Handle(command, default));
+                .Returns(handler.Handle(query, default));
 
             var controller = new WorkPlaceController(mediator.Object);
             #endregion
@@ -310,13 +310,13 @@ namespace ExoftOfficeManager.Tests
                 .Setup(x => x.FindWorkPlaceByPlaceNumber(place, floor))
                 .ReturnsAsync(() => list.FirstOrDefault(x => x.PlaceNumber == place && x.FloorNumber == floor));
 
-            var command = new FindWorkPlaceByPlaceNumberQuery(place, floor);
+            var query = new FindWorkPlaceByPlaceNumberQuery(place, floor);
             var handler = new FindWorkPlaceByPlaceNumberQueryHandler(repository.Object);
 
             var mediator = new Mock<IMediator>();
             mediator
                 .Setup(x => x.Send(It.IsAny<FindWorkPlaceByPlaceNumberQuery>(), default))
-                .Returns(handler.Handle(command, default));
+                .Returns(handler.Handle(query, default));
 
             var controller = new WorkPlaceController(mediator.Object);
             #endregion

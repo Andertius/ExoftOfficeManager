@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.Bookings.Commands.RemoveBookingByWorkplace;
 using ExoftOfficeManager.Application.Bookings.Queries;
@@ -45,13 +44,13 @@ namespace ExoftOfficeManager.Tests
                 .Setup(x => x.GetAllBookings(It.IsAny<DateTime>()))
                 .ReturnsAsync(getBookings);
 
-            var command = new GetBookingsQuery(date);
+            var query = new GetBookingsQuery(date);
             var handler = new GetBookingsQueryHandler(repository.Object);
 
             var mediator = new Mock<IMediator>();
             mediator
                 .Setup(x => x.Send(It.IsAny<GetBookingsQuery>(), default))
-                .Returns(handler.Handle(command, default));
+                .Returns(handler.Handle(query, default));
 
             var controller = new BookingController(mediator.Object);
             #endregion
@@ -85,13 +84,13 @@ namespace ExoftOfficeManager.Tests
                 .Setup(x => x.GetBookingsByUser(It.IsAny<Guid>()))
                 .ReturnsAsync(getBookings);
 
-            var command = new GetBookingsByUserQuery(id);
+            var query = new GetBookingsByUserQuery(id);
             var handler = new GetBookingsByUserQueryHandler(repository.Object);
 
             var mediator = new Mock<IMediator>();
             mediator
                 .Setup(x => x.Send(It.IsAny<GetBookingsByUserQuery>(), default))
-                .Returns(handler.Handle(command, default));
+                .Returns(handler.Handle(query, default));
 
             var controller = new BookingController(mediator.Object);
             #endregion
@@ -186,13 +185,13 @@ namespace ExoftOfficeManager.Tests
 
             var placeRepository = new Mock<IWorkPlaceRepository>();
 
-            var command = new FindBookingQuery(id);
+            var query = new FindBookingQuery(id);
             var handler = new FindBookingQueryHandler(bookingRepository.Object, placeRepository.Object);
 
             var mediator = new Mock<IMediator>();
             mediator
                 .Setup(x => x.Send(It.IsAny<FindBookingQuery>(), default))
-                .Returns(handler.Handle(command, default));
+                .Returns(handler.Handle(query, default));
 
             var controller = new BookingController(mediator.Object);
             #endregion
@@ -247,13 +246,13 @@ namespace ExoftOfficeManager.Tests
                 .Setup(x => x.FindWorkPlaceById(It.IsAny<Guid>()))
                 .ReturnsAsync(findPlaceById);
 
-            var command = new FindBookingQuery(placeId, testDate, userId);
+            var query = new FindBookingQuery(placeId, testDate, userId);
             var handler = new FindBookingQueryHandler(bookingRepository.Object, placeRepository.Object);
 
             var mediator = new Mock<IMediator>();
             mediator
                 .Setup(x => x.Send(It.IsAny<FindBookingQuery>(), default))
-                .Returns(handler.Handle(command, default));
+                .Returns(handler.Handle(query, default));
 
             var controller = new BookingController(mediator.Object);
             #endregion

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 using ExoftOfficeManager.Application.Bookings.Commands.ChangeBookingStatus;
 using ExoftOfficeManager.Application.Bookings.Queries;
@@ -80,13 +79,13 @@ namespace ExoftOfficeManager.Tests
                 .Setup(x => x.GetAllPendingBookings())
                 .ReturnsAsync(() => list.Where(x => x.Status == BookingStatus.Pending).ToArray());
 
-            var command = new GetPendingBookingsQuery();
+            var query = new GetPendingBookingsQuery();
             var handler = new GetPendingBookingsQueryHandler(repository.Object);
 
             var mediator = new Mock<IMediator>();
             mediator
                 .Setup(x => x.Send(It.IsAny<GetPendingBookingsQuery>(), default))
-                .Returns(handler.Handle(command, default));
+                .Returns(handler.Handle(query, default));
 
             var controller = new AdminController(mediator.Object);
             #endregion

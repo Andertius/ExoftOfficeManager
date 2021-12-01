@@ -31,7 +31,7 @@ namespace ExoftOfficeManager.Controllers
         public async Task<IActionResult> GetDummyUser()
         {
             var users = await _repository.GetAllUsers();
-            var randomUser = users[4];
+            var randomUser = users[3];
 
             return Ok(new User
             {

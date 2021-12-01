@@ -30,6 +30,7 @@ namespace ExoftOfficeManager
             dbContext.Database.Migrate();
 
             var identityDbContext = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
+            identityDbContext.Database.Migrate();
 
             var seedData = new SeedData(
                 scope.ServiceProvider.GetRequiredService<UserManager<AppIdentityUser>>(),
